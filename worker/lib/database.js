@@ -10,12 +10,24 @@ var ref = db.ref("store");
 
 var getChannels = function () {
     var channelsRef = ref.child("channels");
-    
+
     return new Promise(function(resolve, reject) {
         channelsRef.once("value", function(snapshot) {
             resolve(snapshot.val());
         }, function (error) {
             console.error("Channels get failed: " + error.code);
+            reject(error);
+        });
+    });
+}
+
+var getChannel = function (channelID) {
+    var channelRef = ref.child("channels/" + channelID);
+    return new Promise(function (resolve, reject) {
+        channelRef.once("value", function(snapshot) {
+            resolve(snapshot.val());
+        }, function (error) {
+            console.error("Channel get failed: " + error.code);
             reject(error);
         });
     });
@@ -72,8 +84,11 @@ var getAccount = function (accountID) {
     });
 }
 
+
+
 module.exports = {
     getChannels: getChannels,
+    getChannel: getChannel,
     addChannel: addChannel,
 
     addAccount: addAccount,
