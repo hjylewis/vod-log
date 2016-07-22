@@ -121,6 +121,10 @@ var iterateVideos = function (params) {
                 if (videos.videos[i]._id === last_video_id) {
                     break;
                 }
+
+                if (videos.videos[i].broadcast_type !== "archive") { //TODO: check this
+                    continue;
+                }
                 count++;
                 compareVideoWithAccounts({
                     video: videos.videos[i],
