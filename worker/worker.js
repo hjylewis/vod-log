@@ -111,12 +111,11 @@ var iterateVideos = function (params) {
         getVideos(channelID).then(function (videos) {
             var count = 0;
 
-            if (videos.videos.length > 0) {
-                // TODO but back later
+            if (videos.videos.length > 0 &&
+                videos.videos[0].status !== "recording") { // Not currently live
                 updateLastVideo(channelID, videos.videos[0]._id);
-            } else {
-                resolve();
             }
+
             for (var i = 0; i < videos.videos.length; i++) {
                 if (videos.videos[i]._id === last_video_id) {
                     break;
@@ -137,6 +136,7 @@ var iterateVideos = function (params) {
                     }
                 });
             }
+
             if (count === 0){
                 resolve();
             }
