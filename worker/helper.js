@@ -37,13 +37,18 @@ global.addAccount = function (args) {
     }
 
     return RiotGames.getAccountByName(region, name).then(function (account) {
-        account = account[name];
-        return dbConn.addAccount({
-            id: account.id,
-            name: account.name,
-            region: region,
-            type: "League of Legends" // HARDCODE
-        }, channel);
+        var usernames = Object.keys(account);
+        if (usernames.length > 0){
+            account = account[usernames[0]];
+            return dbConn.addAccount({
+                id: account.id,
+                name: account.name,
+                region: region,
+                type: "League of Legends" // HARDCODE
+            }, channel);
+        } else {
+            console.log("No account found");
+        }
     });
 }
 
@@ -76,8 +81,9 @@ function execute(args) {
         if (promise) {
             promise.then(function () {
                 console.log("done");
-            }).catch(function () {
+            }).catch(function (error) {
                 console.log("failed");
+                console.error(error.stack);
             }).then(function () {
                 process.exit();
             });

@@ -105,7 +105,7 @@ var getMatches = function (account, query) {
 
 // Get account by name
 var getAccountByName = function (region, name) {
-    params = {
+    var params = {
         region: region,
         version: "v1.4",
         path: "summoner/by-name/" + name,
