@@ -7,6 +7,7 @@ var headers = {
     'Accept': 'application/vnd.twitchtv.v3+json'
 }
 
+// Construct timestamped video urls
 var constructURL = function (url, timestamp) {
     timestamp = utils.milliToString(parseInt(timestamp));
     var query = querystring.stringify({
@@ -15,6 +16,7 @@ var constructURL = function (url, timestamp) {
     return url + '?' + query;
 }
 
+// Send request to twitch api
 var api = function (params) {
     var url = 'https://api.twitch.tv/kraken/' + params.url
     if (params.query) {

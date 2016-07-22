@@ -2,24 +2,25 @@ var request = require('request');
 var querystring = require('querystring');
 var api_key = require('../cert/riotgamesapi.json').api_key;
 
-/* {
- *     path,
- *     region,
- *     version,
- *     query
- * }
- */
+
+// Construct Riot Games api url
 var constructURL = function(params) {
-    var url = `https://${params.region}.api.pvp.net/api/lol/${params.region}/${params.version}/`;
+    var path = params.path,
+        region = params.region,
+        version = params.version,
+        query = params.query;
 
-    url = url + params.path;
+    var url = `https://${region}.api.pvp.net/api/lol/${region}/${version}/`;
 
-    params.query = params.query || {};
-    params.query.api_key = api_key;
-    url = url + "?" + querystring.stringify(params.query);
+    url = url + path;
+
+    query = query || {};
+    query.api_key = api_key;
+    url = url + "?" + querystring.stringify(query);
     return url;
 }
 
+// Make Riot Games api request
 var makeRequest = function(params) {
     var options = {
         url: constructURL(params)
@@ -37,6 +38,7 @@ var makeRequest = function(params) {
     });
 }
 
+// Get given account's matches
 var getMatches = function (account, query) {
     params = {
         region: account.region.toLowerCase(),

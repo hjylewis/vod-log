@@ -1,4 +1,5 @@
 var firebase = require("firebase");
+var env = require("../../env.json").worker_env;
 
 firebase.initializeApp({
   serviceAccount: __dirname + "/../cert/vod-log-cc3b0a499520.json",
@@ -6,7 +7,33 @@ firebase.initializeApp({
 });
 
 var db = firebase.database();
-var ref = db.ref("store");
+var ref = db.ref(`${env || 'dev'}/store`);
+
+var getStore = function (env) {
+    var ref = db.ref(`${env}/store`);
+    return new Promise(function (resolve, reject) {
+        ref.once("value", function(snapshot) {
+            resolve(snapshot.val());
+        }, function (error) {
+            console.log("Get Store failed: " + error.code);
+            reject(error);
+        });
+    });
+}
+
+var setStore = function (env, store) {
+    var ref = db.ref(`${env}/store`);
+    return new Promise(function (resolve, reject) {
+        ref.set(store, function(error) {
+            if (error) {
+                console.log("Set Store failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
 
 var getChannels = function () {
     var channelsRef = ref.child("channels");
@@ -97,6 +124,9 @@ var addMatch = function (match) {
 
 
 module.exports = {
+    getStore: getStore,
+    setStore: setStore,
+
     getChannels: getChannels,
     getChannel: getChannel,
     addChannel: addChannel,
