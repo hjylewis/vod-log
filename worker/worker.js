@@ -38,6 +38,8 @@ var updateLastVideo = function(channel, video) {
             channel.name,
             { last_video: new_last_video }
         );
+    } else {
+        return Promise.resolve();
     }
 }
 
