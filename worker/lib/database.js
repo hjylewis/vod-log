@@ -48,6 +48,11 @@ var addChannel = function (channel) {
     });
 }
 
+var updateChannel = function (channelID, update) {
+    var channelRef = ref.child("channels/" + channelID);
+    channelRef.update(update);
+}
+
 var addAccount = function (account, channelID) {
     var accountRef = ref.child("accounts/" + account.id);
     var channelAccountRef = ref.child("channels/" + channelID + "/accounts/" + account.id);
@@ -84,13 +89,21 @@ var getAccount = function (accountID) {
     });
 }
 
+var addMatch = function (match) {
+    var matchRef = ref.child("matches/" + match.id);
+    matchRef.set(match);
+}
+
 
 
 module.exports = {
     getChannels: getChannels,
     getChannel: getChannel,
     addChannel: addChannel,
+    updateChannel: updateChannel,
 
     addAccount: addAccount,
-    getAccount: getAccount
+    getAccount: getAccount,
+
+    addMatch: addMatch
 }

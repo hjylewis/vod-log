@@ -1,11 +1,21 @@
 var request = require('request');
 var querystring = require('querystring');
+var moment = require('moment');
+var utils = require('./utils');
 
 var headers = {
     'Accept': 'application/vnd.twitchtv.v3+json'
 }
 
-module.exports.api = function (params) {
+var constructURL = function (url, timestamp) {
+    timestamp = utils.milliToString(parseInt(timestamp));
+    var query = querystring.stringify({
+        t: timestamp
+    });
+    return url + '?' + query;
+}
+
+var api = function (params) {
     var url = 'https://api.twitch.tv/kraken/' + params.url
     if (params.query) {
         url = url + "?" + querystring.stringify(params.query);
@@ -26,3 +36,8 @@ module.exports.api = function (params) {
         });
     });
 };
+
+module.exports = {
+    api: api,
+    constructURL: constructURL
+}
