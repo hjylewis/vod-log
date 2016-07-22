@@ -70,6 +70,7 @@ var compareVideoWithAccounts = function (params) {
         }).then(function (matches) {
             var promises = [];
             if (matches.matches) {
+                console.log(video.title + " " + matches.matches.length.toString());
                 matches.matches.forEach(function (match) {
                     var timestamp = moment(match.timestamp).subtract(beginTimeUnix).format('x');
                     var video_url = Twitch.constructURL(video.url, timestamp);

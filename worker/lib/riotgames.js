@@ -1,7 +1,54 @@
+"use strict";
+
 var request = require('request');
 var querystring = require('querystring');
 var api_key = require('../cert/riotgamesapi.json').api_key;
 
+class ApiState {
+    constructor () {
+        this.buffer = [];
+        this.tenSecCount = 0;
+        this.tenMinCount = 0;
+    }
+
+    pushRequest (request) {
+        if (this._requestPossible()) {
+            this._makeRequst(request);
+        } else {
+            this.buffer.push(request);
+            console.log("Buffering api request...");
+        }
+    }
+
+    _requestPossible () {
+        return this.tenSecCount < 10 && this.tenMinCount < 500;
+    }
+
+    _makeRequst (request) {
+        request();
+        this.tenSecCount++;
+        this.tenMinCount++;
+
+        var that = this;
+        setTimeout(function () {
+            that.tenSecCount--;
+            that._flushBuffer();
+        }, 11000);
+
+        setTimeout(function () {
+            that.tenMinCount--;
+            that._flushBuffer();
+        }, 601000);
+    }
+
+    _flushBuffer () {
+        while(this._requestPossible()) {
+            this._makeRequst(this.buffer.shift());
+        }
+    }
+}
+
+var apiState = new ApiState();
 
 // Construct Riot Games api url
 var constructURL = function(params) {
@@ -27,20 +74,27 @@ var makeRequest = function(params) {
     }
 
     return new Promise(function (resolve, reject) {
-        request(options, function (error, response, body) {
-            if (error) {
-                console.log("Riot Games Api request failed: " + error);
-                reject(error);
-            } else {
-                resolve(JSON.parse(body));
-            }
+        apiState.pushRequest(function () {
+            request(options, function (error, response, body) {
+                if (error) {
+                    console.log("Riot Games Api request failed: " + error);
+                    reject(error);
+                } else {
+                    var body = JSON.parse(body);
+                    if (body.status && body.status.status_code === 429) {
+                        reject(new Error("Riot Game Api limit exceeded"));
+                    } else {
+                        resolve(body);
+                    }
+                }
+            });
         });
     });
 }
 
 // Get given account's matches
 var getMatches = function (account, query) {
-    params = {
+    var params = {
         region: account.region.toLowerCase(),
         version: "v2.2",
         path: "matchlist/by-summoner/" + account.id,
