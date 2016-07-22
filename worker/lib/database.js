@@ -118,7 +118,20 @@ var getAccount = function (accountID) {
 
 var addMatch = function (match) {
     var matchRef = ref.child("matches/" + match.id);
-    matchRef.set(match);
+    return new Promise(function (resolve, reject) {
+        matchRef.set(match, function (error) {
+            if (error) {
+                console.error("Add Match failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
+
+var close = function () {
+    db.goOffline();
 }
 
 
@@ -135,5 +148,7 @@ module.exports = {
     addAccount: addAccount,
     getAccount: getAccount,
 
-    addMatch: addMatch
+    addMatch: addMatch,
+
+    close: close
 }
