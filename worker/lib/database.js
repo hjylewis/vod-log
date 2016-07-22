@@ -9,8 +9,11 @@ firebase.initializeApp({
 var db = firebase.database();
 var ref = db.ref(`${env || 'dev'}/store`);
 
-var getStore = function (env) {
-    var ref = db.ref(`${env}/store`);
+var setEnv = function (env) {
+    ref = db.ref(`${env}/store`);
+}
+
+var getStore = function () {
     return new Promise(function (resolve, reject) {
         ref.once("value", function(snapshot) {
             resolve(snapshot.val());
@@ -21,8 +24,7 @@ var getStore = function (env) {
     });
 }
 
-var setStore = function (env, store) {
-    var ref = db.ref(`${env}/store`);
+var setStore = function (store) {
     return new Promise(function (resolve, reject) {
         ref.set(store, function(error) {
             if (error) {
@@ -63,7 +65,7 @@ var getChannel = function (channelID) {
 var addChannel = function (channel) {
     var channelRef = ref.child("channels/" + channel.name);
 
-    return newPromise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         channelRef.set(channel, function (error) {
             if (error) {
                 console.error("Channel add failed: " + error.code);
@@ -137,6 +139,8 @@ var close = function () {
 
 
 module.exports = {
+    setEnv: setEnv,
+
     getStore: getStore,
     setStore: setStore,
 

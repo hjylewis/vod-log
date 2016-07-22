@@ -29,6 +29,7 @@ var api = function (params) {
     }
     return new Promise(function (resolve, reject) {
         request(options, function (error, response, body) {
+            var error = error || JSON.parse(body).error;
             if (error) {
                 console.error("Twitch api call failed: " + error);
                 reject(error);
