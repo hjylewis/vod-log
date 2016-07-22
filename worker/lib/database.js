@@ -2,7 +2,7 @@ var firebase = require("firebase");
 var env = require("../../env.json").worker_env;
 
 firebase.initializeApp({
-  serviceAccount: __dirname + "/../cert/vod-log-cc3b0a499520.json",
+  serviceAccount: __dirname + "/../cert/firebase.json",
   databaseURL: "https://vod-log.firebaseio.com/"
 });
 
