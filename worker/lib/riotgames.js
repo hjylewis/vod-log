@@ -42,7 +42,7 @@ class ApiState {
     }
 
     _flushBuffer () {
-        while(this._requestPossible()) {
+        while(this._requestPossible() && this.buffer.length > 0) {
             this._makeRequst(this.buffer.shift());
         }
     }

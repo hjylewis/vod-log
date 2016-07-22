@@ -25,13 +25,21 @@ var getAccountsByChannel = function (channel) {
 }
 
 // Update channels last crawled video
-var updateLastVideo = function(channelID, last_video_id) {
-    return dbConn.updateChannel(
-        channelID,
-        { last_video_id: last_video_id }
-    );
-}
+var updateLastVideo = function(channel, video) {
+    if (!channel.last_video ||
+        (new Date(channel.last_video.date) < new Date(video.created_at))) { // Later
 
+        var new_last_video = {
+            date: video.created_at,
+            id: video._id
+        };
+        channel.last_video = new_last_video;
+        return dbConn.updateChannel(
+            channel.name,
+            { last_video: new_last_video }
+        );
+    }
+}
 
 // Save match in db
 var saveMatch = function (params) {
@@ -94,17 +102,14 @@ var compareVideoWithAccounts = function (params) {
 
 // Iterate through given channel's videos in search of new matches
 var iterateVideos = function (params) {
-    var channelID = params.channelID,
-        last_video_id = params.last_video_id,
+    var channel = params.channel,
         accounts = params.accounts;
+
+    var channelID = channel.name,
+        last_video_id = channel.last_video ? channel.last_video.id : null;
 
     return getVideos(channelID).then(function (videos) {
         var promises = [];
-
-        if (videos.videos.length > 0 &&
-            videos.videos[0].status !== "recording") { // Not currently live
-            updateLastVideo(channelID, videos.videos[0]._id);
-        }
 
         for (var i = 0; i < videos.videos.length; i++) {
             if (videos.videos[i]._id === last_video_id) {
@@ -114,6 +119,11 @@ var iterateVideos = function (params) {
             if (videos.videos[i].broadcast_type !== "archive") { //TODO: check this
                 continue;
             }
+
+            if (videos.videos[i].status !== "recording") { // Not currently live
+                updateLastVideo(channel, videos.videos[i]);
+            }
+
             var promise = compareVideoWithAccounts({
                 video: videos.videos[i],
                 accounts: accounts,
@@ -135,8 +145,7 @@ var crawlForNewMatches = function () {
             var channel = channels[channelID];
             var promise = getAccountsByChannel(channel).then(function (accounts) {
                 return iterateVideos({
-                    channelID: channelID,
-                    last_video_id: channel.last_video_id,
+                    channel: channel,
                     accounts: accounts,
                 });
             });
