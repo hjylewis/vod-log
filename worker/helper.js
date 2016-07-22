@@ -1,5 +1,6 @@
 var dbConn = require('./lib/database');
 var Twitch = require('./lib/twitch');
+var RiotGames = require('./lib/riotgames')
 var minimist = require('minimist');
 
 var copyDBfromEnvs = function (start_env, end_env) {
@@ -16,8 +17,34 @@ global.copyDB = function () {
     return copyDBfromEnvs('production', 'dev');
 }
 
-global.addAccount = function () {
+global.addAccount = function (args) {
+    var channel = args.c || args.channel;
+    if (!channel) {
+        console.log("Missing -c");
+        return;
+    }
 
+    var name = args.n || args.name;
+    if (!name) {
+        console.log("Missing -n");
+        return;
+    }
+
+    var region = args.r || args.region;
+    if (!region) {
+        console.log("Missing -r");
+        return;
+    }
+
+    return RiotGames.getAccountByName(region, name).then(function (account) {
+        account = account[name];
+        return dbConn.addAccount({
+            id: account.id,
+            name: account.name,
+            region: region,
+            type: "League of Legends" // HARDCODE
+        }, channel);
+    });
 }
 
 global.addChannel = function (args) {

@@ -49,6 +49,17 @@ var getMatches = function (account, query) {
     return makeRequest(params);
 }
 
+// Get account by name
+var getAccountByName = function (region, name) {
+    params = {
+        region: region,
+        version: "v1.4",
+        path: "summoner/by-name/" + name,
+    }
+    return makeRequest(params);
+}
+
 module.exports = {
-    getMatches: getMatches
+    getMatches: getMatches,
+    getAccountByName: getAccountByName
 };
