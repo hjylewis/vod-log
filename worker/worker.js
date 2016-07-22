@@ -14,23 +14,19 @@ var getVideos = function (channelID) {
 
 // Get known accounts by channel
 var getAccountsByChannel = function (channel) {
-    accounts = [];
-    return new Promise(function (resolve, reject) {
-        var accountIDs = Object.keys(channel.accounts);
-        accountIDs.forEach(function (accountID) {
-            dbConn.getAccount(accountID).then(function (account) {
-                accounts.push(account);
-                if (accounts.length === accountIDs.length) {
-                    resolve(accounts);
-                }
-            }).catch(reject);
-        });
-    })
+    var promises = [];
+    var accountIDs = Object.keys(channel.accounts);
+    accountIDs.forEach(function (accountID) {
+        var promise = dbConn.getAccount(accountID);
+        promises.push(promise);
+    });
+
+    return Promise.all(promises);
 }
 
 // Update channels last crawled video
 var updateLastVideo = function(channelID, last_video_id) {
-    dbConn.updateChannel(
+    return dbConn.updateChannel(
         channelID,
         { last_video_id: last_video_id }
     );
@@ -51,7 +47,7 @@ var saveMatch = function (params) {
         channelID: channelID,
         video_url: video_url
     }
-    console.log(`Saving match ${matchStore.id}`);
+    console.log(`Saving ${channelID} match ${matchStore.id}`);
     return dbConn.addMatch(matchStore);
 }
 
