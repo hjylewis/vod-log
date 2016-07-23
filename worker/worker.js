@@ -56,7 +56,16 @@ var saveMatch = function (params) {
         type: account.type,
         accountID: account.id,
         channelID: channelID,
-        video_url: video_url
+        video_url: video_url,
+        match_data: {
+            timestamp: match.timestamp,
+            champion: match.champion,
+            region: match.region,
+            queue: match.queue,
+            season: match.season,
+            role: match.role,
+            lane: match.lane
+        }
     }
     console.log(`Saving ${channelID} match ${matchStore.id}`);
     return dbConn.addMatch(matchStore).then(function () {
