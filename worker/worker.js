@@ -27,26 +27,7 @@ var getAccountsByChannel = function (channel) {
     return Promise.all(promises);
 }
 
-// Update channels last crawled video
-// Depreciated
-var updateLastVideo = function(channel, video) {
-    if (!channel.last_video ||
-        (new Date(channel.last_video.date) < new Date(video.created_at))) { // Later
-
-        var new_last_video = {
-            date: video.created_at,
-            id: video._id
-        };
-        channel.last_video = new_last_video;
-        return dbConn.updateChannel(
-            channel.name,
-            { last_video: new_last_video }
-        );
-    } else {
-        return Promise.resolve();
-    }
-}
-
+// Update account's last saved match
 var updateLastMatchTime = function(account, new_timestamp) {
     if (!account.last_match_time ||
         (account.last_match_time < new_timestamp)) { // Later
@@ -83,6 +64,7 @@ var saveMatch = function (params) {
     });
 }
 
+// See if match is within video
 // Returns -1 if match starts before the video
 // Returns 0 if match starts during the video
 // Returns 1 if match starts after video
@@ -101,6 +83,7 @@ var compareMatchWithVideo = function (match, video) {
     }
 }
 
+// Compare videos against matches
 var compareMatchesWithVideos = function (params) {
     var channelID = params.channelID,
         account = params.account,
@@ -140,6 +123,7 @@ var compareMatchesWithVideos = function (params) {
     return Promise.all(promises);
 }
 
+// Compare videos with account
 var compareAccountWithVideos = function (params) {
     var channelID = params.channelID,
         account = params.account,
@@ -171,9 +155,8 @@ var compareAccountWithVideos = function (params) {
     });
 }
 
-// Iterate through given channel's videos in search of new matches
-// TODO rename
-var iterateVideos = function (params) {
+// Iterate through given accounts in search of new matches
+var iterateAccounts = function (params) {
     var channel = params.channel,
         accounts = params.accounts;
 
@@ -204,11 +187,10 @@ var crawlForNewMatches = function () {
     return dbConn.getChannels().then(function (channels) {
         var channelIDs = Object.keys(channels);
         var promises = [];
-        channelIDs = [channelIDs[1]]; // TODO remove
         channelIDs.forEach(function (channelID) {
             var channel = channels[channelID];
             var promise = getAccountsByChannel(channel).then(function (accounts) {
-                return iterateVideos({
+                return iterateAccounts({
                     channel: channel,
                     accounts: accounts,
                 });
