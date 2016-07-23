@@ -103,6 +103,16 @@ var getMatches = function (account, query) {
     return makeRequest(params);
 }
 
+// Get match info
+var getMatch = function (region, matchID) {
+    var params = {
+        region: region.toLowerCase(),
+        version: "v2.2",
+        path: "match/" + matchID
+    }
+    return makeRequest(params);
+}
+
 // Get account by name
 var getAccountByName = function (region, name) {
     var params = {
@@ -115,5 +125,6 @@ var getAccountByName = function (region, name) {
 
 module.exports = {
     getMatches: getMatches,
+    getMatch: getMatch,
     getAccountByName: getAccountByName
 };
