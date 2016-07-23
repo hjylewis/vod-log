@@ -28,6 +28,7 @@ var getAccountsByChannel = function (channel) {
 }
 
 // Update channels last crawled video
+// Depreciated
 var updateLastVideo = function(channel, video) {
     if (!channel.last_video ||
         (new Date(channel.last_video.date) < new Date(video.created_at))) { // Later
@@ -42,6 +43,18 @@ var updateLastVideo = function(channel, video) {
             { last_video: new_last_video }
         );
     } else {
+        return Promise.resolve();
+    }
+}
+
+var updateLastMatchTime = function(account, new_timestamp) {
+    if (!account.last_match_time ||
+        (account.last_match_time < new_timestamp)) { // Later
+
+        account.last_match_time = new_timestamp;
+        return dbConn.updateAccount(account.id, { last_match_time: new_timestamp });
+    } else {
+        console.log("here");
         return Promise.resolve();
     }
 }
@@ -65,58 +78,17 @@ var saveMatch = function (params) {
         video_url: video_url
     }
     console.log(`Saving ${channelID} match ${matchStore.id}`);
-    return dbConn.addMatch(matchStore);
-}
-
-// DEPRECIATED
-// Iterate through known accounts to find matches within given video
-var compareVideoWithAccounts = function (params) {
-    var video = params.video,
-        accounts = params.accounts,
-        channelID = params.channelID;
-
-    var beginTime = moment(video.recorded_at);
-    var beginTimeUnix = beginTime.format('x');
-    var endTimeUnix = beginTime.add(video.length, 'seconds').format('x');
-
-    var promises = [];
-
-    accounts.forEach(function (account) {
-        var promise = RiotGames.getMatches(account, {
-            beginTime: beginTimeUnix,
-            endTime: endTimeUnix
-        }).then(function (matches) {
-            var promises = [];
-            if (matches.matches) {
-                console.log(video.title + " " + matches.matches.length.toString());
-                matches.matches.forEach(function (match) {
-                    var timestamp = moment(match.timestamp).subtract(beginTimeUnix).format('x');
-                    var video_url = Twitch.constructURL(video.url, timestamp);
-                    var promise = saveMatch({
-                        match: match,
-                        video_url: video_url,
-                        account: account,
-                        channelID: channelID
-                    });
-                    promises.push(promise);
-                });
-            }
-            return Promise.all(promises);
-        });
-
-        promises.push(promise);
+    return dbConn.addMatch(matchStore).then(function () {
+        return updateLastMatchTime(account, match.timestamp + 1000);
     });
-
-    return Promise.all(promises);
 }
 
 // Returns -1 if match starts before the video
 // Returns 0 if match starts during the video
 // Returns 1 if match starts after video
 var compareMatchWithVideo = function (match, video) {
-    var videoStart = moment(video.recorded_at);
-    var videoStartUnix = parseInt(videoStart.format('x'));
-    var videoEndUnix = parseInt(videoStart.add(video.length, 'seconds').format('x'));
+    var videoStartUnix = parseInt(utils.convertISOtoUnix(video.recorded_at));
+    var videoEndUnix = parseInt(utils.getEndTimeInUnix(video.recorded_at, video.length));
 
     var matchStart = parseInt(match.timestamp);
 
@@ -147,11 +119,9 @@ var compareMatchesWithVideos = function (params) {
 
         for (;matchIdx >= 0; matchIdx--) {
             var match = matches[matchIdx];
-
             var compare = compareMatchWithVideo(match, video);
             if (compare === 1) { //After
-                matchIdx++; // Keep same video
-                break; // Go to next video
+                break; // Go to next video and keep same match
             } else if (compare === 0) { //During
                 // Save
                 var promise = saveMatch({
@@ -175,15 +145,23 @@ var compareAccountWithVideos = function (params) {
         account = params.account,
         videos = params.videos;
 
-    var last_match_time = account.last_match_time;
-    if (!last_match_time) {
-        var firstVideo = videos.videos[videos.videos.length - 1];
-        last_match_time = utils.convertISOtoUnix(firstVideo.recorded_at);
+    var firstVideo = videos.videos[videos.videos.length - 1];
+    var lastVideo = videos.videos[0];
+
+    var window_start = account.last_match_time;
+    var window_end = utils.getEndTimeInUnix(lastVideo.recorded_at, lastVideo.length);
+    if (!window_start) {
+        window_start = utils.convertISOtoUnix(firstVideo.recorded_at);
     }
 
     return RiotGames.getMatches(account, {
-        beginTime: last_match_time
+        beginTime: window_start,
+        endTime: window_end
     }).then(function (matches) {
+        if (!matches.matches || matches.matches.length === 0) { // No matches
+            return Promise.resolve();
+        }
+
         return compareMatchesWithVideos({
             channelID: channelID,
             account: account,
@@ -194,14 +172,18 @@ var compareAccountWithVideos = function (params) {
 }
 
 // Iterate through given channel's videos in search of new matches
+// TODO rename
 var iterateVideos = function (params) {
     var channel = params.channel,
         accounts = params.accounts;
 
-    var channelID = channel.name,
-        last_video_id = channel.last_video ? channel.last_video.id : null;
+    var channelID = channel.name;
 
     return getVideos(channelID).then(function (videos) {
+        if (!videos.videos || videos.videos.length === 0) { // Channel has no videos
+            return Promise.resolve();
+        }
+
         var promises = [];
 
         accounts.forEach(function (account) {
@@ -213,29 +195,6 @@ var iterateVideos = function (params) {
             promises.push(promise);
         });
 
-        // for (var i = 0; i < videos.videos.length; i++) {
-        //     if (videos.videos[i]._id === last_video_id) {
-        //         break;
-        //     }
-        //
-        //     if (videos.videos[i].broadcast_type !== "archive") { //TODO: check this
-        //         continue;
-        //     }
-        //
-        //     if (videos.videos[i].status !== "recording") { // Not currently live
-        //         updateLastVideo(channel, videos.videos[i]);
-        //     }
-        //
-        //     // TODO Change to compare Videos with accounts
-        //     // And store last video in accounts
-        //     var promise = compareVideoWithAccounts({
-        //         video: videos.videos[i],
-        //         accounts: accounts,
-        //         channelID: channelID
-        //     });
-        //     promises.push(promise);
-        // }
-
         return Promise.all(promises);
     });
 }
@@ -245,7 +204,7 @@ var crawlForNewMatches = function () {
     return dbConn.getChannels().then(function (channels) {
         var channelIDs = Object.keys(channels);
         var promises = [];
-        channelIDs = [channelIDs[0]]; // TODO remove
+        channelIDs = [channelIDs[1]]; // TODO remove
         channelIDs.forEach(function (channelID) {
             var channel = channels[channelID];
             var promise = getAccountsByChannel(channel).then(function (accounts) {

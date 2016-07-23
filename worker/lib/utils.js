@@ -12,11 +12,18 @@ function milliToString(s) {
     return hrs + 'h' + mins + 'm' + secs + 's';
 }
 
-function convertISOtoUnix(s) {
-    return moment(s).format('x');
+function convertISOtoUnix(iso) {
+    return moment(iso).format('x');
+}
+
+// Adds duration to time in iso and returns unix
+// Duration in seconds
+function getEndTimeInUnix(iso, duration) {
+    return moment(iso).add(duration, 'seconds').format('x');
 }
 
 module.exports = {
     milliToString: milliToString,
-    convertISOtoUnix: convertISOtoUnix
+    convertISOtoUnix: convertISOtoUnix,
+    getEndTimeInUnix: getEndTimeInUnix
 };
