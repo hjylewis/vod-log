@@ -1,4 +1,4 @@
-
+var moment = require('moment');
 
 // Format milliseconds to string
 function milliToString(s) {
@@ -12,6 +12,18 @@ function milliToString(s) {
     return hrs + 'h' + mins + 'm' + secs + 's';
 }
 
+function convertISOtoUnix(iso) {
+    return moment(iso).format('x');
+}
+
+// Adds duration to time in iso and returns unix
+// Duration in seconds
+function getEndTimeInUnix(iso, duration) {
+    return moment(iso).add(duration, 'seconds').format('x');
+}
+
 module.exports = {
-    milliToString: milliToString
+    milliToString: milliToString,
+    convertISOtoUnix: convertISOtoUnix,
+    getEndTimeInUnix: getEndTimeInUnix
 };
