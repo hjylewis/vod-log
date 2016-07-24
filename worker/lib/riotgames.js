@@ -4,6 +4,9 @@ var request = require('request');
 var querystring = require('querystring');
 var api_key = require('../cert/riotgamesapi.json').api_key;
 
+var TEN_SEC_MAX = 10,
+    TEN_MIN_MAX = 500;
+
 class ApiState {
     constructor () {
         this.buffer = [];
@@ -11,23 +14,27 @@ class ApiState {
         this.tenMinCount = 0;
     }
 
-    pushRequest (request) {
+    pushRequest (params) {
         if (this._requestPossible()) {
-            this._makeRequst(request);
+            this._makeRequst(params);
         } else {
-            this.buffer.push(request);
-            console.log("Buffering api request...");
+            this.buffer.push(params);
         }
     }
 
     _requestPossible () {
-        return this.tenSecCount < 10 && this.tenMinCount < 500;
+        return this.tenSecCount < TEN_SEC_MAX && this.tenMinCount < TEN_MIN_MAX;
     }
 
-    _makeRequst (request) {
+    _makeRequst (params) {
+        var request = params.request,
+            url = params.url;
+
         request();
         this.tenSecCount++;
         this.tenMinCount++;
+
+        console.log(`RiotGames Api request (${this.tenSecCount}/${TEN_SEC_MAX}) (${this.tenMinCount}/${TEN_MIN_MAX}): ${url}`);
 
         var that = this;
         setTimeout(function () {
@@ -74,20 +81,23 @@ var makeRequest = function(params) {
     }
 
     return new Promise(function (resolve, reject) {
-        apiState.pushRequest(function () {
-            request(options, function (error, response, body) {
-                if (error) {
-                    console.log("Riot Games Api request failed: " + error);
-                    reject(error);
-                } else {
-                    var body = JSON.parse(body);
-                    if (body.status && body.status.status_code === 429) {
-                        reject(new Error("Riot Game Api limit exceeded"));
+        apiState.pushRequest({
+            url: params.path,
+            request: function () {
+                request(options, function (error, response, body) {
+                    if (error) {
+                        console.log("Riot Games Api request failed: " + error);
+                        reject(error);
                     } else {
-                        resolve(body);
+                        var body = JSON.parse(body);
+                        if (body.status && body.status.status_code === 429) {
+                            reject(new Error("Riot Game Api limit exceeded"));
+                        } else {
+                            resolve(body);
+                        }
                     }
-                }
-            });
+                });
+            }
         });
     });
 }

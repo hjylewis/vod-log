@@ -27,6 +27,50 @@ var getAccountsByChannel = function (channel) {
     return Promise.all(promises);
 }
 
+var createMatchData = function (accountID, match, matchDetails) {
+    // Player details
+    var participantId,
+        participant;
+
+    matchDetails.participantIdentities.some(function (id) {
+        if (id.player.summonerId === parseInt(accountID)) {
+            participantId = id.participantId;
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    if (participantId) {
+        matchDetails.participants.some(function (p) {
+            if (p.participantId === participantId) {
+                participant = p;
+                return true;
+            } else {
+                return false;
+            }
+        });
+    }
+
+    if (!participant) {
+        throw "MissingParticipantException";
+    }
+
+    participant.role = match.role;
+    participant.lane = match.lane;
+
+    return {
+        creation: match.timestamp,
+        duration: matchDetails.matchDuration,
+        region: match.region,
+        queue: match.queue,
+        season: match.season,
+        matchVersion: matchDetails.matchVersion,
+        map: matchDetails.mapId,
+        player_data: participant
+    }
+}
+
 // Update account's last saved match
 var updateLastMatchTime = function(account, new_timestamp) {
     if (!account.last_match_time ||
@@ -35,7 +79,6 @@ var updateLastMatchTime = function(account, new_timestamp) {
         account.last_match_time = new_timestamp;
         return dbConn.updateAccount(account.id, { last_match_time: new_timestamp });
     } else {
-        console.log("here");
         return Promise.resolve();
     }
 }
@@ -56,20 +99,14 @@ var saveMatch = function (params) {
         type: account.type,
         accountID: account.id,
         channelID: channelID,
-        video_url: video_url,
-        match_data: {
-            timestamp: match.timestamp,
-            champion: match.champion,
-            region: match.region,
-            queue: match.queue,
-            season: match.season,
-            role: match.role,
-            lane: match.lane
-        }
+        video_url: video_url
     }
-    console.log(`Saving ${channelID} match ${matchStore.id}`);
-    return dbConn.addMatch(matchStore).then(function () {
-        return updateLastMatchTime(account, match.timestamp + 1000);
+    return RiotGames.getMatch(account.region, match.matchId).then(function (matchDetails) {
+        matchStore.match_data = createMatchData(account.id, match, matchDetails);
+        console.log(`Saving ${channelID} match ${matchStore.id}`);
+        return dbConn.addMatch(matchStore).then(function () {
+            return updateLastMatchTime(account, match.timestamp + 1000);
+        });
     });
 }
 
