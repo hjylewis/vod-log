@@ -8,18 +8,26 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'dist/app.js': 'site/app.js'
+                    'dist/scripts/app.js': 'site/scripts/app.js'
                 }
             }
         },
 
         watch: {
             react: {
-                files: 'site/*.js',
+                files: 'site/scripts/*.js',
                 tasks: ['babel']
+            }
+        },
+
+        'http-server': {
+            dev: {
+                root: 'dist',
+                port: 9000,
+                runInBackground: false
             }
         }
     });
 
-    grunt.registerTask('default', ['babel']);
+    grunt.registerTask('default', ['babel', 'http-server']);
 };
