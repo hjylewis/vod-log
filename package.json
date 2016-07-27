@@ -1,0 +1,27 @@
+{
+  "name": "vod-log",
+  "version": "1.0.0",
+  "description": "vod log ======= worker - a worker that pulls from twitch and riot apis to at vods to database site - frontend react site that hosts vod info",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hjylewis/vod-log.git"
+  },
+  "author": "Henry Lewis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hjylewis/vod-log/issues"
+  },
+  "homepage": "https://github.com/hjylewis/vod-log#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "grunt": "^1.0.1",
+    "grunt-babel": "^6.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "load-grunt-tasks": "^3.5.0"
+  }
+}
