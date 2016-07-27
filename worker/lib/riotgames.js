@@ -72,13 +72,13 @@ var constructURL = function(params) {
     query.api_key = api_key;
     url = url + "?" + querystring.stringify(query);
     return url;
-}
+};
 
 // Make Riot Games api request
 var makeRequest = function(params) {
     var options = {
         url: constructURL(params)
-    }
+    };
 
     return new Promise(function (resolve, reject) {
         apiState.pushRequest({
@@ -89,7 +89,7 @@ var makeRequest = function(params) {
                         console.log("Riot Games Api request failed: " + error);
                         reject(error);
                     } else {
-                        var body = JSON.parse(body);
+                        body = JSON.parse(body);
                         if (body.status && body.status.status_code === 429) {
                             reject(new Error("Riot Game Api limit exceeded"));
                         } else {
@@ -100,7 +100,7 @@ var makeRequest = function(params) {
             }
         });
     });
-}
+};
 
 // Get given account's matches
 var getMatches = function (account, query) {
@@ -109,9 +109,9 @@ var getMatches = function (account, query) {
         version: "v2.2",
         path: "matchlist/by-summoner/" + account.id,
         query: query
-    }
+    };
     return makeRequest(params);
-}
+};
 
 // Get match info
 var getMatch = function (region, matchID) {
@@ -119,9 +119,9 @@ var getMatch = function (region, matchID) {
         region: region.toLowerCase(),
         version: "v2.2",
         path: "match/" + matchID
-    }
+    };
     return makeRequest(params);
-}
+};
 
 // Get account by name
 var getAccountByName = function (region, name) {
@@ -129,9 +129,9 @@ var getAccountByName = function (region, name) {
         region: region,
         version: "v1.4",
         path: "summoner/by-name/" + name,
-    }
+    };
     return makeRequest(params);
-}
+};
 
 module.exports = {
     getMatches: getMatches,

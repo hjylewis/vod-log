@@ -11,7 +11,7 @@ var ref = db.ref(`${env || 'dev'}/store`);
 
 var setEnv = function (env) {
     ref = db.ref(`${env}/store`);
-}
+};
 
 var getStore = function () {
     return new Promise(function (resolve, reject) {
@@ -22,7 +22,7 @@ var getStore = function () {
             reject(error);
         });
     });
-}
+};
 
 var setStore = function (store) {
     return new Promise(function (resolve, reject) {
@@ -35,7 +35,7 @@ var setStore = function (store) {
             }
         });
     });
-}
+};
 
 var getChannels = function () {
     var channelsRef = ref.child("channels");
@@ -48,7 +48,7 @@ var getChannels = function () {
             reject(error);
         });
     });
-}
+};
 
 var getChannel = function (channelID) {
     var channelRef = ref.child("channels/" + channelID);
@@ -60,7 +60,7 @@ var getChannel = function (channelID) {
             reject(error);
         });
     });
-}
+};
 
 var addChannel = function (channel) {
     var channelRef = ref.child("channels/" + channel.name);
@@ -75,12 +75,12 @@ var addChannel = function (channel) {
             }
         });
     });
-}
+};
 
 var updateChannel = function (channelID, update) {
     var channelRef = ref.child("channels/" + channelID);
     channelRef.update(update);
-}
+};
 
 var addAccount = function (account, channelID) {
     var accountRef = ref.child("accounts/" + account.id);
@@ -103,7 +103,7 @@ var addAccount = function (account, channelID) {
             }
         });
     });
-}
+};
 
 var getAccount = function (accountID) {
     var accountRef = ref.child("accounts/" + accountID);
@@ -116,7 +116,7 @@ var getAccount = function (accountID) {
             reject(error);
         });
     });
-}
+};
 
 var updateAccount = function (accountID, update) {
     var accountRef = ref.child("accounts/" + accountID);
@@ -130,7 +130,7 @@ var updateAccount = function (accountID, update) {
             }
         });
     });
-}
+};
 
 var addMatch = function (match) {
     var matchRef = ref.child("matches/" + match.id);
@@ -144,11 +144,11 @@ var addMatch = function (match) {
             }
         });
     });
-}
+};
 
 var close = function () {
     db.goOffline();
-}
+};
 
 
 
@@ -170,4 +170,4 @@ module.exports = {
     addMatch: addMatch,
 
     close: close
-}
+};

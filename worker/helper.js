@@ -1,6 +1,6 @@
 var dbConn = require('./lib/database');
 var Twitch = require('./lib/twitch');
-var RiotGames = require('./lib/riotgames')
+var RiotGames = require('./lib/riotgames');
 var minimist = require('minimist');
 
 var copyDBfromEnvs = function (start_env, end_env) {
@@ -10,12 +10,12 @@ var copyDBfromEnvs = function (start_env, end_env) {
             dbConn.setEnv(end_env);
             dbConn.setStore(store).then(resolve).catch(resolve);
         }).catch(resolve);
-    })
-}
+    });
+};
 
 global.copyDB = function () {
     return copyDBfromEnvs('production', 'dev');
-}
+};
 
 global.addAccount = function (args) {
     var channel = args.c || args.channel;
@@ -50,7 +50,7 @@ global.addAccount = function (args) {
             console.log("No account found");
         }
     });
-}
+};
 
 global.addChannel = function (args) {
     var name = args.n || args.name;
@@ -66,7 +66,7 @@ global.addChannel = function (args) {
             type: "twitch" // HARDCODE
         });
     });
-}
+};
 
 function execute(args) {
     var fn = args._[0];
@@ -76,7 +76,7 @@ function execute(args) {
     }
 
     if (fn in global && typeof global[fn] === "function") {
-        var promise = global[fn](args)
+        var promise = global[fn](args);
 
         if (promise) {
             promise.then(function () {

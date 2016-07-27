@@ -13,7 +13,7 @@ var getVideos = function (channelID) {
         url: 'channels/' + channelID + '/videos',
         query: { broadcasts: true }
     });
-}
+};
 
 // Get known accounts by channel
 var getAccountsByChannel = function (channel) {
@@ -25,7 +25,7 @@ var getAccountsByChannel = function (channel) {
     });
 
     return Promise.all(promises);
-}
+};
 
 var createMatchData = function (accountID, match, matchDetails) {
     // Player details
@@ -68,8 +68,8 @@ var createMatchData = function (accountID, match, matchDetails) {
         matchVersion: matchDetails.matchVersion,
         map: matchDetails.mapId,
         player_data: participant
-    }
-}
+    };
+};
 
 // Update account's last saved match
 var updateLastMatchTime = function(account, new_timestamp) {
@@ -81,7 +81,7 @@ var updateLastMatchTime = function(account, new_timestamp) {
     } else {
         return Promise.resolve();
     }
-}
+};
 
 // Save match in db
 var saveMatch = function (params) {
@@ -100,7 +100,7 @@ var saveMatch = function (params) {
         accountID: account.id,
         channelID: channelID,
         video_url: video_url
-    }
+    };
     return RiotGames.getMatch(account.region, match.matchId).then(function (matchDetails) {
         matchStore.match_data = createMatchData(account.id, match, matchDetails);
         console.log(`Saving ${channelID} match ${matchStore.id}`);
@@ -108,7 +108,7 @@ var saveMatch = function (params) {
             return updateLastMatchTime(account, match.timestamp + 1000);
         });
     });
-}
+};
 
 // See if match is within video
 // Returns -1 if match starts before the video
@@ -127,7 +127,7 @@ var compareMatchWithVideo = function (match, video) {
     } else {
         return 1;
     }
-}
+};
 
 // Compare videos against matches
 var compareMatchesWithVideos = function (params) {
@@ -167,7 +167,7 @@ var compareMatchesWithVideos = function (params) {
     }
 
     return Promise.all(promises);
-}
+};
 
 // Compare videos with account
 var compareAccountWithVideos = function (params) {
@@ -197,9 +197,9 @@ var compareAccountWithVideos = function (params) {
             account: account,
             videos: videos,
             matches: matches
-        })
+        });
     });
-}
+};
 
 // Iterate through given accounts in search of new matches
 var iterateAccounts = function (params) {
@@ -226,7 +226,7 @@ var iterateAccounts = function (params) {
 
         return Promise.all(promises);
     });
-}
+};
 
 // Iterate through stored channels for new matches
 var crawlForNewMatches = function () {
@@ -245,7 +245,7 @@ var crawlForNewMatches = function () {
         });
         return Promise.all(promises);
     });
-}
+};
 
 crawlForNewMatches().then(function () {
     console.log("done");
