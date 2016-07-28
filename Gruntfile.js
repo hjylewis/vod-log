@@ -40,8 +40,8 @@ module.exports = function (grunt) {
 
         watch: {
             react: {
-                files: 'site/scripts/*.js',
-                tasks: ['babel']
+                files: 'site/**',
+                tasks: ['compile']
             }
         },
 
