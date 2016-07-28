@@ -26,6 +26,15 @@ module.exports = function (grunt) {
             }
         },
 
+        copy: {
+            main: {
+                expand: true,
+                cwd: 'site',
+                src: '*.html',
+                dest: 'dist/',
+            },
+        },
+
         watch: {
             react: {
                 files: 'site/scripts/*.js',
@@ -42,5 +51,6 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['babel', 'sass', 'http-server']);
+    grunt.registerTask('compile', ['babel', 'sass', 'copy']);
+    grunt.registerTask('default', ['compile', 'http-server']);
 };
