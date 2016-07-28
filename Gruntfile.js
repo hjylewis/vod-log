@@ -14,6 +14,18 @@ module.exports = function (grunt) {
             }
         },
 
+        sass: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: 'site/style',
+                    src: ['*.scss'],
+                    dest: 'dist/style',
+                    ext: '.css'
+                }]
+            }
+        },
+
         watch: {
             react: {
                 files: 'site/scripts/*.js',
@@ -30,5 +42,5 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['babel', 'http-server']);
+    grunt.registerTask('default', ['babel', 'sass', 'http-server']);
 };
