@@ -8,9 +8,12 @@ module.exports = function (grunt) {
                 presets: ['react', 'es2015']
             },
             dist: {
-                files: {
-                    'dist/scripts/app.js': 'site/scripts/app.js'
-                }
+                files: [{
+                    expand: true,
+                    cwd: 'site/scripts/',
+                    src: ['*.js'],
+                    dest: 'dist/scripts/'
+                }]
             }
         },
 
