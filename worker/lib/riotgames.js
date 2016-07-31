@@ -12,25 +12,61 @@ class ApiState {
         this.buffer = [];
         this.tenSecCount = 0;
         this.tenMinCount = 0;
+        this.suspended = false;
     }
 
     pushRequest (params) {
         if (this._requestPossible()) {
-            this._makeRequst(params);
+            this._execute(params);
         } else {
             this.buffer.push(params);
         }
     }
 
     _requestPossible () {
-        return this.tenSecCount < TEN_SEC_MAX && this.tenMinCount < TEN_MIN_MAX;
+        return !this.suspended && this.tenSecCount < TEN_SEC_MAX && this.tenMinCount < TEN_MIN_MAX;
     }
 
-    _makeRequst (params) {
-        var request = params.request,
-            url = params.url;
+    _suspend (retrySeconds) {
+        console.log(`RiotGames Api suspended for ${retrySeconds}`);
+        this.suspended = true;
+    }
 
-        request();
+    _unsuspend () {
+        console.log("RiotGames Api unsuspended");
+        this.suspended = false;
+    }
+
+    _makeRequest(params) {
+        var options = params.options,
+            callback = params.callback;
+
+        var self = this;
+
+        request(options, function (error, response, body) {
+            if (!error) {
+                body = JSON.parse(body);
+                if (body.status && body.status.status_code === 429) {
+                    var retrySeconds = response.headers['retry-after'] ? parseInt(response.headers['retry-after']) : 0;
+                    self.pushRequest(params); // re-add
+                    if (!self.suspended) {
+                        self._suspend(retrySeconds);
+                        setTimeout(function () {
+                            self._unsuspend();
+                            self._flushBuffer();
+                        }, retrySeconds * 1000);
+                    }
+                    return;
+                }
+            }
+            callback(error, response, body);
+        });
+    }
+
+    _execute (params) {
+        var url = params.url;
+
+        this._makeRequest(params);
         this.tenSecCount++;
         this.tenMinCount++;
 
@@ -50,7 +86,7 @@ class ApiState {
 
     _flushBuffer () {
         while(this._requestPossible() && this.buffer.length > 0) {
-            this._makeRequst(this.buffer.shift());
+            this._execute(this.buffer.shift());
         }
     }
 }
@@ -83,20 +119,14 @@ var makeRequest = function(params) {
     return new Promise(function (resolve, reject) {
         apiState.pushRequest({
             url: params.path,
-            request: function () {
-                request(options, function (error, response, body) {
-                    if (error) {
-                        console.log("Riot Games Api request failed: " + error);
-                        reject(error);
-                    } else {
-                        body = JSON.parse(body);
-                        if (body.status && body.status.status_code === 429) {
-                            reject(new Error("Riot Game Api limit exceeded"));
-                        } else {
-                            resolve(body);
-                        }
-                    }
-                });
+            options: options,
+            callback: function (error, response, body) {
+                if (error) {
+                    console.log("Riot Games Api request failed: " + error);
+                    reject(error);
+                } else {
+                    resolve(body);
+                }
             }
         });
     });
