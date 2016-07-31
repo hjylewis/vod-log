@@ -22,7 +22,7 @@ class Worker {
     getAccountsByChannel (channel) {
         var promises = [];
         var accountIDs = Object.keys(channel.accounts);
-        accountIDs.forEach(function (accountID) {
+        accountIDs.forEach((accountID) => {
             var promise = this.dbConn.getAccount(accountID);
             promises.push(promise);
         });
@@ -104,10 +104,10 @@ class Worker {
             channelID: channelID,
             video_url: video_url
         };
-        return this.riotGames.getMatch(account.region, match.matchId).then(function (matchDetails) {
+        return this.riotGames.getMatch(account.region, match.matchId).then((matchDetails) => {
             matchStore.match_data = this.createMatchData(account.id, match, matchDetails);
             console.log(`Saving ${channelID} match ${matchStore.id}`);
-            return this.dbConn.addMatch(matchStore).then(function () {
+            return this.dbConn.addMatch(matchStore).then(() => {
                 return this.updateLastMatchTime(account, match.timestamp + 1000);
             });
         });
