@@ -1,5 +1,7 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
+    grunt.loadNpmTasks('edition-node-grunt');
+
 
     grunt.initConfig({
         babel: {
