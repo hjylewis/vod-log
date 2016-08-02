@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
-    grunt.loadNpmTasks('edition-node-grunt');
+    grunt.loadTasks('node_modules/edition-node-grunt');
 
 
     grunt.initConfig({
