@@ -61,6 +61,12 @@ module.exports = function (grunt) {
                 port: 9000,
                 runInBackground: false
             }
+        },
+
+        webpack: {
+            production: {
+                // TODO
+            }
         }
     });
 
