@@ -8,10 +8,10 @@ var GameSummary = React.createClass({
   }
 });
 
-var ProfileSummery = React.createClass({
+var GameLog = React.createClass({
   render: function() {
     return (
-        <div className="profile-summary">
+        <div className="game-log">
             {[<GameSummary />, <GameSummary />]}
         </div>
     );
@@ -19,6 +19,6 @@ var ProfileSummery = React.createClass({
 });
 
 ReactDOM.render(
-  <ProfileSummery />,
-  document.getElementById('profile-summary')
+  <GameLog />,
+  document.getElementById('game-log')
 );
