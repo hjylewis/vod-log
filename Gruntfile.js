@@ -13,8 +13,9 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'site/scripts/',
-                    src: ['*.js'],
-                    dest: 'dist/scripts/'
+                    src: ['*.jsx'],
+                    dest: 'dist/scripts/',
+                    ext: '.js'
                 }]
             }
         },
@@ -59,7 +60,7 @@ module.exports = function (grunt) {
             dev: {
                 root: 'dist',
                 port: 9000,
-                runInBackground: false
+                runInBackground: true
             }
         },
 
@@ -71,5 +72,5 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('compile', ['babel', 'sass', 'copy']);
-    grunt.registerTask('default', ['compile', 'http-server']);
+    grunt.registerTask('default', ['compile', 'http-server', 'watch']);
 };
