@@ -1,7 +1,5 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
-    grunt.loadTasks('node_modules/edition-node-grunt');
-
 
     grunt.initConfig({
         babel: {
@@ -43,7 +41,7 @@ module.exports = function (grunt) {
 
         watch: {
             react: {
-                files: 'site/scripts/*.js',
+                files: 'site/scripts/*.jsx',
                 tasks: ['babel']
             },
             sass: {
