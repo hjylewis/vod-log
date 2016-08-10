@@ -1,8 +1,35 @@
-var GameSummary = React.createClass({
-    render: function() {
+var ChampionImage = React.createClass({
+    render: function () {
         return (
-            <div className="game-summary">
+            <p>{this.props.champion}</p>
+        )
+    }
+});
+
+var GameSummary = React.createClass({
+    onClick: function () {
+        var url = this.props.data.video_url;
+
+        // Open in new tab
+        var win = window.open(url, '_blank');
+        win.focus();
+    },
+    render: function() {
+        var match_data = this.props.data.match_data;
+        var player_data = match_data.player_data;
+
+        var duration = Math.floor(match_data.duration / 60);
+        var creation = moment(match_data.creation).fromNow();
+        var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
+        return (
+            <div onClick={this.onClick} className="game-summary">
                 Game Summary
+                <ChampionImage champion={player_data.championId}/>
+                <p>Duration: {duration}m</p>
+                <p>Creation: {creation}</p>
+                <p>Patch: {patch}</p>
+
+
             </div>
         );
     }
@@ -24,7 +51,7 @@ var GameLog = React.createClass({
         var log = Object.keys(data).map(function (matchID) {
             var summary = data[matchID]
             return (
-                <GameSummary key={summary.id}/>
+                <GameSummary key={summary.id} data={summary}/>
             )
         })
         return (
