@@ -1,5 +1,27 @@
-.game-summary {
+@import 'reset';
+
+.header {
+    height: 50px;
+    width: 100%;
+    border: black solid 1px;
+
+    .search {
+        float: right;
+    }
+}
+
+.main {
+    margin: 20px auto;
     width: 500px;
+
+}
+
+.game-log-head {
     height: 200px;
+    border: black solid 1px;
+}
+
+.game-summary {
+    height: 100px;
     border: black solid 1px;
 }
