@@ -1,8 +1,7 @@
 var ChampionImage = React.createClass({
     render: function () {
-        var img_src = "http://ddragon.leagueoflegends.com/cdn/5.14.1/img/champion/Graves.png";
         return (
-            <img className="champion-image" src={img_src}></img>
+            <img className="champion-image" src={this.props.image}></img>
         )
     }
 });
@@ -25,7 +24,7 @@ var GameSummary = React.createClass({
         return (
             <div onClick={this.onClick} className="game-summary">
                 <div className="summary-image">
-                    <ChampionImage champion={player_data.championId}/>
+                    <ChampionImage image={player_data.champion.image}/>
                 </div>
                 <div className="summary-detail">
                     <p>Duration: {duration}m</p>
