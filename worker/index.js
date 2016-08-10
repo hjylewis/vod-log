@@ -6,102 +6,85 @@ var dbConn = require('./lib/database');
 var twitch = require("./lib/twitch");
 var riotGames = require("./lib/riotgames");
 var utils = require("./lib/utils");
+var moment = require('moment');
 
 var worker = new Worker(dbConn, twitch, riotGames);
 
-// Compare videos against matches
-var compareMatchesWithVideos = function (params) {
-    var channelID = params.channelID,
-        account = params.account,
-        videos = params.videos.videos,
-        matches = params.matches.matches;
+// See if match is within video
+// Returns -1 if match starts before the video
+// Returns 0 if match starts during the video
+// Returns 1 if match starts after video
+function compareMatchWithVideo (match, video) {
+    var videoStartUnix = parseInt(utils.convertISOtoUnix(video.recorded_at));
+    var videoEndUnix = parseInt(utils.getEndTimeInUnix(video.recorded_at, video.length));
 
-    var promises = [];
+    var matchStart = parseInt(match.timestamp);
 
-    var matchIdx = matches.length - 1;
-    for (var videoIdx = videos.length - 1; videoIdx >= 0; videoIdx--) {
-        var video = videos[videoIdx];
+    if (videoStartUnix <= matchStart && matchStart <= videoEndUnix) {
+        return 0;
+    } else if (matchStart < videoStartUnix) {
+        return -1;
+    } else {
+        return 1;
+    }
+}
 
-        if (video.broadcast_type !== "archive") { //TODO: check this
-            continue;
+function createMatchData (accountID, match, matchDetails) {
+    // Player details
+    var participantId,
+        participant;
+
+    matchDetails.participantIdentities.some(function (id) {
+        if (id.player.summonerId === parseInt(accountID)) {
+            participantId = id.participantId;
+            return true;
+        } else {
+            return false;
         }
+    });
 
-        for (;matchIdx >= 0; matchIdx--) {
-            var match = matches[matchIdx];
-            var compare = worker.compareMatchWithVideo(match, video);
-            if (compare === 1) { //After
-                break; // Go to next video and keep same match
-            } else if (compare === 0) { //During
-                // Save
-                var promise = worker.saveMatch({
-                    match: match,
-                    video: video,
-                    account: account,
-                    channelID: channelID
-                });
-                promises.push(promise);
-            } else { //before
-                // Do nothing (next match)
+    if (participantId) {
+        matchDetails.participants.some(function (p) {
+            if (p.participantId === participantId) {
+                participant = p;
+                return true;
+            } else {
+                return false;
             }
-        }
+        });
     }
 
-    return Promise.all(promises);
-};
-
-// Compare videos with account
-var compareAccountWithVideos = function (params) {
-    var channelID = params.channelID,
-        account = params.account,
-        videos = params.videos;
-
-    var firstVideo = videos.videos[videos.videos.length - 1];
-    var lastVideo = videos.videos[0];
-
-    var window_start = account.last_match_time;
-    var window_end = utils.getEndTimeInUnix(lastVideo.recorded_at, lastVideo.length);
-    if (!window_start) {
-        window_start = utils.convertISOtoUnix(firstVideo.recorded_at);
+    if (!participant) {
+        throw "MissingParticipantException";
     }
 
-    return riotGames.getMatches(account, {
-        beginTime: window_start,
-        endTime: window_end
-    }).then(function (matches) {
-        if (!matches.matches || matches.matches.length === 0) { // No matches
-            return Promise.resolve();
-        }
+    participant.role = match.role;
+    participant.lane = match.lane;
 
-        return compareMatchesWithVideos({
-            channelID: channelID,
-            account: account,
-            videos: videos,
-            matches: matches
-        });
-    });
-};
+    return {
+        creation: match.timestamp,
+        duration: matchDetails.matchDuration,
+        region: match.region,
+        queue: match.queue,
+        season: match.season,
+        matchVersion: matchDetails.matchVersion,
+        map: matchDetails.mapId,
+        player_data: participant
+    };
+}
 
-// Iterate through given accounts in search of new matches
-var iterateAccounts = function (params) {
-    var channel = params.channel,
-        accounts = params.accounts;
+// Update account's last saved match
+function updateLastMatchTime (account, new_timestamp) {
+    if (!account.last_match_time ||
+        (account.last_match_time < new_timestamp)) { // Later
 
-    var channelID = channel.name;
+        account.last_match_time = new_timestamp;
+        return dbConn.updateAccount(account.id, { last_match_time: new_timestamp });
+    } else {
+        return Promise.resolve();
+    }
+}
 
-    return worker.getVideos(channelID).then(function (videos) {
-        if (!videos.videos || videos.videos.length === 0) { // Channel has no videos
-            return Promise.resolve();
-        }
-
-        return Promise.map(accounts, function (account) {
-            return compareAccountWithVideos({
-                channelID: channelID,
-                account: account,
-                videos: videos
-            });
-        });
-    });
-};
 
 // Iterate through stored channels for new matches
 var crawlForNewMatches = function () {
@@ -112,11 +95,144 @@ var crawlForNewMatches = function () {
         return Promise.map(channels, function (channel) {
             var accountIDs = Object.keys(channel.accounts);
 
-            return Promise.map(accountIDs, (accountID) => dbConn.getAccount(accountID)).then(function (accounts) {
-                return iterateAccounts({
+            return Promise.map(accountIDs, function (accountID) {
+                return dbConn.getAccount(accountID);
+            }).then(function (accounts) {
+                return {
                     channel: channel,
-                    accounts: accounts,
+                    accounts: accounts
+                };
+            });
+        });
+    }).then(function (channelsWithAccounts) {
+        return Promise.map(channelsWithAccounts, function getVideos(channelWithAccounts) {
+            var channelID = channelWithAccounts.channel.name;
+            return twitch.api({
+                url: 'channels/' + channelID + '/videos',
+                query: { broadcasts: true }
+            }).then(function (videos) {
+                channelWithAccounts.videos = videos;
+                return channelWithAccounts;
+            });
+        }).then(function filter(channelsWithAccountsAndVideos) {
+            return channelsWithAccountsAndVideos.filter(function (channelWithAccountsAndVideos) {
+                var videos = channelWithAccountsAndVideos.videos;
+                return videos.videos && videos.videos.length > 0 // Channel has videos
+            });
+        });
+    }).then(function rearrange(channelsWithAccountsAndVideos) {
+        var accountsWithChannelAndVideos = [];
+        channelsWithAccountsAndVideos.forEach(function (channelWithAccountsAndVideos) {
+            channelWithAccountsAndVideos.accounts.forEach(function (account) {
+                accountsWithChannelAndVideos.push({
+                    account: account,
+                    channelID: channelWithAccountsAndVideos.channel.name,
+                    videos: channelWithAccountsAndVideos.videos
                 });
+            });
+        });
+        return accountsWithChannelAndVideos;
+    }).then(function (accountsWithChannelAndVideos) {
+        return Promise.map(accountsWithChannelAndVideos, function compareAccountWithVideos(accountWithChannelAndVideos) {
+            var channelID = accountWithChannelAndVideos.channelID,
+                account = accountWithChannelAndVideos.account,
+                videos = accountWithChannelAndVideos.videos;
+
+            var firstVideo = videos.videos[videos.videos.length - 1];
+            var lastVideo = videos.videos[0];
+
+            var window_start = account.last_match_time;
+            var window_end = utils.getEndTimeInUnix(lastVideo.recorded_at, lastVideo.length);
+            if (!window_start) {
+                window_start = utils.convertISOtoUnix(firstVideo.recorded_at);
+            }
+
+            return riotGames.getMatches(account, {
+                beginTime: window_start,
+                endTime: window_end
+            }).then(function (matches) {
+                return {
+                    channelID: channelID,
+                    account: account,
+                    videos: videos,
+                    "matches": matches
+                };
+            });
+        }).then(function filter(accountsWithMatches) {
+            return accountsWithMatches.filter(function (accountWithMatches) {
+                var matches = accountWithMatches.matches;
+                return matches.matches && matches.matches.length > 0 // Has matches
+            });
+        });
+    }).then(function compareMatchesWithVideos(accountsWithMatches) {
+        return Promise.map(accountsWithMatches, function compareMatchesWithVideos(accountWithMatches) {
+            var channelID = accountWithMatches.channelID,
+                account = accountWithMatches.account,
+                videos = accountWithMatches.videos.videos,
+                matches = accountWithMatches.matches.matches;
+
+            var matchesToSave = [];
+
+            var matchIdx = matches.length - 1;
+            for (var videoIdx = videos.length - 1; videoIdx >= 0; videoIdx--) {
+                var video = videos[videoIdx];
+
+                if (video.broadcast_type !== "archive") { //TODO: check this
+                    continue;
+                }
+
+                for (;matchIdx >= 0; matchIdx--) {
+                    var match = matches[matchIdx];
+                    var compare = compareMatchWithVideo(match, video);
+                    if (compare === 1) { //After
+                        break; // Go to next video and keep same match
+                    } else if (compare === 0) { //During
+                        // Save
+                        matchesToSave.push({
+                            match: match,
+                            video: video,
+                            account: account,
+                            channelID: channelID
+                        });
+                    } else { //before
+                        // Do nothing (next match)
+                    }
+                }
+            }
+
+            return matchesToSave;
+        }).then(function reduce(arrays) {
+            return [].concat.apply([], arrays);
+        });
+    }).then(function (matchesToSave) {
+        return Promise.map(matchesToSave, function saveMatch(matchToSave) {
+            var match = matchToSave.match,
+                account = matchToSave.account,
+                video = matchToSave.video,
+                channelID = matchToSave.channelID;
+
+            var beginTimeUnix = utils.convertISOtoUnix(video.recorded_at);
+            var timestamp = moment(match.timestamp).subtract(beginTimeUnix).format('x');
+            var video_url = twitch.constructURL(video.url, timestamp);
+
+            var matchStore = {
+                id: match.matchId,
+                type: account.type,
+                accountID: account.id,
+                channelID: channelID,
+                video_url: video_url
+            };
+            return riotGames.getMatch(account.region, match.matchId).then((matchDetails) => {
+                matchStore.match_data = createMatchData(account.id, match, matchDetails);
+                console.log(`Saving ${channelID} match ${matchStore.id}`);
+                return {
+                    matchToSave,
+                    matchStore
+                };
+            }).then(function (params) {
+                return dbConn.addMatch(params.matchStore).then( () => params);
+            }).then(function (params) {
+                return updateLastMatchTime(params.matchToSave.account, params.matchToSave.match.timestamp + 1000);
             });
         });
     });
