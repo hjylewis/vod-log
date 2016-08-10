@@ -11,7 +11,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'site/scripts/',
-                    src: ['*.jsx'],
+                    src: ['**/*.jsx'],
                     dest: 'dist/scripts/',
                     ext: '.js'
                 }]
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'site/style',
-                    src: ['*.scss'],
+                    src: ['**/*.scss'],
                     dest: 'dist/style',
                     ext: '.css'
                 }]
@@ -34,22 +34,22 @@ module.exports = function (grunt) {
             main: {
                 expand: true,
                 cwd: 'site',
-                src: '*.html',
+                src: '**/*.html',
                 dest: 'dist/',
             },
         },
 
         watch: {
             react: {
-                files: 'site/scripts/*.jsx',
+                files: 'site/scripts/**/*.jsx',
                 tasks: ['babel']
             },
             sass: {
-                files: 'site/style/*.scss',
+                files: 'site/style/**/*.scss',
                 tasks: ['sass']
             },
             html: {
-                files: 'site/*.html',
+                files: 'site/**/*.html',
                 tasks: ['copy']
             }
         },
