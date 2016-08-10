@@ -22,7 +22,7 @@ var GameSummary = React.createClass({
         var creation = moment(match_data.creation).fromNow();
         var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
         return (
-            <div onClick={this.onClick} className="game-summary">
+            <div onClick={this.onClick} className="game-summary win">
                 <div className="summary-image">
                     <ChampionImage image={player_data.champion.image}/>
                 </div>

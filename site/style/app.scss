@@ -3,6 +3,8 @@
 $font-stack:    Helvetica, Arial, sans-serif;
 $primary-color: #333;
 $grey: #555;
+$green: #2ecc71;
+$red: #e74c3c;
 
 body {
   font-family: $font-stack;
@@ -45,6 +47,14 @@ body {
 
     .summary-detail {
         display: inline-block;
+    }
+
+    &.win {
+        border-left: $green solid 2px;
+    }
+
+    &.loss {
+        border-left: $red solid 2px;
     }
 
     &:hover {
