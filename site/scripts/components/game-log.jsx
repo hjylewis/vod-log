@@ -1,7 +1,8 @@
 var ChampionImage = React.createClass({
     render: function () {
+        var img_src = "http://ddragon.leagueoflegends.com/cdn/5.14.1/img/champion/Graves.png";
         return (
-            <p>{this.props.champion}</p>
+            <img className="champion-image" src={img_src}></img>
         )
     }
 });
@@ -23,13 +24,14 @@ var GameSummary = React.createClass({
         var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
         return (
             <div onClick={this.onClick} className="game-summary">
-                Game Summary
-                <ChampionImage champion={player_data.championId}/>
-                <p>Duration: {duration}m</p>
-                <p>Creation: {creation}</p>
-                <p>Patch: {patch}</p>
-
-
+                <div className="summary-image">
+                    <ChampionImage champion={player_data.championId}/>
+                </div>
+                <div className="summary-detail">
+                    <p>Duration: {duration}m</p>
+                    <p>Creation: {creation}</p>
+                    <p>Patch: {patch}</p>
+                </div>
             </div>
         );
     }

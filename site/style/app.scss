@@ -25,8 +25,20 @@
     height: 100px;
     border: black solid 1px;
     cursor: pointer;
+    .summary-image {
+        padding: 5px;
+        display: inline-block;
+    }
+
+    .summary-detail {
+        display: inline-block;
+    }
 
     &:hover {
         border-width: 2px;
     }
+}
+
+.champion-image {
+    height: 90px;
 }
