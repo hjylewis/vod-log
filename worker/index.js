@@ -125,6 +125,18 @@ function compareMatchesWithVideos(accountWithMatches) {
     return matchesToSave;
 }
 
+function createPlayerData (participant) {
+    return riotGames.getChampion(participant.championId).then(function (champion) {
+        participant.champion = {
+            name: champion.name,
+            title: champion.title,
+            image: riotGames.getChampionImage(champion.image.full)
+        }
+        console.log(participant.champion);
+        return participant;
+    });
+}
+
 function createMatchData (accountID, match, matchDetails) {
     // Player details
     var participantId,
@@ -157,16 +169,18 @@ function createMatchData (accountID, match, matchDetails) {
     participant.role = match.role;
     participant.lane = match.lane;
 
-    return {
-        creation: match.timestamp,
-        duration: matchDetails.matchDuration,
-        region: match.region,
-        queue: match.queue,
-        season: match.season,
-        matchVersion: matchDetails.matchVersion,
-        map: matchDetails.mapId,
-        player_data: participant
-    };
+    return createPlayerData(participant).then(function (participant) {
+        return {
+            creation: match.timestamp,
+            duration: matchDetails.matchDuration,
+            region: match.region,
+            queue: match.queue,
+            season: match.season,
+            matchVersion: matchDetails.matchVersion,
+            map: matchDetails.mapId,
+            player_data: participant
+        };
+    })
 }
 
 // Update account's last saved match
@@ -181,11 +195,11 @@ function updateLastMatchTime (account, new_timestamp) {
     }
 }
 
-function saveMatch(matchToSave) {
-    var match = matchToSave.match,
-        account = matchToSave.account,
-        video = matchToSave.video,
-        channelID = matchToSave.channelID;
+function saveMatch(params) {
+    var match = params.match,
+        account = params.account,
+        video = params.video,
+        channelID = params.channelID;
 
     var beginTimeUnix = utils.convertISOtoUnix(video.recorded_at);
     var timestamp = moment(match.timestamp).subtract(beginTimeUnix).format('x');
@@ -199,16 +213,19 @@ function saveMatch(matchToSave) {
         video_url: video_url
     };
     return riotGames.getMatch(account.region, match.matchId).then((matchDetails) => {
-        matchStore.match_data = createMatchData(account.id, match, matchDetails);
-        console.log(`Saving ${channelID} match ${matchStore.id}`);
-        return {
-            matchToSave,
-            matchStore
-        };
+        params.matchStore = matchStore;
+        params.matchDetails = matchDetails;
+        return params;
     }).then(function (params) {
+        return createMatchData(params.account.id, params.match, params.matchDetails).then(function (match_data) {
+            params.matchStore.match_data = match_data;
+            return params;
+        });
+    }).then(function (params) {
+        console.log(`Saving ${params.channelID} match ${params.matchStore.id}`);
         return dbConn.addMatch(params.matchStore).then( () => params);
     }).then(function (params) {
-        return updateLastMatchTime(params.matchToSave.account, params.matchToSave.match.timestamp + 1000);
+        return updateLastMatchTime(params.account, params.match.timestamp + 1000);
     });
 }
 

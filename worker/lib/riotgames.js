@@ -110,6 +110,22 @@ var constructURL = function(params) {
     return url;
 };
 
+// Construct Riot Games static api url
+var constructStaticURL = function(params) {
+    var path = params.path,
+        region = params.region,
+        version = params.version,
+        query = params.query;
+
+    var url = `https://global.api.pvp.net/api/lol/static-data/${region}/${version}/`;
+    url = url + path;
+
+    query = query || {};
+    query.api_key = api_key;
+    url = url + "?" + querystring.stringify(query);
+    return url;
+};
+
 // Make Riot Games api request
 var makeRequest = function(params) {
     var options = {
@@ -131,6 +147,24 @@ var makeRequest = function(params) {
         });
     });
 };
+
+var makeStaticRequest = function (params) {
+    var options = {
+        url: constructStaticURL(params)
+    };
+
+    return new Promise(function (resolve, reject) {
+        request(options, function (error, response, body) {
+            if (error) {
+                console.log("Riot Games Api request failed: " + error);
+                reject(error);
+            } else {
+                body = JSON.parse(body);
+                resolve(body);
+            }
+        });
+    });
+}
 
 // Get given account's matches
 var getMatches = function (account, query) {
@@ -163,8 +197,28 @@ var getAccountByName = function (region, name) {
     return makeRequest(params);
 };
 
+// Get account by name
+var getChampion = function (championID) {
+    var params = {
+        region: 'na',
+        version: "v1.2",
+        path: "champion/" + championID,
+        query: {
+            champData: "image"
+        }
+    };
+    return makeStaticRequest(params);
+};
+
+var getChampionImage = function (path) {
+    // TODO fetch data dragon version https://developer.riotgames.com/api/methods#!/1055/3632
+    return `http://ddragon.leagueoflegends.com/cdn/6.16.2/img/champion/${path}`
+}
+
 module.exports = {
     getMatches: getMatches,
     getMatch: getMatch,
-    getAccountByName: getAccountByName
+    getAccountByName: getAccountByName,
+    getChampion: getChampion,
+    getChampionImage: getChampionImage
 };
