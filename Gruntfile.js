@@ -1,7 +1,5 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
-    grunt.loadTasks('node_modules/edition-node-grunt');
-
 
     grunt.initConfig({
         babel: {
@@ -13,8 +11,9 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'site/scripts/',
-                    src: ['*.js'],
-                    dest: 'dist/scripts/'
+                    src: ['**/*.jsx'],
+                    dest: 'dist/scripts/',
+                    ext: '.js'
                 }]
             }
         },
@@ -24,7 +23,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'site/style',
-                    src: ['*.scss'],
+                    src: ['**/*.scss'],
                     dest: 'dist/style',
                     ext: '.css'
                 }]
@@ -35,22 +34,22 @@ module.exports = function (grunt) {
             main: {
                 expand: true,
                 cwd: 'site',
-                src: '*.html',
+                src: ['**', '!**/*.jsx', '!**/*.scss'],
                 dest: 'dist/',
             },
         },
 
         watch: {
             react: {
-                files: 'site/scripts/*.js',
+                files: 'site/scripts/**/*.jsx',
                 tasks: ['babel']
             },
             sass: {
-                files: 'site/style/*.scss',
+                files: 'site/style/**/*.scss',
                 tasks: ['sass']
             },
-            html: {
-                files: 'site/*.html',
+            copy: {
+                files: ['site/**', '!site/**/*.jsx', '!site/**/*.scss'],
                 tasks: ['copy']
             }
         },
@@ -59,11 +58,17 @@ module.exports = function (grunt) {
             dev: {
                 root: 'dist',
                 port: 9000,
-                runInBackground: false
+                runInBackground: true
+            }
+        },
+
+        webpack: {
+            production: {
+                // TODO
             }
         }
     });
 
     grunt.registerTask('compile', ['babel', 'sass', 'copy']);
-    grunt.registerTask('default', ['compile', 'http-server']);
+    grunt.registerTask('default', ['compile', 'http-server', 'watch']);
 };
