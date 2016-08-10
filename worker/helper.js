@@ -17,6 +17,10 @@ global.copyDB = function () {
     return copyDBfromEnvs('production', 'dev');
 };
 
+global.clearMatches = function () {
+    return dbConn.clearMatches();
+};
+
 global.addAccount = function (args) {
     var channel = args.c || args.channel;
     if (!channel) {

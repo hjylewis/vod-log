@@ -146,6 +146,20 @@ var addMatch = function (match) {
     });
 };
 
+var clearMatches = function () {
+    var matchesRef = ref.child("matches/");
+    return new Promise(function (resolve, reject) {
+        matchesRef.set({}, function(error) {
+            if (error) {
+                console.log("Clear matches failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    });
+};
+
 var close = function () {
     db.goOffline();
 };
@@ -168,6 +182,7 @@ module.exports = {
     updateAccount: updateAccount,
 
     addMatch: addMatch,
+    clearMatches: clearMatches,
 
     close: close
 };

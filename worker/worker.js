@@ -132,7 +132,6 @@ function createPlayerData (participant) {
             title: champion.title,
             image: riotGames.getChampionImage(champion.image.full)
         }
-        console.log(participant.champion);
         return participant;
     });
 }
