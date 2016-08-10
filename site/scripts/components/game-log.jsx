@@ -21,8 +21,11 @@ var GameSummary = React.createClass({
         var duration = Math.floor(match_data.duration / 60);
         var creation = moment(match_data.creation).fromNow();
         var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
+
+        var outcome = match_data.win ? 'win' : 'loss';
+        var classes = `game-summary ${outcome}`;
         return (
-            <div onClick={this.onClick} className="game-summary win">
+            <div onClick={this.onClick} className={classes}>
                 <div className="summary-image">
                     <ChampionImage image={player_data.champion.image}/>
                 </div>

@@ -168,6 +168,13 @@ function createMatchData (accountID, match, matchDetails) {
     participant.role = match.role;
     participant.lane = match.lane;
 
+
+    matchDetails.teams.forEach(function(team) {
+        if (team.teamId === participant.teamId) {
+            match.win = team.winner;
+        }
+    });
+
     return createPlayerData(participant).then(function (participant) {
         return {
             creation: match.timestamp,
@@ -175,6 +182,7 @@ function createMatchData (accountID, match, matchDetails) {
             region: match.region,
             queue: match.queue,
             season: match.season,
+            win: match.win,
             matchVersion: matchDetails.matchVersion,
             map: matchDetails.mapId,
             player_data: participant
