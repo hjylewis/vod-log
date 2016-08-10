@@ -1,5 +1,6 @@
 "use strict";
 
+var Promise = require("bluebird");
 var Worker = require('./worker');
 var dbConn = require('./lib/database');
 var twitch = require("./lib/twitch");
@@ -92,37 +93,32 @@ var iterateAccounts = function (params) {
             return Promise.resolve();
         }
 
-        var promises = [];
-
-        accounts.forEach(function (account) {
-            var promise = compareAccountWithVideos({
+        return Promise.map(accounts, function (account) {
+            return compareAccountWithVideos({
                 channelID: channelID,
                 account: account,
                 videos: videos
             });
-            promises.push(promise);
         });
-
-        return Promise.all(promises);
     });
 };
 
 // Iterate through stored channels for new matches
 var crawlForNewMatches = function () {
     return dbConn.getChannels().then(function (channels) {
-        var channelIDs = Object.keys(channels);
-        var promises = [];
-        channelIDs.forEach(function (channelID) {
-            var channel = channels[channelID];
-            var promise = worker.getAccountsByChannel(channel).then(function (accounts) {
+        return Object.keys(channels).map((channelID) => channels[channelID]);
+    }).then(function (channels) {
+        // getAccountsByChannel
+        return Promise.map(channels, function (channel) {
+            var accountIDs = Object.keys(channel.accounts);
+
+            return Promise.map(accountIDs, (accountID) => dbConn.getAccount(accountID)).then(function (accounts) {
                 return iterateAccounts({
                     channel: channel,
                     accounts: accounts,
                 });
             });
-            promises.push(promise);
         });
-        return Promise.all(promises);
     });
 };
 
