@@ -3,3 +3,4 @@ cert/
 dist/
 env.json
 .sass-cache
+.DS_Store

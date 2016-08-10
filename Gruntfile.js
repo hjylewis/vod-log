@@ -34,7 +34,7 @@ module.exports = function (grunt) {
             main: {
                 expand: true,
                 cwd: 'site',
-                src: '**/*.html',
+                src: ['**', '!**/*.jsx', '!**/*.scss'],
                 dest: 'dist/',
             },
         },
@@ -48,8 +48,8 @@ module.exports = function (grunt) {
                 files: 'site/style/**/*.scss',
                 tasks: ['sass']
             },
-            html: {
-                files: 'site/**/*.html',
+            copy: {
+                files: ['site/**', '!site/**/*.jsx', '!site/**/*.scss'],
                 tasks: ['copy']
             }
         },
