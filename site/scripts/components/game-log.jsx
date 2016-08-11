@@ -71,11 +71,11 @@ var GameSummary = React.createClass({
         var durationStr = duration.minutes() + "m " + duration.seconds() + "s";
         var creation = moment(match_data.creation).fromNow();
         var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
-        var lane = player_data.lane;
-        if (lane === "BOTTOM") {
-            lane = player_data.role.replace('DUO_', '');
+        var role = player_data.lane;
+        if (role === "BOTTOM") {
+            role = player_data.role.replace('DUO_', '');
         }
-        lane = lane.charAt(0).toUpperCase() + lane.substr(1).toLowerCase();
+        role = role.charAt(0).toUpperCase() + role.substr(1).toLowerCase();
 
         var outcome = match_data.win ? 'win' : 'loss';
         var classes = `game-summary ${outcome}`;
@@ -84,14 +84,14 @@ var GameSummary = React.createClass({
                 <div className="summary-image">
                     <ChampionImage image={player_data.champion.image} />
                 </div>
-                <IconStrip player={player_data}/>
                 <div className="summary-detail">
-                    <p>Lane: {lane}</p>
+                    <p>Role: {role}</p>
                     <p>KDA: {kda}</p>
                     <p>Duration: {durationStr}</p>
                     <p>Creation: {creation}</p>
                     <p>Patch: {patch}</p>
                 </div>
+                <IconStrip player={player_data}/>
             </div>
         );
     }
