@@ -2,7 +2,9 @@
 
 $font-stack:    Helvetica, Arial, sans-serif;
 $primary-color: #333;
+$background-color: #eaeaea;
 $grey: #555;
+$white: #f2f2f2;
 $green: #2ecc71;
 $red: #e74c3c;
 
@@ -11,6 +13,7 @@ $icon-size: 35;
 body {
   font-family: $font-stack;
   color: $grey;
+  background-color: $background-color;
 }
 
 .header {
@@ -31,11 +34,21 @@ body {
 
 .game-log {
     box-shadow: 0 0 2px $grey;
+    .game-summary {
+        border: $grey solid 1px;
+        border-bottom: 0;
+
+        &:last-child {
+            border-bottom: $grey solid 1px;
+        }
+    }
+
 }
 
 .game-log-head {
     height: 200px;
     border: $grey solid 1px;
+    border-bottom: 0;
 }
 
 @mixin zoom($degree) {
@@ -46,7 +59,8 @@ body {
 
 .game-summary {
     height: 100px;
-    border: $grey solid 1px;
+    background-color: $white;
+
     cursor: pointer;
     .summary-image {
         padding: 5px;
@@ -55,39 +69,8 @@ body {
 
     .icon-strip {
         float: left;
-        .summoner-spells {
-            display: inline-block;
-            div {
-                @include zoom($icon-size / 48);
-            }
-        }
-
-        .keystone-image {
-            display: inline-block;
-            margin: ($icon-size / 2) + px 0;
-            height: $icon-size + px;
-        }
-
-        .items {
-            width: ($icon-size * 4) + px;
-            display: inline-block;
-
-            .main-items {
-                display: inline-block;
-                width: ($icon-size * 3) + px;
-            }
-
-            .last-item img {
-                margin: ($icon-size / 2) + px 0;
-            }
-
-
-            img {
-                display: inline-block;
-                height: $icon-size + px;
-
-            }
-        }
+        margin: (50 - $icon-size) + px 0;
+        margin-left: 5px;
     }
 
 
@@ -112,6 +95,44 @@ body {
 .champion-image {
     height: 90px;
 }
+
+.icon-strip {
+    .summoner-spells {
+        display: inline-block;
+        div {
+            @include zoom($icon-size / 48);
+        }
+    }
+
+    .keystone-image {
+        display: inline-block;
+        margin: ($icon-size / 2) + px 0;
+        height: $icon-size + px;
+    }
+
+    .items {
+        margin-left: 10px;
+        width: ($icon-size * 4) + px;
+        display: inline-block;
+
+        .main-items {
+            display: inline-block;
+            width: ($icon-size * 3) + px;
+        }
+
+        .last-item img {
+            margin: ($icon-size / 2) + px 0;
+        }
+
+
+        img {
+            display: inline-block;
+            height: $icon-size + px;
+
+        }
+    }
+}
+
 
 
 
