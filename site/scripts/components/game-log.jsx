@@ -5,6 +5,16 @@ var ChampionImage = React.createClass({
         )
     }
 });
+var SummonerSpells = React.createClass({
+    render: function () {
+        return (
+            <div className="summoner-spells">
+                <div className={this.props.spell1}/>
+                <div className={this.props.spell2}/>
+            </div>
+        )
+    }
+});
 
 var GameSummary = React.createClass({
     onClick: function () {
@@ -29,6 +39,7 @@ var GameSummary = React.createClass({
                 <div className="summary-image">
                     <ChampionImage image={player_data.champion.image}/>
                 </div>
+                <SummonerSpells spell1={player_data.spell1} spell2={player_data.spell2}/>
                 <div className="summary-detail">
                     <p>Duration: {duration}m</p>
                     <p>Creation: {creation}</p>

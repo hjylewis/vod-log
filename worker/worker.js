@@ -33,7 +33,7 @@ function getVideos (channelWithAccounts) {
 
 function filterVideos (channelWithAccountsAndVideos) {
     var videos = channelWithAccountsAndVideos.videos;
-    return videos.videos && videos.videos.length > 0 // Channel has videos
+    return videos.videos && videos.videos.length > 0; // Channel has videos
 }
 
 function compareAccountWithVideos(accountWithChannelAndVideos) {
@@ -65,7 +65,7 @@ function compareAccountWithVideos(accountWithChannelAndVideos) {
 
 function filterMatches (accountWithMatches) {
     var matches = accountWithMatches.matches;
-    return matches.matches && matches.matches.length > 0 // Has matches
+    return matches.matches && matches.matches.length > 0; // Has matches
 }
 
 // See if match is within video
@@ -131,7 +131,28 @@ function createPlayerData (participant) {
             name: champion.name,
             title: champion.title,
             image: riotGames.getChampionImage(champion.image.full)
-        }
+        };
+        return participant;
+    }).then(function (participant) {
+        return Promise.all([
+            riotGames.getSummonerSpell(participant.spell1Id),
+            riotGames.getSummonerSpell(participant.spell2Id)
+        ]).then(function (spells) {
+            participant.spell1 = spells[0].name.toLowerCase();
+            participant.spell2 = spells[1].name.toLowerCase();
+            return participant;
+        });
+    }).then(function (participant) {
+        var keystone;
+        var keystones = riotGames.getKeystoneMasteries();
+        participant.masteries.some(function (mastery) {
+            keystone = mastery.masteryId;
+            return keystones.indexOf(mastery.masteryId) !== -1;
+        });
+        participant.keystone = {
+            id: keystone,
+            image: riotGames.getMasteryImage(keystone)
+        };
         return participant;
     });
 }
@@ -187,7 +208,7 @@ function createMatchData (accountID, match, matchDetails) {
             map: matchDetails.mapId,
             player_data: participant
         };
-    })
+    });
 }
 
 // Update account's last saved match

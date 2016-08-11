@@ -197,7 +197,7 @@ var getAccountByName = function (region, name) {
     return makeRequest(params);
 };
 
-// Get account by name
+// Get champion
 var getChampion = function (championID) {
     var params = {
         region: 'na',
@@ -210,15 +210,40 @@ var getChampion = function (championID) {
     return makeStaticRequest(params);
 };
 
+// Get summoner spell
+var getSummonerSpell = function (id) {
+    var params = {
+        region: 'na',
+        version: "v1.2",
+        path: "summoner-spell/" + id
+    };
+    return makeStaticRequest(params);
+};
+
+
+
 var getChampionImage = function (path) {
     // TODO fetch data dragon version https://developer.riotgames.com/api/methods#!/1055/3632
-    return `http://ddragon.leagueoflegends.com/cdn/6.16.2/img/champion/${path}`
-}
+    return `http://ddragon.leagueoflegends.com/cdn/6.16.2/img/champion/${path}`;
+};
+
+var getKeystoneMasteries = function () {
+    // TODO
+    return [6161, 6162, 6164, 6361, 6362, 6363, 6261, 6262, 6263];
+};
+
+var getMasteryImage = function (id) {
+    // TODO fetch data dragon version https://developer.riotgames.com/api/methods#!/1055/3632
+    return `http://ddragon.leagueoflegends.com/cdn/6.16.2/img/mastery/${id}.png`;
+};
 
 module.exports = {
     getMatches: getMatches,
     getMatch: getMatch,
     getAccountByName: getAccountByName,
     getChampion: getChampion,
-    getChampionImage: getChampionImage
+    getChampionImage: getChampionImage,
+    getSummonerSpell: getSummonerSpell,
+    getKeystoneMasteries: getKeystoneMasteries,
+    getMasteryImage: getMasteryImage
 };
