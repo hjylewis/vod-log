@@ -6,6 +6,8 @@ $grey: #555;
 $green: #2ecc71;
 $red: #e74c3c;
 
+$icon-size: 35;
+
 body {
   font-family: $font-stack;
   color: $grey;
@@ -48,18 +50,50 @@ body {
     cursor: pointer;
     .summary-image {
         padding: 5px;
-        display: inline-block;
+        float: left;
     }
 
-    .summoner-spells {
-        display: inline-block;
-        div {
-            @include zoom(0.7);
+    .icon-strip {
+        float: left;
+        .summoner-spells {
+            display: inline-block;
+            div {
+                @include zoom($icon-size / 48);
+            }
+        }
+
+        .keystone-image {
+            display: inline-block;
+            margin: ($icon-size / 2) + px 0;
+            height: $icon-size + px;
+        }
+
+        .items {
+            width: ($icon-size * 4) + px;
+            display: inline-block;
+
+            .main-items {
+                display: inline-block;
+                width: ($icon-size * 3) + px;
+            }
+
+            .last-item img {
+                margin: ($icon-size / 2) + px 0;
+            }
+
+
+            img {
+                display: inline-block;
+                height: $icon-size + px;
+
+            }
         }
     }
 
+
+
     .summary-detail {
-        display: inline-block;
+        float: left;
     }
 
     &.win {
@@ -79,9 +113,7 @@ body {
     height: 90px;
 }
 
-.keystone-image {
-    height: (48 * 0.7) + px;
-}
+
 
 // Summoner Spells
 // TODO make dynamic

@@ -154,6 +154,13 @@ function createPlayerData (participant) {
             image: riotGames.getMasteryImage(keystone)
         };
         return participant;
+    }).then(function (participant) {
+        var items = [];
+        for (var i = 0; i < 7; i++) {
+            items.push(riotGames.getItemImage(participant.stats["item" + i]));
+        }
+        participant.stats.items = items;
+        return participant;
     });
 }
 

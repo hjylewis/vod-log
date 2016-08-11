@@ -25,6 +25,35 @@ var KeystoneImage = React.createClass({
     }
 });
 
+var Items = React.createClass({
+    render: function () {
+        var items = this.props.items.map(function (item, i) {
+            return (
+                <img src={item} key={i}></img>
+            )
+        })
+        var lastItem = items.pop();
+        return (
+            <div className="items">
+                <span className="main-items">{items}</span>
+                <span className="last-item">{lastItem}</span>
+            </div>
+        )
+    }
+});
+
+var IconStrip = React.createClass({
+    render: function () {
+        return (
+            <div className="icon-strip">
+                <SummonerSpells spell1={this.props.player.spell1} spell2={this.props.player.spell2} />
+                <KeystoneImage image={this.props.player.keystone.image} />
+                <Items items={this.props.player.stats.items} />
+            </div>
+        )
+    }
+});
+
 var GameSummary = React.createClass({
     onClick: function () {
         var url = this.props.data.video_url;
@@ -54,8 +83,7 @@ var GameSummary = React.createClass({
                 <div className="summary-image">
                     <ChampionImage image={player_data.champion.image} />
                 </div>
-                <SummonerSpells spell1={player_data.spell1} spell2={player_data.spell2} />
-                <KeystoneImage image={player_data.keystone.image} />
+                <IconStrip player={player_data}/>
                 <div className="summary-detail">
                     <p>Lane: {lane}</p>
                     <p>KDA: {kda}</p>

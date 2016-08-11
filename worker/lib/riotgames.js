@@ -237,6 +237,11 @@ var getMasteryImage = function (id) {
     return `http://ddragon.leagueoflegends.com/cdn/6.16.2/img/mastery/${id}.png`;
 };
 
+var getItemImage = function (id) {
+    // TODO fetch data dragon version https://developer.riotgames.com/api/methods#!/1055/3632
+    return `http://ddragon.leagueoflegends.com/cdn/6.16.2/img/item/${id}.png`;
+};
+
 module.exports = {
     getMatches: getMatches,
     getMatch: getMatch,
@@ -245,5 +250,6 @@ module.exports = {
     getChampionImage: getChampionImage,
     getSummonerSpell: getSummonerSpell,
     getKeystoneMasteries: getKeystoneMasteries,
-    getMasteryImage: getMasteryImage
+    getMasteryImage: getMasteryImage,
+    getItemImage: getItemImage
 };
