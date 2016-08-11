@@ -79,6 +79,10 @@ body {
     height: 90px;
 }
 
+.keystone-image {
+    height: (48 * 0.7) + px;
+}
+
 // Summoner Spells
 // TODO make dynamic
 @mixin summoner-spell($x, $y) {
