@@ -67,7 +67,8 @@ var GameSummary = React.createClass({
         var player_data = match_data.player_data;
 
         var kda = `${player_data.stats.kills}/${player_data.stats.deaths}/${player_data.stats.assists}`;
-        var duration = Math.floor(match_data.duration / 60);
+        var duration = moment.duration(match_data.duration, 'seconds');
+        var durationStr = duration.minutes() + "m " + duration.seconds() + "s";
         var creation = moment(match_data.creation).fromNow();
         var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
         var lane = player_data.lane;
@@ -87,7 +88,7 @@ var GameSummary = React.createClass({
                 <div className="summary-detail">
                     <p>Lane: {lane}</p>
                     <p>KDA: {kda}</p>
-                    <p>Duration: {duration}m</p>
+                    <p>Duration: {durationStr}</p>
                     <p>Creation: {creation}</p>
                     <p>Patch: {patch}</p>
                 </div>
