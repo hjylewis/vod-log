@@ -28,6 +28,11 @@ var KeystoneImage = React.createClass({
 var Items = React.createClass({
     render: function () {
         var items = this.props.items.map(function (item, i) {
+            if (!item) {
+                return (
+                    <img key={i}></img>
+                )
+            }
             return (
                 <img src={item} key={i}></img>
             )
