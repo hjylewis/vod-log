@@ -193,9 +193,7 @@ function createMatchData (accountID, match, matchDetails) {
         throw "MissingParticipantException";
     }
 
-    participant.role = match.role;
-    participant.lane = match.lane;
-
+    participant.role = match.role.includes('DUO') ? match.role.replace('DUO_', '') : match.lane;
 
     matchDetails.teams.forEach(function(team) {
         if (team.teamId === participant.teamId) {
@@ -245,7 +243,8 @@ function saveMatch(params) {
         type: account.type,
         accountID: account.id,
         channelID: channelID,
-        video_url: video_url
+        video_url: video_url,
+        creation: match.timestamp
     };
     return riotGames.getMatch(account.region, match.matchId).then((matchDetails) => {
         params.matchStore = matchStore;

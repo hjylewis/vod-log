@@ -1,3 +1,8 @@
+import React from 'react';
+import moment from 'moment';
+import classNames from 'classnames';
+import db from '../database.js';
+
 var ChampionImage = React.createClass({
     render: function () {
         return (
@@ -28,6 +33,11 @@ var KeystoneImage = React.createClass({
 var Items = React.createClass({
     render: function () {
         var items = this.props.items.map(function (item, i) {
+            if (!item) {
+                return (
+                    <img key={i}></img>
+                )
+            }
             return (
                 <img src={item} key={i}></img>
             )
@@ -71,27 +81,27 @@ var GameSummary = React.createClass({
         var durationStr = duration.minutes() + "m " + duration.seconds() + "s";
         var creation = moment(match_data.creation).fromNow();
         var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
-        var lane = player_data.lane;
-        if (lane === "BOTTOM") {
-            lane = player_data.role.replace('DUO_', '');
-        }
-        lane = lane.charAt(0).toUpperCase() + lane.substr(1).toLowerCase();
+        var role = player_data.role;
+        role = role.charAt(0).toUpperCase() + role.substr(1).toLowerCase();
 
-        var outcome = match_data.win ? 'win' : 'loss';
-        var classes = `game-summary ${outcome}`;
+        var classes = classNames({
+            'game-summary': true,
+            'win': match_data.win,
+            'loss': !match_data.win
+        });
         return (
             <div onClick={this.onClick} className={classes}>
                 <div className="summary-image">
                     <ChampionImage image={player_data.champion.image} />
                 </div>
-                <IconStrip player={player_data}/>
                 <div className="summary-detail">
-                    <p>Lane: {lane}</p>
+                    <p>Role: {role}</p>
                     <p>KDA: {kda}</p>
                     <p>Duration: {durationStr}</p>
                     <p>Creation: {creation}</p>
                     <p>Patch: {patch}</p>
                 </div>
+                <IconStrip player={player_data}/>
             </div>
         );
     }
@@ -107,21 +117,80 @@ var GameLogHead = React.createClass({
     }
 });
 
-var GameLog = React.createClass({
+var GameLogBody = React.createClass({
     render: function() {
         var data = this.props.data;
-        var log = Object.keys(data).map(function (matchID) {
-            var summary = data[matchID]
+        var log = data.map(function (match) {
             return (
-                <GameSummary key={summary.id} data={summary}/>
+                <GameSummary key={match.id} data={match}/>
             )
+        });
+        return (
+            <div className="game-log-body">
+                {log}
+            </div>
+        );
+    }
+});
+
+var GameLogLoad = React.createClass({
+    render: function() {
+        var classes = classNames({
+            'no-more': this.props.noMore
         })
+        return (
+            <button className={classes} onClick={this.props.onClick}>{this.props.loading ? 'Loading...' : 'Load more'}</button>
+        );
+    }
+});
+
+export default React.createClass({
+    getInitialState: function () {
+        return {
+            matches: [],
+            loading: true,
+            noMore: false
+        }
+    },
+    componentDidMount: function() {
+        this.setState({loading: true});
+        db.getChannelMatches("meteos").then(function (matches) {
+            this.addMatches(matches);
+        }.bind(this)).catch(function (error) {
+            console.error(error.stack);
+        });
+    },
+    addMatches: function (newMatches) {
+        var matches = this.state.matches;
+        if (newMatches.length === 0) {
+            return this.setState({
+                loading: false,
+                noMore: true
+            });
+        }
+
+        matches = matches.concat(newMatches)
+        this.setState({
+            matches: matches,
+            loading: false
+        });
+
+        this.lastMatchTime = matches[matches.length - 1].creation;
+    },
+    loadMore: function () {
+        this.setState({loading: true});
+        db.getChannelMatches("meteos", this.lastMatchTime).then(function (newMatches) {
+            this.addMatches(newMatches);
+        }.bind(this)).catch(function (error) {
+            console.error(error.stack);
+        });
+    },
+    render: function() {
         return (
             <div className="game-log">
                 <GameLogHead />
-                <div className="game-log-body">
-                    {log}
-                </div>
+                <GameLogBody data={this.state.matches} />
+                <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={this.loadMore}/>
             </div>
         );
     }

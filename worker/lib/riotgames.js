@@ -239,6 +239,9 @@ var getMasteryImage = function (id) {
 
 var getItemImage = function (id) {
     // TODO fetch data dragon version https://developer.riotgames.com/api/methods#!/1055/3632
+    if (id === 0) {
+        return null;
+    }
     return `http://ddragon.leagueoflegends.com/cdn/6.16.2/img/item/${id}.png`;
 };
 

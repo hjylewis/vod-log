@@ -1,6 +1,7 @@
-
-var game_data = data;
-console.log(data);
+import React from 'react';
+import { render } from 'react-dom';
+import Header from './components/header.js';
+import GameLog from './components/game-log.js';
 
 
 var App = React.createClass({
@@ -9,14 +10,14 @@ var App = React.createClass({
             <div>
                 <Header />
                 <div className="main">
-                    <GameLog data={game_data}/>
+                    <GameLog />
                 </div>
             </div>
         );
     }
 });
 
-ReactDOM.render(
+render(
     <App />,
     document.getElementById('app')
 );

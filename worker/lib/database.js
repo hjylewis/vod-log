@@ -133,8 +133,10 @@ var updateAccount = function (accountID, update) {
 };
 
 var addMatch = function (match) {
+    var promises = [];
+
     var matchRef = ref.child("matches/" + match.id);
-    return new Promise(function (resolve, reject) {
+    promises.push(new Promise(function (resolve, reject) {
         matchRef.set(match, function (error) {
             if (error) {
                 console.error("Add Match failed: " + error.code);
@@ -143,7 +145,45 @@ var addMatch = function (match) {
                 resolve();
             }
         });
-    });
+    }));
+
+    var channelRef = ref.child("channels/" + match.channelID + "/matches/" + match.id);
+    promises.push(new Promise(function (resolve, reject) {
+        channelRef.set({ creation: match.creation }, function (error) {
+            if (error) {
+                console.error("Add Match (to channel) failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
+    var championRef = ref.child("champions/" + match.match_data.player_data.championId + "/matches/" + match.id);
+    promises.push(new Promise(function (resolve, reject) {
+        championRef.set({ creation: match.creation }, function (error) {
+            if (error) {
+                console.error("Add Match (to channel) failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
+    var roleRef = ref.child("roles/" + match.match_data.player_data.role + "/matches/" + match.id);
+    promises.push(new Promise(function (resolve, reject) {
+        roleRef.set({ creation: match.creation }, function (error) {
+            if (error) {
+                console.error("Add Match (to channel) failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
+    return Promise.all(promises);
 };
 
 var clearMatches = function () {
