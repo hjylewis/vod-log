@@ -20,23 +20,18 @@
         });
     }
 
-    function _limit (query, limit) {
-        return query.limitToLast(limit);
-    }
-
-    function _orderByCreation (query, orderBy) {
-        return query.orderByChild(orderBy);
-    }
-
     function _getData (ref, params) {
-        var {limit, orderBy} = params;
+        var {limit, orderBy, endAt} = params;
         var query = firebase.database().ref(ref);
 
         if (orderBy) {
-            query = _orderByCreation(query, orderBy);
+            query = query.orderByChild(orderBy);
         }
         if (limit) {
-            query = _limit(query, limit);
+            query = query.limitToLast(limit);
+        }
+        if (endAt) {
+            query = query.endAt(endAt);
         }
 
         return _addListener(query);
@@ -50,7 +45,7 @@
 
     db.getMatches = function (params) {
         var {channel, champion, role} = params;
-        var {limit, orderBy} = params;
+        var {limit, orderBy, endAt} = params;
 
         var ref = store + "/matches";
 
@@ -63,6 +58,9 @@
         }
 
         return _getData(ref, params).then(function (matches) {
+            if (!matches) {
+                return Promise.resolve([]);
+            }
             var matchIds = Object.keys(matches).reverse();
             return _joinMatches(matchIds);
         });
@@ -70,33 +68,45 @@
 
 
     // Abstractions
-    db.getChannelMatches = function (channel) {
-        return db.getMatches({
+    db.getChannelMatches = function (channel, next) {
+        var params = {
             channel: channel,
             orderBy: "creation",
             limit: 10
-        });
+        };
+
+        if (next) {
+            params.endAt = next - 1;
+        }
+
+        return db.getMatches(params);
     };
 
-    db.getChampionMatches = function (championId) {
-        return db.getMatches({
+    db.getChampionMatches = function (championId, next) {
+        var params = {
             champion: championId,
             orderBy: "creation",
             limit: 10
-        });
+        };
+
+        if (next) {
+            params.endAt = next - 1;
+        }
+
+        return db.getMatches(params);
     };
 
-    db.getRoleMatches = function (role) {
-        return db.getMatches({
+    db.getRoleMatches = function (role, next) {
+        var params = {
             role: role,
             orderBy: "creation",
             limit: 10
-        });
+        };
+
+        if (next) {
+            params.endAt = next - 1;
+        }
+
+        return db.getMatches(params);
     };
-
-
-    // Usage
-    db.getChannelMatches("meteos").then(function (value) {
-        console.log(value);
-    });
 })();

@@ -112,10 +112,9 @@ var GameLogHead = React.createClass({
 var GameLogBody = React.createClass({
     render: function() {
         var data = this.props.data;
-        var log = Object.keys(data).map(function (matchID) {
-            var summary = data[matchID]
+        var log = data.map(function (match) {
             return (
-                <GameSummary key={summary.id} data={summary}/>
+                <GameSummary key={match.id} data={match}/>
             )
         });
         return (
@@ -126,14 +125,35 @@ var GameLogBody = React.createClass({
     }
 });
 
+var GameLogLoad = React.createClass({
+    render: function() {
+        return (
+            <button onClick={this.props.onClick}>Load more</button>
+        );
+    }
+});
+
 var GameLog = React.createClass({
     getInitialState: function () {
-        return {matches: {}}
+        return {matches: []}
     },
     componentDidMount: function() {
         db.getChannelMatches("meteos").then(function (matches) {
-            console.log(matches);
-            this.setState({matches: matches});
+            this.addMatches(matches);
+        }.bind(this)).catch(function (error) {
+            console.error(error.stack);
+        });
+    },
+    addMatches: function (newMatches) {
+        var matches = this.state.matches;
+        matches = matches.concat(newMatches)
+        this.setState({matches: matches});
+
+        this.lastMatchTime = matches[matches.length - 1].creation;
+    },
+    loadMore: function () {
+        db.getChannelMatches("meteos", this.lastMatchTime).then(function (newMatches) {
+            this.addMatches(newMatches);
         }.bind(this)).catch(function (error) {
             console.error(error.stack);
         });
@@ -143,6 +163,7 @@ var GameLog = React.createClass({
             <div className="game-log">
                 <GameLogHead />
                 <GameLogBody data={this.state.matches} />
+                <GameLogLoad onClick={this.loadMore}/>
             </div>
         );
     }
