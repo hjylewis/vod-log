@@ -1,6 +1,4 @@
 
-var game_data = data;
-console.log(data);
 
 
 var App = React.createClass({
@@ -9,7 +7,7 @@ var App = React.createClass({
             <div>
                 <Header />
                 <div className="main">
-                    <GameLog data={game_data}/>
+                    <GameLog />
                 </div>
             </div>
         );

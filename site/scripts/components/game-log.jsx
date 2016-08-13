@@ -76,10 +76,7 @@ var GameSummary = React.createClass({
         var durationStr = duration.minutes() + "m " + duration.seconds() + "s";
         var creation = moment(match_data.creation).fromNow();
         var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
-        var role = player_data.lane;
-        if (role === "BOTTOM") {
-            role = player_data.role.replace('DUO_', '');
-        }
+        var role = player_data.role;
         role = role.charAt(0).toUpperCase() + role.substr(1).toLowerCase();
 
         var outcome = match_data.win ? 'win' : 'loss';
@@ -112,7 +109,7 @@ var GameLogHead = React.createClass({
     }
 });
 
-var GameLog = React.createClass({
+var GameLogBody = React.createClass({
     render: function() {
         var data = this.props.data;
         var log = Object.keys(data).map(function (matchID) {
@@ -120,13 +117,32 @@ var GameLog = React.createClass({
             return (
                 <GameSummary key={summary.id} data={summary}/>
             )
-        })
+        });
+        return (
+            <div className="game-log-body">
+                {log}
+            </div>
+        );
+    }
+});
+
+var GameLog = React.createClass({
+    getInitialState: function () {
+        return {matches: {}}
+    },
+    componentDidMount: function() {
+        db.getChannelMatches("meteos").then(function (matches) {
+            console.log(matches);
+            this.setState({matches: matches});
+        }.bind(this)).catch(function (error) {
+            console.error(error.stack);
+        });
+    },
+    render: function() {
         return (
             <div className="game-log">
                 <GameLogHead />
-                <div className="game-log-body">
-                    {log}
-                </div>
+                <GameLogBody data={this.state.matches} />
             </div>
         );
     }

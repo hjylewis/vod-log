@@ -96,7 +96,7 @@
 
 
     // Usage
-    getChannelMatches("meteos").then(function (value) {
+    db.getChannelMatches("meteos").then(function (value) {
         console.log(value);
     });
 })();
