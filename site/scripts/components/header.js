@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router';
+
 
 var Logo = React.createClass({
     render: function() {
         return (
-            <span className="logo">VOD-LOG</span>
+            <Link to="/league"><span className="logo">VOD-LOG</span></Link>
         );
     }
 });

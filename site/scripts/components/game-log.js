@@ -1,12 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
 import db from '../database.js';
 
 var ChampionImage = React.createClass({
     render: function () {
+        var link = "/league/champion/" + this.props.id;
         return (
-            <img className="champion-image" src={this.props.image}></img>
+            <Link to={link}><img className="champion-image" src={this.props.image}></img></Link>
         )
     }
 });
@@ -73,6 +75,9 @@ var GameSummary = React.createClass({
         win.focus();
     },
     render: function() {
+        var channel = this.props.data.channelID;
+        var channelLink = "/league/channel/" + channel;
+
         var match_data = this.props.data.match_data;
         var player_data = match_data.player_data;
 
@@ -83,6 +88,7 @@ var GameSummary = React.createClass({
         var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
         var role = player_data.role;
         role = role.charAt(0).toUpperCase() + role.substr(1).toLowerCase();
+        var roleLink = '/league/role/' + role.toLowerCase();
 
         var classes = classNames({
             'game-summary': true,
@@ -90,12 +96,14 @@ var GameSummary = React.createClass({
             'loss': !match_data.win
         });
         return (
-            <div onClick={this.onClick} className={classes}>
+            <div className={classes}>
                 <div className="summary-image">
-                    <ChampionImage image={player_data.champion.image} />
+                    <ChampionImage image={player_data.champion.image} id={player_data.championId} />
                 </div>
                 <div className="summary-detail">
-                    <p>Role: {role}</p>
+                    <p>Channel: <Link to={channelLink}>{channel}</Link></p>
+                    <p>Role: <Link to={roleLink}>{role}</Link></p>
+                    <p onClick={this.onClick}>Watch</p>
                     <p>KDA: {kda}</p>
                     <p>Duration: {durationStr}</p>
                     <p>Creation: {creation}</p>
