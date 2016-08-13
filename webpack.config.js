@@ -4,7 +4,7 @@ module.exports = {
     output: {
         path: __dirname + '/site',
         filename: 'bundle.js',
-        publicPath: 'site'
+        publicPath: '/'
     },
 
     debug: true,

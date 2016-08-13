@@ -4,7 +4,7 @@
   "description": "vod log ======= worker - a worker that pulls from twitch and riot apis to at vods to database site - frontend react site that hosts vod info",
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server --colors --content-base site/"
   },
   "repository": {
     "type": "git",
