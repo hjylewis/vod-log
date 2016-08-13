@@ -245,7 +245,8 @@ function saveMatch(params) {
         type: account.type,
         accountID: account.id,
         channelID: channelID,
-        video_url: video_url
+        video_url: video_url,
+        creation: match.timestamp
     };
     return riotGames.getMatch(account.region, match.matchId).then((matchDetails) => {
         params.matchStore = matchStore;

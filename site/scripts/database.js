@@ -17,7 +17,7 @@
     }
 
     function _orderByCreation (query) {
-        return query.orderByChild('match_data/creation/player_data/championId');
+        return query.orderByChild('channelID').equalTo("meteos").orderByChild('creation').limitToLast(10);
     }
 
     function _getData (ref) {
