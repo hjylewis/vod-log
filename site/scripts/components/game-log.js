@@ -154,7 +154,7 @@ export default React.createClass({
     },
     componentDidMount: function() {
         this.setState({loading: true});
-        db.getChannelMatches("meteos").then(function (matches) {
+        db.getChannelMatches(this.props.params.channelID).then(function (matches) {
             this.addMatches(matches);
         }.bind(this)).catch(function (error) {
             console.error(error.stack);
@@ -179,7 +179,7 @@ export default React.createClass({
     },
     loadMore: function () {
         this.setState({loading: true});
-        db.getChannelMatches("meteos", this.lastMatchTime).then(function (newMatches) {
+        db.getChannelMatches(this.props.params.channelID, this.lastMatchTime).then(function (newMatches) {
             this.addMatches(newMatches);
         }.bind(this)).catch(function (error) {
             console.error(error.stack);

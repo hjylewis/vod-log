@@ -1,23 +1,15 @@
 import React from 'react';
-import { render } from 'react-dom';
-import Header from './components/header.js';
-import GameLog from './components/game-log.js';
+import Header from './components/header'
 
-
-var App = React.createClass({
+export default React.createClass({
     render: function() {
         return (
             <div>
                 <Header />
                 <div className="main">
-                    <GameLog />
+                    {this.props.children}
                 </div>
             </div>
         );
     }
 });
-
-render(
-    <App />,
-    document.getElementById('app')
-);
