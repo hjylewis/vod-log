@@ -57,9 +57,9 @@ function db () {
         if (channel) {
             ref = store + '/channels/' + channel + '/matches'
         } else if (champion) {
-            ref = store + '/champion/' + champion + '/matches'
+            ref = store + '/champions/' + champion + '/matches'
         } else if (role) {
-            ref = store + '/role/' + role + '/matches'
+            ref = store + '/roles/' + role + '/matches'
         }
 
         return _getData(ref, params).then(function (matches) {
@@ -115,6 +115,7 @@ function db () {
         return db.getMatches(params);
     };
 
+    // Wrapper
     db.getMatchesPage = function (params) {
         var {channel, champion, role, next} = params;
         if (channel) {

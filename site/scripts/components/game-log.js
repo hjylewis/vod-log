@@ -219,7 +219,7 @@ var ChampionGameLog = React.createClass({
 var RoleGameLog = React.createClass({
     render: function () {
         var logType = {
-            role: this.props.params.role
+            role: this.props.params.role.toUpperCase()
         };
         return (
             <GameLog logType={logType} />

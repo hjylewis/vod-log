@@ -12,8 +12,8 @@ render((
         <Redirect from="/" to="league" />
         <Route path="/league" component={App}>
             <Route path="/league/channel/:channelID" component={ChannelGameLog} />
-            <Route path="/league/role/:role" component={ChampionGameLog} />
-            <Route path="/league/champion/:championID" component={RoleGameLog} />
+            <Route path="/league/role/:role" component={RoleGameLog} />
+            <Route path="/league/champion/:championID" component={ChampionGameLog} />
         </Route>
     </Router>
 ), document.getElementById('app'))
