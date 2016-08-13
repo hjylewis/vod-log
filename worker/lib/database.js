@@ -159,6 +159,30 @@ var addMatch = function (match) {
         });
     }));
 
+    var championRef = ref.child("champions/" + match.match_data.player_data.championId + "/matches/" + match.id);
+    promises.push(new Promise(function (resolve, reject) {
+        championRef.set({ creation: match.creation }, function (error) {
+            if (error) {
+                console.error("Add Match (to channel) failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
+    var roleRef = ref.child("roles/" + match.match_data.player_data.role + "/matches/" + match.id);
+    promises.push(new Promise(function (resolve, reject) {
+        roleRef.set({ creation: match.creation }, function (error) {
+            if (error) {
+                console.error("Add Match (to channel) failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
     return Promise.all(promises);
 };
 
