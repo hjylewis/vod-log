@@ -79,8 +79,11 @@ var GameSummary = React.createClass({
         var role = player_data.role;
         role = role.charAt(0).toUpperCase() + role.substr(1).toLowerCase();
 
-        var outcome = match_data.win ? 'win' : 'loss';
-        var classes = `game-summary ${outcome}`;
+        var classes = classNames({
+            'game-summary': true,
+            'win': match_data.win,
+            'loss': !match_data.win
+        });
         return (
             <div onClick={this.onClick} className={classes}>
                 <div className="summary-image">
@@ -127,17 +130,25 @@ var GameLogBody = React.createClass({
 
 var GameLogLoad = React.createClass({
     render: function() {
+        var classes = classNames({
+            'no-more': this.props.noMore
+        })
         return (
-            <button onClick={this.props.onClick}>Load more</button>
+            <button className={classes} onClick={this.props.onClick}>{this.props.loading ? 'Loading...' : 'Load more'}</button>
         );
     }
 });
 
 var GameLog = React.createClass({
     getInitialState: function () {
-        return {matches: []}
+        return {
+            matches: [],
+            loading: true,
+            noMore: false
+        }
     },
     componentDidMount: function() {
+        this.setState({loading: true});
         db.getChannelMatches("meteos").then(function (matches) {
             this.addMatches(matches);
         }.bind(this)).catch(function (error) {
@@ -146,12 +157,23 @@ var GameLog = React.createClass({
     },
     addMatches: function (newMatches) {
         var matches = this.state.matches;
+        if (newMatches.length === 0) {
+            return this.setState({
+                loading: false,
+                noMore: true
+            });
+        }
+
         matches = matches.concat(newMatches)
-        this.setState({matches: matches});
+        this.setState({
+            matches: matches,
+            loading: false
+        });
 
         this.lastMatchTime = matches[matches.length - 1].creation;
     },
     loadMore: function () {
+        this.setState({loading: true});
         db.getChannelMatches("meteos", this.lastMatchTime).then(function (newMatches) {
             this.addMatches(newMatches);
         }.bind(this)).catch(function (error) {
@@ -163,7 +185,7 @@ var GameLog = React.createClass({
             <div className="game-log">
                 <GameLogHead />
                 <GameLogBody data={this.state.matches} />
-                <GameLogLoad onClick={this.loadMore}/>
+                <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={this.loadMore}/>
             </div>
         );
     }
