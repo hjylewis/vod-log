@@ -1,14 +1,7 @@
+@import 'variables';
 @import 'reset';
-
-$font-stack:    Helvetica, Arial, sans-serif;
-$primary-color: #333;
-$background-color: #eaeaea;
-$grey: #555;
-$white: #f2f2f2;
-$green: #2ecc71;
-$red: #e74c3c;
-
-$icon-size: 35;
+@import 'mixins';
+@import 'summoner-spells';
 
 body {
   font-family: $font-stack;
@@ -53,11 +46,7 @@ body {
     border-bottom: 0;
 }
 
-@mixin zoom($degree) {
-    zoom: $degree;
-    -moz-transform:scale($degree);
-    -moz-transform-origin: 0 0;
-}
+
 
 .game-summary {
     height: 100px;
@@ -79,6 +68,16 @@ body {
     .summary-detail {
         float: left;
         font-size: 13px;
+        text-align: center;
+
+        &.actions {
+            a {
+                @include resetLink();
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
     }
 
     &.win {
@@ -130,29 +129,3 @@ body {
         }
     }
 }
-
-
-
-
-// Summoner Spells
-// TODO make dynamic
-@mixin summoner-spell($x, $y) {
-    height:48px;
-    width:48px;
-    background: url('//ddragon.leagueoflegends.com/cdn/6.16.2/img/sprite/spell0.png') (-1 * $x) + px (-1 * $y) + px no-repeat;
-}
-
-.flash { @include summoner-spell(240, 0); }
-.clease { @include summoner-spell(48, 0); }
-.clairvoyance { @include summoner-spell(96, 0); }
-.ignite { @include summoner-spell(144, 0); }
-.barrier { @include summoner-spell(0, 0); }
-.exhaust { @include summoner-spell(192, 0); }
-.ghost { @include summoner-spell(288, 0); }
-.heal { @include summoner-spell(336, 0); }
-.clarity { @include summoner-spell(384, 0); }
-.smite { @include summoner-spell(48, 48); }
-.teleport { @include summoner-spell(144, 48); }
-.mark { @include summoner-spell(96, 48); }
-.poro-toss { @include summoner-spell(0, 48); }
-.to-the-king { @include summoner-spell(432, 48); }

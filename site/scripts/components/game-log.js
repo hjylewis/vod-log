@@ -67,13 +67,6 @@ var IconStrip = React.createClass({
 });
 
 var GameSummary = React.createClass({
-    onClick: function () {
-        var url = this.props.data.video_url;
-
-        // Open in new tab
-        var win = window.open(url, '_blank');
-        win.focus();
-    },
     render: function() {
         var channel = this.props.data.channelID;
         var channelLink = "/league/channel/" + channel;
@@ -100,14 +93,16 @@ var GameSummary = React.createClass({
                 <div className="summary-image">
                     <ChampionImage image={player_data.champion.image} id={player_data.championId} />
                 </div>
+                <div className="summary-detail actions">
+                    <p><Link to={channelLink}>{channel}</Link></p>
+                    <p><Link to={roleLink}>{role}</Link></p>
+                    <p><a target="_blank" href={this.props.data.video_url}>Watch</a></p>
+                </div>
                 <div className="summary-detail">
-                    <p>Channel: <Link to={channelLink}>{channel}</Link></p>
-                    <p>Role: <Link to={roleLink}>{role}</Link></p>
-                    <p onClick={this.onClick}>Watch</p>
-                    <p>KDA: {kda}</p>
-                    <p>Duration: {durationStr}</p>
-                    <p>Creation: {creation}</p>
-                    <p>Patch: {patch}</p>
+                    <p>{kda}</p>
+                    <p>{durationStr}</p>
+                    <p>{creation}</p>
+                    <p>{patch}</p>
                 </div>
                 <IconStrip player={player_data}/>
             </div>

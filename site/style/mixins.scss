@@ -1,0 +1,27 @@
+@mixin zoom($degree) {
+    zoom: $degree;
+    -moz-transform:scale($degree);
+    -moz-transform-origin: 0 0;
+}
+
+@mixin resetLink() {
+    &:link {
+        color: $grey;
+        text-decoration: none;
+    }
+
+    &:visited {
+        color: $grey;
+        text-decoration: none;
+    }
+
+    &:hover {
+        color: $grey;
+        text-decoration: none;
+    }
+
+    &:active {
+        color: $grey;
+        text-decoration: none;
+    }
+}
