@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
 import db from '../database.js';
+import {camelCase} from '../util.js';
 
 var ChampionImage = React.createClass({
     render: function () {
@@ -68,7 +69,7 @@ var IconStrip = React.createClass({
 
 var GameSummary = React.createClass({
     render: function() {
-        var channel = this.props.data.channelID;
+        var channel = camelCase(this.props.data.channelID);
         var channelLink = "/league/channel/" + channel;
 
         var match_data = this.props.data.match_data;
@@ -79,8 +80,7 @@ var GameSummary = React.createClass({
         var durationStr = duration.minutes() + "m " + duration.seconds() + "s";
         var creation = moment(match_data.creation).fromNow();
         var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
-        var role = player_data.role;
-        role = role.charAt(0).toUpperCase() + role.substr(1).toLowerCase();
+        var role = camelCase(player_data.role);
         var roleLink = '/league/role/' + role.toLowerCase();
 
         var classes = classNames({

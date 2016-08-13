@@ -7,3 +7,11 @@ Promise.forEach = function (array, promise) {
 
     return Promise.all(promises);
 };
+
+function camelCase (str) {
+    return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
+}
+
+export {
+    camelCase
+};
