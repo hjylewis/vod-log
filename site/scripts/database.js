@@ -114,6 +114,19 @@ function db () {
 
         return db.getMatches(params);
     };
+
+    db.getMatchesPage = function (params) {
+        var {channel, champion, role, next} = params;
+        if (channel) {
+            return db.getChannelMatches(channel, next);
+        } else if (champion) {
+            return db.getChampionMatches(champion, next);
+        } else if (role) {
+            return db.getRoleMatches(role, next);
+        } else {
+            Promise.reject("Not valid parameters for db.getMatchesPage");
+        }
+    };
 }
 
 export default new db();

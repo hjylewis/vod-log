@@ -144,7 +144,7 @@ var GameLogLoad = React.createClass({
     }
 });
 
-export default React.createClass({
+var GameLog = React.createClass({
     getInitialState: function () {
         return {
             matches: [],
@@ -153,12 +153,7 @@ export default React.createClass({
         }
     },
     componentDidMount: function() {
-        this.setState({loading: true});
-        db.getChannelMatches(this.props.params.channelID).then(function (matches) {
-            this.addMatches(matches);
-        }.bind(this)).catch(function (error) {
-            console.error(error.stack);
-        });
+        this.loadMatches();
     },
     addMatches: function (newMatches) {
         var matches = this.state.matches;
@@ -177,9 +172,11 @@ export default React.createClass({
 
         this.lastMatchTime = matches[matches.length - 1].creation;
     },
-    loadMore: function () {
+    loadMatches: function () {
         this.setState({loading: true});
-        db.getChannelMatches(this.props.params.channelID, this.lastMatchTime).then(function (newMatches) {
+        var dbParam = this.props.logType;
+        dbParam.next = this.lastMatchTime;
+        db.getMatchesPage(dbParam).then(function (newMatches) {
             this.addMatches(newMatches);
         }.bind(this)).catch(function (error) {
             console.error(error.stack);
@@ -190,8 +187,44 @@ export default React.createClass({
             <div className="game-log">
                 <GameLogHead />
                 <GameLogBody data={this.state.matches} />
-                <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={this.loadMore}/>
+                <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={this.loadMatches}/>
             </div>
         );
     }
 });
+
+// GameLog Wrappers
+var ChannelGameLog = React.createClass({
+    render: function () {
+        var logType = {
+            channel: this.props.params.channelID
+        };
+        return (
+            <GameLog logType={logType} />
+        )
+    }
+});
+
+var ChampionGameLog = React.createClass({
+    render: function () {
+        var logType = {
+            champion: this.props.params.championID
+        };
+        return (
+            <GameLog logType={logType} />
+        )
+    }
+});
+
+var RoleGameLog = React.createClass({
+    render: function () {
+        var logType = {
+            role: this.props.params.role
+        };
+        return (
+            <GameLog logType={logType} />
+        )
+    }
+});
+
+export {ChannelGameLog, ChampionGameLog, RoleGameLog}
