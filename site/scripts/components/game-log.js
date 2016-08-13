@@ -202,6 +202,15 @@ var GameLog = React.createClass({
 });
 
 // GameLog Wrappers
+var IndexGameLog = React.createClass({
+    render: function () {
+        var logType = {};
+        return (
+            <GameLog logType={logType} />
+        )
+    }
+});
+
 var ChannelGameLog = React.createClass({
     render: function () {
         var logType = {
@@ -235,4 +244,4 @@ var RoleGameLog = React.createClass({
     }
 });
 
-export {ChannelGameLog, ChampionGameLog, RoleGameLog}
+export {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog}

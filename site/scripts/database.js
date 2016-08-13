@@ -73,6 +73,19 @@ function db () {
 
 
     // Abstractions
+    db.getNewMatches = function (next) {
+        var params = {
+            orderBy: "creation",
+            limit: 10
+        };
+
+        if (next) {
+            params.endAt = next - 1;
+        }
+
+        return db.getMatches(params);
+    };
+
     db.getChannelMatches = function (channel, next) {
         var params = {
             channel: channel,
@@ -125,7 +138,7 @@ function db () {
         } else if (role) {
             return db.getRoleMatches(role, next);
         } else {
-            Promise.reject("Not valid parameters for db.getMatchesPage");
+            return db.getNewMatches(next);
         }
     };
 }
