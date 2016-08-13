@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -27548,7 +27548,9 @@
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
-	__webpack_require__(350);
+	var _database = __webpack_require__(350);
+	
+	var _database2 = _interopRequireDefault(_database);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -27752,7 +27754,7 @@
 	    },
 	    componentDidMount: function componentDidMount() {
 	        this.setState({ loading: true });
-	        db.getChannelMatches("meteos").then(function (matches) {
+	        _database2.default.getChannelMatches("meteos").then(function (matches) {
 	            this.addMatches(matches);
 	        }.bind(this)).catch(function (error) {
 	            console.error(error.stack);
@@ -27777,7 +27779,7 @@
 	    },
 	    loadMore: function loadMore() {
 	        this.setState({ loading: true });
-	        db.getChannelMatches("meteos", this.lastMatchTime).then(function (newMatches) {
+	        _database2.default.getChannelMatches("meteos", this.lastMatchTime).then(function (newMatches) {
 	            this.addMatches(newMatches);
 	        }.bind(this)).catch(function (error) {
 	            console.error(error.stack);
@@ -41906,8 +41908,18 @@
 	    value: true
 	});
 	
-	exports.default = function () {
-	    var db = window.db = this;
+	var _app = __webpack_require__(351);
+	
+	var _app2 = _interopRequireDefault(_app);
+	
+	__webpack_require__(353);
+	
+	__webpack_require__(355);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function db() {
+	    var db = this;
 	
 	    // TODO dev env
 	    var store = "dev/store";
@@ -42023,17 +42035,9 @@
 	
 	        return db.getMatches(params);
 	    };
-	};
+	}
 	
-	var _app = __webpack_require__(351);
-	
-	var _app2 = _interopRequireDefault(_app);
-	
-	__webpack_require__(353);
-	
-	__webpack_require__(355);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	exports.default = new db();
 
 /***/ },
 /* 351 */
