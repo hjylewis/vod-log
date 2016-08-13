@@ -1,3 +1,8 @@
+import React from 'react';
+import moment from 'moment';
+import classNames from 'classnames';
+import db from '../database.js';
+
 var ChampionImage = React.createClass({
     render: function () {
         return (
@@ -139,7 +144,7 @@ var GameLogLoad = React.createClass({
     }
 });
 
-var GameLog = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {
             matches: [],

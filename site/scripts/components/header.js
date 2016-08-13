@@ -1,3 +1,5 @@
+import React from 'react';
+
 var Logo = React.createClass({
     render: function() {
         return (
@@ -14,7 +16,7 @@ var Search = React.createClass({
     }
 });
 
-var Header = React.createClass({
+export default React.createClass({
     render: function() {
         return (
             <div className="header">

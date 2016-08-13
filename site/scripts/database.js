@@ -1,5 +1,10 @@
-(function() {
-    var db = window.db = this;
+import firebase from 'firebase/app';
+import 'firebase/database';
+
+import './util.js';
+
+function db () {
+    var db = this;
 
     // TODO dev env
     var store = "dev/store";
@@ -109,4 +114,6 @@
 
         return db.getMatches(params);
     };
-})();
+}
+
+export default new db();

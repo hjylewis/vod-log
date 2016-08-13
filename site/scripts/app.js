@@ -1,4 +1,7 @@
-
+import React from 'react';
+import { render } from 'react-dom';
+import Header from './components/header.js';
+import GameLog from './components/game-log.js';
 
 
 var App = React.createClass({
@@ -14,7 +17,7 @@ var App = React.createClass({
     }
 });
 
-ReactDOM.render(
+render(
     <App />,
     document.getElementById('app')
 );
