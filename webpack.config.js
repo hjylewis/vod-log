@@ -1,9 +1,12 @@
 module.exports = {
-    entry: './site/index.js',
+    entry: {
+        style: './site/style-index.js',
+        bundle: './site/index.js'
+    },
 
     output: {
         path: __dirname + '/site',
-        filename: 'bundle.js',
+        filename: '[name].js',
         publicPath: '/'
     },
 
