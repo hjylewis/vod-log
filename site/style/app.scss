@@ -54,6 +54,7 @@ body {
 
 .game-summary {
     height: 100px;
+    position: relative;
 
     .summary-image {
         box-sizing: border-box;
@@ -93,10 +94,11 @@ body {
 
     .watch-button {
         display: inline-block;
-        margin: (100 - 14) / 2 + px 0;
+        margin: (100 - (14 + 20) - (2 * 15)) / 2 + px 0;
         margin-left: 18px;
-        
+
         a {
+            display: inline-block;
             @include resetLink($twitch);
             border: $twitch solid 1px;
             border-radius: 100px;
@@ -111,7 +113,22 @@ body {
                 color: $white;
             }
         }
+
+        .small-text {
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .creation {
+            margin-bottom: 5px;
+        }
+
+        .duration {
+            margin-top: 5px;
+        }
     }
+
+
 
     &.win {
         border-left: $green solid 2px;

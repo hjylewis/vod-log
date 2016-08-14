@@ -94,9 +94,7 @@ var GameSummary = React.createClass({
             'win': match_data.win,
             'loss': !match_data.win
         });
-        // <p>{durationStr}</p>
-        // <p>{creation}</p>
-        // <p>{patch}</p>
+
         return (
             <div className={classes}>
                 <div className="summary-image">
@@ -111,7 +109,9 @@ var GameSummary = React.createClass({
                 </div>
                 <IconStrip player={player_data}/>
                 <div className="watch-button">
+                    <p className="small-text creation">{creation}</p>
                     <a target="_blank" href={this.props.data.video_url}>Watch</a>
+                    <p className="small-text duration">{durationStr}</p>
                 </div>
             </div>
         );
