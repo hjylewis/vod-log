@@ -91,12 +91,26 @@ body {
         }
     }
 
-    .watch-button a {
-        @include resetLink();
-        border: $grey solid 1px;
-        border-radius: 20px;
-        padding: 5px 10px;
-        font-size: 14px;
+    .watch-button {
+        display: inline-block;
+        margin: (100 - 14) / 2 + px 0;
+        margin-left: 18px;
+        
+        a {
+            @include resetLink($twitch);
+            border: $twitch solid 1px;
+            border-radius: 100px;
+            padding: 10px 20px;
+            font-size: 14px;
+            transition: none 200ms ease-out;
+            transition-property: color, background;
+
+
+            &:hover {
+                background-color: $twitch;
+                color: $white;
+            }
+        }
     }
 
     &.win {
@@ -113,6 +127,8 @@ body {
 }
 
 .icon-strip {
+    width: ($icon-size) * 6 + 10 + px;
+
     .summoner-spells {
         display: inline-block;
         width: $icon-size;

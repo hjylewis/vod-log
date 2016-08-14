@@ -4,24 +4,24 @@
     -moz-transform-origin: 0 0;
 }
 
-@mixin resetLink() {
+@mixin resetLink($color: $grey) {
     &:link {
-        color: $grey;
+        color: $color;
         text-decoration: none;
     }
 
     &:visited {
-        color: $grey;
+        color: $color;
         text-decoration: none;
     }
 
     &:hover {
-        color: $grey;
+        color: $color;
         text-decoration: none;
     }
 
     &:active {
-        color: $grey;
+        color: $color;
         text-decoration: none;
     }
 }
