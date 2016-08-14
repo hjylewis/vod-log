@@ -145,6 +145,7 @@ body {
 
 .icon-strip {
     width: ($icon-size) * 6 + 10 + px;
+    height: $icon-size * 2 + px;
 
     .summoner-spells {
         display: inline-block;
@@ -171,11 +172,13 @@ body {
 
     .items {
         margin-left: 10px;
+        height: 100%;
         width: ($icon-size * 4) + px;
         display: inline-block;
 
         .main-items {
-            display: inline-block;
+            float: left;
+            height: 100%;
             width: ($icon-size * 3) + px;
         }
 
