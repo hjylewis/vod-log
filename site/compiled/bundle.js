@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/";
+/******/ 	__webpack_require__.p = "../";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -27360,19 +27360,6 @@
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    _react2.default.createElement(
-	                        'a',
-	                        { target: '_blank', href: this.props.data.video_url },
-	                        'Watch'
-	                    )
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'summary-detail' },
-	                _react2.default.createElement(
-	                    'p',
-	                    null,
 	                    kda
 	                ),
 	                _react2.default.createElement(
@@ -27391,7 +27378,20 @@
 	                    patch
 	                )
 	            ),
-	            _react2.default.createElement(IconStrip, { player: player_data })
+	            _react2.default.createElement(IconStrip, { player: player_data }),
+	            _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    _react2.default.createElement(
+	                        'a',
+	                        { target: '_blank', href: this.props.data.video_url },
+	                        'Watch'
+	                    )
+	                )
+	            )
 	        );
 	    }
 	});

@@ -7,7 +7,7 @@ module.exports = {
     output: {
         path: __dirname + '/site/compiled',
         filename: '[name].js',
-        publicPath: '/'
+        publicPath: '/compiled'
     },
 
     debug: true,

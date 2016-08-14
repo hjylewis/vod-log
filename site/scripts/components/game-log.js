@@ -94,17 +94,17 @@ var GameSummary = React.createClass({
                     <ChampionImage image={player_data.champion.image} id={player_data.championId} />
                 </div>
                 <div className="summary-detail actions">
-                    <p><Link to={channelLink}>{channel}</Link></p>
+                    <p>new<Link to={channelLink}>{channel}</Link></p>
                     <p><Link to={roleLink}>{role}</Link></p>
-                    <p><a target="_blank" href={this.props.data.video_url}>Watch</a></p>
-                </div>
-                <div className="summary-detail">
                     <p>{kda}</p>
                     <p>{durationStr}</p>
                     <p>{creation}</p>
                     <p>{patch}</p>
                 </div>
                 <IconStrip player={player_data}/>
+                <div>
+                    <p><a target="_blank" href={this.props.data.video_url}>Watch</a></p>
+                </div>
             </div>
         );
     }
