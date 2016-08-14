@@ -70,7 +70,7 @@ var IconStrip = React.createClass({
 var GameSummary = React.createClass({
     render: function() {
         var channel = camelCase(this.props.data.channelID);
-        var channelLink = "/league/channel/" + channel;
+        var channelLink = "/league/channel/" + this.props.data.channelID;
 
         var match_data = this.props.data.match_data;
         var player_data = match_data.player_data;
