@@ -187,8 +187,9 @@ var addMatch = function (match) {
 };
 
 var clearMatches = function () {
+    var promises = [];
     var matchesRef = ref.child("matches/");
-    return new Promise(function (resolve, reject) {
+    promises.push(new Promise(function (resolve, reject) {
         matchesRef.set({}, function(error) {
             if (error) {
                 console.log("Clear matches failed: " + error.code);
@@ -197,7 +198,62 @@ var clearMatches = function () {
                 resolve();
             }
         });
-    });
+    }));
+
+    matchesRef = ref.child("champions/");
+    promises.push(new Promise(function (resolve, reject) {
+        matchesRef.set({}, function(error) {
+            if (error) {
+                console.log("Clear matches failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
+    matchesRef = ref.child("roles/");
+    promises.push(new Promise(function (resolve, reject) {
+        matchesRef.set({}, function(error) {
+            if (error) {
+                console.log("Clear matches failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
+    var channelsRef = ref.child("channels/");
+    promises.push(new Promise(function (resolve, reject) {
+        channelsRef.once("value", function(snapshot) {
+            var promises = [];
+            snapshot.forEach(function(child) {
+                console.log(child.key);
+                promises.push(new Promise(function (resolve, reject) {
+                    channelsRef.child(child.key + "/matches").set({}, function(error) {
+                        if (error) {
+                            console.log("Clear matches failed: " + error.code);
+                            reject(error);
+                        } else {
+                            resolve();
+                        }
+                    });
+                }));
+            });
+
+            Promise.all(promises).then(function () {
+                resolve();
+            }).catch(function (error) {
+                reject(error);
+            });
+        }, function (error) {
+            console.log("Get channels failed: " + error.code);
+            reject(error);
+        });
+    }));
+
+    return Promise.all(promises);
 };
 
 var close = function () {
