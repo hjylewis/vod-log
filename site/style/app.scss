@@ -9,6 +9,12 @@ body {
   background-color: $background-color;
 }
 
+.bar {
+    width: 30px;
+    height: 1px;
+    background-color: $grey;
+}
+
 .header {
     height: 50px;
     width: 100%;
@@ -21,7 +27,7 @@ body {
 
 .main {
     margin: 20px auto;
-    width: 500px;
+    width: 550px;
 
 }
 
@@ -46,13 +52,12 @@ body {
     border-bottom: 0;
 }
 
-
-
 .game-summary {
     height: 100px;
 
-    cursor: pointer;
     .summary-image {
+        box-sizing: border-box;
+        width: 100px;
         padding: 5px;
         float: left;
     }
@@ -68,16 +73,30 @@ body {
     .summary-detail {
         float: left;
         font-size: 13px;
+        margin: 10px 0;
+        height: 80px;
+        width: 100px;
         text-align: center;
+        line-height: 2;
 
-        &.actions {
-            a {
-                @include resetLink();
-                &:hover {
-                    text-decoration: underline;
-                }
+        .bar {
+            display: inline-block;
+        }
+
+        a {
+            @include resetLink();
+            &:hover {
+                color: $primary-color;
             }
         }
+    }
+
+    .watch-button a {
+        @include resetLink();
+        border: $grey solid 1px;
+        border-radius: 20px;
+        padding: 5px 10px;
+        font-size: 14px;
     }
 
     &.win {
@@ -96,15 +115,25 @@ body {
 .icon-strip {
     .summoner-spells {
         display: inline-block;
-        div {
-            @include zoom($icon-size / 48);
+        width: $icon-size;
+        .spell {
+            border-radius: 5px;
+            $icon-size-padding: $icon-size - 2;
+            @include zoom($icon-size-padding / 48);
         }
+    }
+
+    .icon {
+        display: inline-block;
+        height: $icon-size + px;
+        border-radius: 5px;
+        padding: 1px;
+        box-sizing: border-box;
     }
 
     .keystone-image {
         display: inline-block;
         margin: ($icon-size / 2) + px 0;
-        height: $icon-size + px;
     }
 
     .items {
@@ -119,13 +148,6 @@ body {
 
         .last-item img {
             margin: ($icon-size / 2) + px 0;
-        }
-
-
-        img {
-            display: inline-block;
-            height: $icon-size + px;
-
         }
     }
 }

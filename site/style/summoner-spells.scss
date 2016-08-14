@@ -4,7 +4,7 @@
 @mixin summoner-spell($x, $y) {
     height:48px;
     width:48px;
-    background: url('//ddragon.leagueoflegends.com/cdn/6.16.2/img/sprite/spell0.png') (-1 * $x) + px (-1 * $y) + px no-repeat;
+    background: url('http://ddragon.leagueoflegends.com/cdn/6.16.2/img/sprite/spell0.png') (-1 * $x) + px (-1 * $y) + px no-repeat;
 }
 
 .flash { @include summoner-spell(240, 0); }

@@ -16,10 +16,16 @@ var ChampionImage = React.createClass({
 
 var SummonerSpells = React.createClass({
     render: function () {
+        var spell1Classes = classNames(this.props.spell1, "spell");
+        var spell2Classes = classNames(this.props.spell2, "spell");
         return (
             <div className="summoner-spells">
-                <div className={this.props.spell1}/>
-                <div className={this.props.spell2}/>
+                <div className="icon">
+                    <div className={spell1Classes}/>
+                </div>
+                <div  className="icon">
+                    <div className={spell2Classes}/>
+                </div>
             </div>
         )
     }
@@ -28,7 +34,7 @@ var SummonerSpells = React.createClass({
 var KeystoneImage = React.createClass({
     render: function () {
         return (
-            <img className="keystone-image" src={this.props.image}></img>
+            <img className="keystone-image icon" src={this.props.image}></img>
         )
     }
 });
@@ -38,11 +44,11 @@ var Items = React.createClass({
         var items = this.props.items.map(function (item, i) {
             if (!item) {
                 return (
-                    <img key={i}></img>
+                    <img className="icon" key={i}></img>
                 )
             }
             return (
-                <img src={item} key={i}></img>
+                <img className="icon" src={item} key={i}></img>
             )
         })
         var lastItem = items.pop();
@@ -88,22 +94,24 @@ var GameSummary = React.createClass({
             'win': match_data.win,
             'loss': !match_data.win
         });
+        // <p>{durationStr}</p>
+        // <p>{creation}</p>
+        // <p>{patch}</p>
         return (
             <div className={classes}>
                 <div className="summary-image">
                     <ChampionImage image={player_data.champion.image} id={player_data.championId} />
                 </div>
-                <div className="summary-detail actions">
-                    <p>new<Link to={channelLink}>{channel}</Link></p>
+                <div className="summary-detail">
+                    <p><Link to={channelLink}>{channel}</Link></p>
+                    <div className="bar"></div>
                     <p><Link to={roleLink}>{role}</Link></p>
+                    <div className="bar"></div>
                     <p>{kda}</p>
-                    <p>{durationStr}</p>
-                    <p>{creation}</p>
-                    <p>{patch}</p>
                 </div>
                 <IconStrip player={player_data}/>
-                <div>
-                    <p><a target="_blank" href={this.props.data.video_url}>Watch</a></p>
+                <div className="watch-button">
+                    <a target="_blank" href={this.props.data.video_url}>Watch</a>
                 </div>
             </div>
         );
