@@ -25,6 +25,16 @@ function db () {
         });
     }
 
+    function _addChildListener (query) {
+        return query.once('value').then(function(snapshot) {
+            var result = [];
+            snapshot.forEach(function(child) {
+                result.push(child.key);
+            });
+            return result;
+        });
+    }
+
     function _getData (ref, params) {
         var {limit, orderBy, endAt} = params;
         var query = firebase.database().ref(ref);
@@ -39,7 +49,7 @@ function db () {
             query = query.endAt(endAt);
         }
 
-        return _addListener(query);
+        return _addChildListener(query);
     }
 
     function _joinMatches (matchIds) {
@@ -66,8 +76,10 @@ function db () {
             if (!matches) {
                 return Promise.resolve([]);
             }
-            var matchIds = Object.keys(matches).reverse();
-            return _joinMatches(matchIds);
+            var matchIds = matches.reverse();
+            return _joinMatches(matchIds).then(function (matches) {
+                return matches;
+            });
         });
     };
 
