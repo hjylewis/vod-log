@@ -87,6 +87,10 @@ function compareMatchWithVideo (match, video) {
     }
 }
 
+function calcRole (role, lane) {
+    return role.includes('DUO') ? role.replace('DUO_', '') : lane;
+}
+
 function compareMatchesWithVideos(accountWithMatches) {
     var channelID = accountWithMatches.channelID,
         account = accountWithMatches.account,
@@ -193,7 +197,7 @@ function createMatchData (accountID, match, matchDetails) {
         throw "MissingParticipantException";
     }
 
-    participant.role = match.role.includes('DUO') ? match.role.replace('DUO_', '') : match.lane;
+    participant.role = calcRole(match.role, match.lane);
 
     matchDetails.teams.forEach(function(team) {
         if (team.teamId === participant.teamId) {
@@ -239,7 +243,7 @@ function saveMatch(params) {
     var video_url = twitch.constructURL(video.url, timestamp);
 
     var matchStore = {
-        id: match.matchId,
+        id: match.matchId + '-' + account.id,
         type: account.type,
         accountID: account.id,
         channelID: channelID,
