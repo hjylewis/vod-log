@@ -67,7 +67,9 @@ global.addChannel = function (args) {
         return dbConn.addChannel({
             id: channel._id,
             name: name,
-            type: "twitch" // HARDCODE
+            type: "twitch", // HARDCODE
+            logo: channel.logo,
+            url: channel.url
         });
     });
 };
