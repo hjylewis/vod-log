@@ -88,7 +88,20 @@ function compareMatchWithVideo (match, video) {
 }
 
 function calcRole (role, lane) {
-    return role.includes('DUO') ? role.replace('DUO_', '') : lane;
+    if (lane === "TOP" ||
+        lane === "JUNGLE" ||
+        lane === "MID") {
+        return lane;
+    }
+    // BOTTOM
+    role = role.replace('DUO_', '');
+    if (role === "SUPPORT") {
+        return role;
+    } else if (role === "CARRY") {
+        return "AD CARRY";
+    }
+
+    return "AD CARRY";
 }
 
 function compareMatchesWithVideos(accountWithMatches) {
