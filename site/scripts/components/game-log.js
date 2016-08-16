@@ -120,8 +120,12 @@ var GameSummary = React.createClass({
 
 var GameLogHead = React.createClass({
     render: function() {
+        var classes = classNames({
+            "game-log-head": true,
+            "empty": this.props.empty
+        });
         return (
-            <div className="game-log-head">
+            <div className={classes}>
                 Log head
             </div>
         );
@@ -203,7 +207,7 @@ var GameLog = React.createClass({
         return (
             <div className="game-log">
                 <div className="game-log-main">
-                    <GameLogHead />
+                    <GameLogHead empty={!this.state.matches.length}/>
                     <GameLogBody data={this.state.matches} />
                 </div>
                 <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={this.loadMatches}/>
