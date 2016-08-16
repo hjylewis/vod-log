@@ -31,7 +31,7 @@ body {
 
 }
 
-.game-log {
+.game-log-main {
     box-shadow: 0 0 2px $grey;
     background-color: $white;
 
@@ -43,8 +43,47 @@ body {
             border-bottom: $grey solid 1px;
         }
     }
-
 }
+
+.game-log-button-container {
+    text-align: center;
+
+    span {
+        margin: 20px auto;
+        color: $primary-color;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .button{
+        cursor: pointer;
+        display: inline-block;
+        border: $primary-color solid 1px;
+        border-radius: 100px;
+        transition: none 200ms ease-out;
+        transition-property: color, background;
+
+        &:hover {
+            background: $primary-color;
+            color: $white;
+        }
+    }
+
+    .message {
+        display: none;
+    }
+
+    &.no-more {
+        .button {
+            display: none;
+        }
+
+        .message {
+            display: inline-block;
+        }
+    }
+}
+
 
 .game-log-head {
     height: 200px;

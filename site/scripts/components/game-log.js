@@ -147,10 +147,15 @@ var GameLogBody = React.createClass({
 var GameLogLoad = React.createClass({
     render: function() {
         var classes = classNames({
-            'no-more': this.props.noMore
-        })
+            'no-more': this.props.noMore,
+            'game-log-button-container': true,
+            'loading': this.props.loading
+        });
         return (
-            <button className={classes} onClick={this.props.onClick}>{this.props.loading ? 'Loading...' : 'Load more'}</button>
+            <div className={classes}>
+                <span className="button" onClick={this.props.onClick}>{this.props.loading ? 'Loading...' : 'Load more'}</span>
+                <span className="message">No more matches</span>
+            </div>
         );
     }
 });
@@ -159,7 +164,7 @@ var GameLog = React.createClass({
     getInitialState: function () {
         return {
             matches: [],
-            loading: true,
+            loading: false,
             noMore: false
         }
     },
@@ -184,6 +189,7 @@ var GameLog = React.createClass({
         this.lastMatchTime = matches[matches.length - 1].creation;
     },
     loadMatches: function () {
+        if (this.state.loading) return;
         this.setState({loading: true});
         var dbParam = this.props.logType;
         dbParam.next = this.lastMatchTime;
@@ -196,8 +202,10 @@ var GameLog = React.createClass({
     render: function() {
         return (
             <div className="game-log">
-                <GameLogHead />
-                <GameLogBody data={this.state.matches} />
+                <div className="game-log-main">
+                    <GameLogHead />
+                    <GameLogBody data={this.state.matches} />
+                </div>
                 <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={this.loadMatches}/>
             </div>
         );
