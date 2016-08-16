@@ -101,6 +101,7 @@ function calcRole (role, lane) {
         return "AD CARRY";
     }
 
+    // TODO starting items?
     return "AD CARRY";
 }
 
@@ -260,12 +261,17 @@ function saveMatch(params) {
         type: account.type,
         accountID: account.id,
         channelID: channelID,
-        video_url: video_url,
+        twitch: {
+            id: video._id,
+            timestamp_s: Math.round(timestamp / 1000), //seconds
+            video_url: video_url
+        },
         creation: match.timestamp
     };
     return riotGames.getMatch(account.region, match.matchId).then((matchDetails) => {
         params.matchStore = matchStore;
         params.matchDetails = matchDetails;
+        matchStore.twitch.end_timestamp_s = Math.round(matchDetails.matchDuration + (parseInt(timestamp) / 1000)); //seconds
         return params;
     }).then(function (params) {
         return createMatchData(params.account.id, params.match, params.matchDetails).then(function (match_data) {
