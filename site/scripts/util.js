@@ -9,7 +9,11 @@ Promise.forEach = function (array, promise) {
 };
 
 function camelCase (str) {
-    return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
+    var words = str.split(' ');
+    words = words.map(function (word) {
+        return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+    });
+    return words.join(' ');
 }
 
 export {
