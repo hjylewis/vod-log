@@ -23,7 +23,7 @@ function matches () {
             ref = connection.store + '/roles/' + role + '/matches';
         }
 
-        return connection.getData(ref, params).then(function (matches) {
+        return connection.getDataSet(ref, params).then(function (matches) {
             if (!matches) {
                 return Promise.resolve([]);
             }

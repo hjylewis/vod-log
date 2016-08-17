@@ -35,7 +35,7 @@ function connection () {
         });
     };
 
-    connection.getData = function (ref, params) {
+    connection.getDataSet = function (ref, params) {
         var {limit, orderBy, endAt} = params;
         var query = firebase.database().ref(ref);
 
@@ -50,6 +50,11 @@ function connection () {
         }
 
         return connection.addChildListener(query);
+    };
+
+    connection.getData = function (ref) {
+        var query = firebase.database().ref(ref);
+        return connection.addListener(query);
     };
 }
 

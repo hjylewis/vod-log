@@ -124,9 +124,16 @@ var GameLogHead = React.createClass({
             "game-log-head": true,
             "empty": this.props.empty
         });
+        var accounts = (this.props.headData.accounts || []).map(function (account, index) {
+            return (
+                <span key={index}>{account}</span>
+            )
+        })
         return (
             <div className={classes}>
-                Log head
+                <img className="logo" src={this.props.headData.logo} />
+                <a href={this.props.headData.url} target="_blank">{this.props.headData.name}</a>
+                {accounts}
             </div>
         );
     }
@@ -168,7 +175,7 @@ var GameLog = React.createClass({
     getInitialState: function () {
         return {
             matches: [],
-            headDate: {},
+            headData: {},
             loading: false,
             noMore: false
         }
@@ -208,40 +215,21 @@ var GameLog = React.createClass({
     loadHead: function () {
         var logType = this.props.logType;
         if (logType.channel) {
-            return (
-                <GameLogHead empty={!this.state.matches.length}/>
-            )
+            db.getChannelHead(logType.channel).then(function (channel) {
+                console.log(channel);
+                this.setState({headData: channel});
+            }.bind(this));
         } else if (logType.champion) {
-            return (
-                <GameLogHead empty={!this.state.matches.length}/>
-            )
+
         } else if (logType.role) {
-            return (
-                <GameLogHead empty={!this.state.matches.length}/>
-            )
+
         }
     },
     render: function() {
-        var head = function () {
-            var logType = this.props.logType;
-            if (logType.channel) {
-                return (
-                    <GameLogHead empty={!this.state.matches.length}/>
-                )
-            } else if (logType.champion) {
-                return (
-                    <GameLogHead empty={!this.state.matches.length}/>
-                )
-            } else if (logType.role) {
-                return (
-                    <GameLogHead empty={!this.state.matches.length}/>
-                )
-            }
-        }.bind(this);
         return (
             <div className="game-log">
                 <div className="game-log-main">
-                    {head()}
+                    <GameLogHead headData={this.state.headData} empty={!this.state.matches.length}/>
                     <GameLogBody data={this.state.matches} />
                 </div>
                 <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={this.loadMatches}/>
