@@ -279,6 +279,11 @@ function saveMatch(params) {
             return params;
         });
     }).then(function (params) {
+        return dbConn.getChannel(channelID).then(function (channel) {
+            params.matchStore.channelLogo = channel.logo;
+            return params;
+        });
+    }).then(function (params) {
         console.log(`Saving ${params.channelID} match ${params.matchStore.id}`);
         return dbConn.addMatch(params.matchStore).then( () => params);
     }).then(function (params) {
