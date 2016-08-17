@@ -89,9 +89,18 @@ body {
 
 .game-log-head {
     height: 200px;
+    padding: 10px;
+    box-sizing: border-box;
     border: $light-grey solid 1px;
     border-bottom-width: 0;
     border-radius: 5px 5px 0 0;
+
+    .logo {
+        width: 178px;
+        height: 178px;
+        border-radius: 5px;
+        float: left;
+    }
 
     &.empty {
         border-bottom-width: 1px;
