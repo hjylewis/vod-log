@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
-import db from '../database.js';
+import db from '../database/database.js';
 import {camelCase} from '../util.js';
 
 var ChampionImage = React.createClass({
@@ -168,12 +168,14 @@ var GameLog = React.createClass({
     getInitialState: function () {
         return {
             matches: [],
+            headDate: {},
             loading: false,
             noMore: false
         }
     },
     componentDidMount: function() {
         this.loadMatches();
+        this.loadHead();
     },
     addMatches: function (newMatches) {
         var matches = this.state.matches;
@@ -203,11 +205,43 @@ var GameLog = React.createClass({
             console.error(error.stack);
         });
     },
+    loadHead: function () {
+        var logType = this.props.logType;
+        if (logType.channel) {
+            return (
+                <GameLogHead empty={!this.state.matches.length}/>
+            )
+        } else if (logType.champion) {
+            return (
+                <GameLogHead empty={!this.state.matches.length}/>
+            )
+        } else if (logType.role) {
+            return (
+                <GameLogHead empty={!this.state.matches.length}/>
+            )
+        }
+    },
     render: function() {
+        var head = function () {
+            var logType = this.props.logType;
+            if (logType.channel) {
+                return (
+                    <GameLogHead empty={!this.state.matches.length}/>
+                )
+            } else if (logType.champion) {
+                return (
+                    <GameLogHead empty={!this.state.matches.length}/>
+                )
+            } else if (logType.role) {
+                return (
+                    <GameLogHead empty={!this.state.matches.length}/>
+                )
+            }
+        }.bind(this);
         return (
             <div className="game-log">
                 <div className="game-log-main">
-                    <GameLogHead empty={!this.state.matches.length}/>
+                    {head()}
                     <GameLogBody data={this.state.matches} />
                 </div>
                 <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={this.loadMatches}/>
