@@ -9,6 +9,17 @@ body {
   background-color: $background-color;
 }
 
+h1 {
+    font-size: 32px;
+}
+
+a {
+    @include resetLink();
+    &:hover {
+        color: $primary-color;
+    }
+}
+
 .bar {
     width: 30px;
     height: 1px;
@@ -98,13 +109,26 @@ body {
     .logo {
         width: 178px;
         height: 178px;
-        border-radius: 5px;
+        border-top-left-radius: 5px;
         float: left;
+    }
+
+    .info {
+        float: left;
+        margin-left: 30px;
+
+        .accounts {
+            margin-top: 15px;
+        }
     }
 
     &.empty {
         border-bottom-width: 1px;
         border-radius: 5px;
+
+        .logo {
+            border-radius: 5px;
+        }
     }
 }
 
@@ -138,13 +162,6 @@ body {
 
         .bar {
             display: inline-block;
-        }
-
-        a {
-            @include resetLink();
-            &:hover {
-                color: $primary-color;
-            }
         }
     }
 

@@ -126,14 +126,19 @@ var GameLogHead = React.createClass({
         });
         var accounts = (this.props.headData.accounts || []).map(function (account, index) {
             return (
-                <span key={index}>{account}</span>
+                <li key={index}>{account}</li>
             )
         })
         return (
             <div className={classes}>
                 <img className="logo" src={this.props.headData.logo} />
-                <a href={this.props.headData.url} target="_blank">{this.props.headData.name}</a>
-                {accounts}
+                <div className="info">
+                    <h1><a href={this.props.headData.url} target="_blank">{this.props.headData.name}</a></h1>
+                    <div className="accounts">
+                        Known LoL Accounts:
+                        <ul>{accounts}</ul>
+                    </div>
+                </div>
             </div>
         );
     }
