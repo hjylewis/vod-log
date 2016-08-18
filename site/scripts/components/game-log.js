@@ -143,9 +143,9 @@ var GameLogHead = React.createClass({
         }
 
         var logo = this.props.headData.logo ? <img className="logo" src={this.props.headData.logo} /> : null;
-        var name = this.props.headData.url ? <a href={this.props.headData.url} target="_blank">{this.props.headData.name}</a> : <span>{this.props.headData.name}</span>;
+        var name = camelCase(this.props.headData.name);
+        var nameElement = this.props.headData.url ? <a href={this.props.headData.url} target="_blank">{name}</a> : <span className="stripped">{name}</span>;
         var accountInfo = function () {
-            console.log(accounts);
             if (accounts.length > 0 ) {
                 return (
                     <span>
@@ -166,7 +166,7 @@ var GameLogHead = React.createClass({
             <div className={classes}>
                 {logo}
                 <div className="info">
-                    <h1>{name}</h1>
+                    <h1>{nameElement}</h1>
                     {accountInfo()}
                 </div>
             </div>
@@ -253,7 +253,6 @@ var GameLog = React.createClass({
         var logType = this.props.logType;
         if (logType.channel) {
             db.getChannelHead(logType.channel).then(function (channel) {
-                console.log(channel);
                 this.setState({headData: channel});
             }.bind(this));
         } else if (logType.champion) {
