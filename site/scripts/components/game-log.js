@@ -130,7 +130,7 @@ var GameLogHead = React.createClass({
             "game-log-head": true,
             "empty": this.props.empty
         });
-        var accounts = ((this.props.headData.accounts || []).concat(this.props.headData.accounts) || []).map(function (account, index) {
+        var accounts = (this.props.headData.accounts || []).map(function (account, index) {
             return (
                 <li key={index}>{account}</li>
             )
@@ -141,18 +141,33 @@ var GameLogHead = React.createClass({
             shortAccounts.push(<a key="4" onClick={this.expandToggle}>...</a>);
             accounts.push(<a key={accounts.length} onClick={this.expandToggle}><em>(less)</em></a>);
         }
+
+        var logo = this.props.headData.logo ? <img className="logo" src={this.props.headData.logo} /> : null;
+        var name = this.props.headData.url ? <a href={this.props.headData.url} target="_blank">{this.props.headData.name}</a> : <span>{this.props.headData.name}</span>;
+        var accountInfo = function () {
+            console.log(accounts);
+            if (accounts.length > 0 ) {
+                return (
+                    <span>
+                        <div className="accounts">
+                            <h3 className="accounts-header">Accounts</h3>
+                            <ul>
+                                {shortAccounts && !this.state.expanded ? shortAccounts : accounts}
+                            </ul>
+                        </div>
+                        <a className="suggestion" href="/suggestion"><em>Missing information?</em></a>
+                    </span>
+                )
+            } else {
+                return null;
+            }
+        }.bind(this);
         return (
             <div className={classes}>
-                <img className="logo" src={this.props.headData.logo} />
+                {logo}
                 <div className="info">
-                    <h1><a href={this.props.headData.url} target="_blank">{this.props.headData.name}</a></h1>
-                    <div className="accounts">
-                        <h3 className="accounts-header">Accounts</h3>
-                        <ul>
-                            {shortAccounts && !this.state.expanded ? shortAccounts : accounts}
-                        </ul>
-                    </div>
-                    <a className="suggestion" href="/suggestion"><em>Missing information?</em></a>
+                    <h1>{name}</h1>
+                    {accountInfo()}
                 </div>
             </div>
         );
@@ -193,9 +208,11 @@ var GameLogLoad = React.createClass({
 
 var GameLog = React.createClass({
     getInitialState: function () {
+        var logType = this.props.logType;
+        var name = logType.channel || logType.champion || logType.role;
         return {
             matches: [],
-            headData: {},
+            headData: {name: name},
             loading: false,
             noMore: false
         }
