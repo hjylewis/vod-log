@@ -116,22 +116,31 @@ em {
 
 
 .game-log-head {
-    padding: 10px;
+    padding: 11px;
     box-sizing: border-box;
-    border: $light-grey solid 1px;
-    border-bottom-width: 0;
     border-radius: 5px 5px 0 0;
+    background-color: $blue;
+    color: $white;
+
+    box-shadow: 0 3px 1px rgba(0, 0, 0, 0.1);
 
     position: relative;
     display: flex;
     flex-flow: row nowrap;
     overflow: scroll;
 
+    a {
+        color: $white;
+        &:hover {
+            color: $black;
+        }
+    }
+
     .logo {
         flex: 0 0 auto;
         width: 155px;
         height: 155px;
-        border-top-left-radius: 5px;
+        border-radius: 5px;
         float: left;
     }
 
@@ -171,10 +180,6 @@ em {
     &.empty {
         border-bottom-width: 1px;
         border-radius: 5px;
-
-        .logo {
-            border-radius: 5px;
-        }
     }
 }
 
