@@ -119,24 +119,38 @@ var GameSummary = React.createClass({
 });
 
 var GameLogHead = React.createClass({
+    getInitialState: function () {
+        return {expanded: false};
+    },
+    expandToggle: function () {
+        this.setState({expanded: !this.state.expanded});
+    },
     render: function() {
         var classes = classNames({
             "game-log-head": true,
             "empty": this.props.empty
         });
-        var accounts = (this.props.headData.accounts || []).map(function (account, index) {
+        var accounts = ((this.props.headData.accounts || []).concat(this.props.headData.accounts) || []).map(function (account, index) {
             return (
                 <li key={index}>{account}</li>
             )
-        })
+        });
+        var shortAccounts;
+        if (accounts.length > 4) {
+            shortAccounts = accounts.slice(0,3);
+            shortAccounts.push(<a key="4" onClick={this.expandToggle}>...</a>);
+            accounts.push(<a key={accounts.length} onClick={this.expandToggle}><em>(less)</em></a>);
+        }
         return (
             <div className={classes}>
                 <img className="logo" src={this.props.headData.logo} />
                 <div className="info">
                     <h1><a href={this.props.headData.url} target="_blank">{this.props.headData.name}</a></h1>
                     <div className="accounts">
-                        Known LoL Accounts:
-                        <ul>{accounts}</ul>
+                        <h3 className="accounts-header">Accounts</h3>
+                        <ul>
+                            {shortAccounts && !this.state.expanded ? shortAccounts : accounts}
+                        </ul>
                     </div>
                 </div>
             </div>
