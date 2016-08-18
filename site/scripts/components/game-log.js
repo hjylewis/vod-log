@@ -152,6 +152,7 @@ var GameLogHead = React.createClass({
                             {shortAccounts && !this.state.expanded ? shortAccounts : accounts}
                         </ul>
                     </div>
+                    <a className="suggestion" href="/suggestion"><em>Missing information?</em></a>
                 </div>
             </div>
         );
