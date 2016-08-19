@@ -143,7 +143,7 @@ var GameLogHead = React.createClass({
         }
 
         var logo = this.props.headData.logo ? <img className="logo" src={this.props.headData.logo} /> : null;
-        var name = camelCase(this.props.headData.name);
+        var name = (camelCase(this.props.headData.name) || '').replace('Ad', 'AD');
         var nameElement = this.props.headData.url ? <a href={this.props.headData.url} target="_blank">{name}</a> : <span className="stripped">{name}</span>;
         var accountInfo = function () {
             if (accounts.length > 0 ) {
