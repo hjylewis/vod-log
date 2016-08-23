@@ -99,7 +99,7 @@ var GameSummary = React.createClass({
         return (
             <div className={classes}>
                 <div className="summary-image">
-                    <ChampionImage image={player_data.champion.image} id={player_data.championId} />
+                    <ChampionImage image={player_data.champion.image} id={player_data.champion.name.toLowerCase()} />
                 </div>
                 <div className="summary-detail">
                     <p><Link to={channelLink}>{channel}</Link></p>
@@ -210,7 +210,6 @@ var GameLogLoad = React.createClass({
 var GameLog = React.createClass({
     getInitialState: function () {
         var logType = this.props.logType || {};
-        console.log(logType);
         var name = logType.channel || logType.champion || logType.role;
         return {
             matches: [],
@@ -220,12 +219,10 @@ var GameLog = React.createClass({
         }
     },
     componentDidMount: function() {
-        console.log("mount");
         this.loadMatches(this.props.logType);
         this.loadHead(this.props.logType);
     },
     componentWillReceiveProps: function(nextProps) {
-        console.log(nextProps.logType);
         this.loadMatches(nextProps.logType, true);
         this.loadHead(nextProps.logType);
     },
@@ -273,7 +270,6 @@ var GameLog = React.createClass({
         }
     },
     render: function() {
-        console.log("render");
         return (
             <div className="game-log">
                 <div className="game-log-main">
@@ -315,7 +311,6 @@ var ChampionGameLog = React.createClass({
     },
     componentDidMount: function () {
         champions.get(this.props.params.championKey).then(function (champion) {
-            console.log(champion);
             this.setState({
                 logType: { champion: champion.id }
             });
