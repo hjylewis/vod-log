@@ -30,6 +30,16 @@ function champions () {
             }
         });
     };
+
+    champions.getChampionHead = function (key) {
+        return champions.getById(key).then(function (champion) {
+            return {
+                type: 'champion',
+                name: champion.name,
+                logo: champion.logo,
+            };
+        });
+    };
 }
 
 export default new champions();

@@ -263,7 +263,9 @@ var GameLog = React.createClass({
                     this.setState({headData: channel});
                 }.bind(this));
             } else if (logType.champion) {
-
+                champions.getChampionHead(logType.champion).then(function (champion) {
+                    this.setState({headData: champion});
+                }.bind(this));
             } else if (logType.role) {
 
             }
