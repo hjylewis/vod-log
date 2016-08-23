@@ -1,7 +1,7 @@
 module.exports = {
     entry: {
         style: './site/style-index.js',
-        bundle: './site/index.js'
+        bundle: ['whatwg-fetch', './site/index.js']
     },
 
     output: {
