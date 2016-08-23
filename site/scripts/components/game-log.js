@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
 import db from '../database/database.js';
+import champions from '../champions';
 import {camelCase} from '../util.js';
 
 var ChampionImage = React.createClass({
@@ -208,7 +209,8 @@ var GameLogLoad = React.createClass({
 
 var GameLog = React.createClass({
     getInitialState: function () {
-        var logType = this.props.logType;
+        var logType = this.props.logType || {};
+        console.log(logType);
         var name = logType.channel || logType.champion || logType.role;
         return {
             matches: [],
@@ -218,8 +220,14 @@ var GameLog = React.createClass({
         }
     },
     componentDidMount: function() {
-        this.loadMatches();
-        this.loadHead();
+        console.log("mount");
+        this.loadMatches(this.props.logType);
+        this.loadHead(this.props.logType);
+    },
+    componentWillReceiveProps: function(nextProps) {
+        console.log(nextProps.logType);
+        this.loadMatches(nextProps.logType, true);
+        this.loadHead(nextProps.logType);
     },
     addMatches: function (newMatches) {
         var matches = this.state.matches;
@@ -238,37 +246,41 @@ var GameLog = React.createClass({
 
         this.lastMatchTime = matches[matches.length - 1].creation;
     },
-    loadMatches: function () {
-        if (this.state.loading) return;
+    loadMatches: function (dbParam, force) {
+        if (this.state.loading && !force) return;
         this.setState({loading: true});
-        var dbParam = this.props.logType;
-        dbParam.next = this.lastMatchTime;
-        db.getMatchesPage(dbParam).then(function (newMatches) {
-            this.addMatches(newMatches);
-        }.bind(this)).catch(function (error) {
-            console.error(error.stack);
-        });
+        var dbParam = dbParam || this.props.logType;
+        if (dbParam) {
+            dbParam.next = this.lastMatchTime;
+            db.getMatchesPage(dbParam).then(function (newMatches) {
+                this.addMatches(newMatches);
+            }.bind(this)).catch(function (error) {
+                console.error(error.stack);
+            });
+        }
     },
-    loadHead: function () {
-        var logType = this.props.logType;
-        if (logType.channel) {
-            db.getChannelHead(logType.channel).then(function (channel) {
-                this.setState({headData: channel});
-            }.bind(this));
-        } else if (logType.champion) {
+    loadHead: function (logType) {
+        if (logType) {
+            if (logType.channel) {
+                db.getChannelHead(logType.channel).then(function (channel) {
+                    this.setState({headData: channel});
+                }.bind(this));
+            } else if (logType.champion) {
 
-        } else if (logType.role) {
+            } else if (logType.role) {
 
+            }
         }
     },
     render: function() {
+        console.log("render");
         return (
             <div className="game-log">
                 <div className="game-log-main">
                     <GameLogHead headData={this.state.headData} empty={!this.state.matches.length}/>
                     <GameLogBody data={this.state.matches} />
                 </div>
-                <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={this.loadMatches}/>
+                <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={() => this.loadMatches()}/>
             </div>
         );
     }
@@ -296,13 +308,23 @@ var ChannelGameLog = React.createClass({
 });
 
 var ChampionGameLog = React.createClass({
-    render: function () {
-        var logType = {
-            champion: this.props.params.championID
+    getInitialState: function () {
+        return {
+            logType: null
         };
+    },
+    componentDidMount: function () {
+        champions.get(this.props.params.championKey).then(function (champion) {
+            console.log(champion);
+            this.setState({
+                logType: { champion: champion.id }
+            });
+        }.bind(this));
+    },
+    render: function () {
         return (
-            <GameLog logType={logType} />
-        )
+            <GameLog logType={this.state.logType} />
+        );
     }
 });
 

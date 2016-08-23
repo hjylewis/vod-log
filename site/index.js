@@ -5,8 +5,6 @@ import { Router, Route, Redirect, browserHistory, IndexRoute } from 'react-route
 import App from './scripts/app';
 import {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog} from './scripts/components/game-log';
 
-import champions from './scripts/champions';
-
 render((
     <Router history={browserHistory}>
         <Redirect from="/" to="league" />
@@ -14,7 +12,7 @@ render((
             <IndexRoute component={IndexGameLog}/>
             <Route path="/league/channel/:channelID" component={ChannelGameLog} />
             <Route path="/league/role/:role" component={RoleGameLog} />
-            <Route path="/league/champion/:championID" component={ChampionGameLog} />
+            <Route path="/league/champion/:championKey" component={ChampionGameLog} />
         </Route>
     </Router>
 ), document.getElementById('app'))
