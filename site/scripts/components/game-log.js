@@ -6,11 +6,10 @@ import db from '../database/database.js';
 import champions from '../champions';
 import {camelCase} from '../util.js';
 
-var ChampionImage = React.createClass({
+var SummaryImage = React.createClass({
     render: function () {
-        var link = "/league/champion/" + this.props.id;
         return (
-            <Link to={link}><img className="champion-image" src={this.props.image}></img></Link>
+            <Link to={this.props.link}><img src={this.props.image}></img></Link>
         )
     }
 });
@@ -96,10 +95,19 @@ var GameSummary = React.createClass({
             'loss': !match_data.win
         });
 
+        var image, link;
+        if (this.props.type !== "champion") {
+            image = player_data.champion.image;
+            link = "/league/champion/" + player_data.champion.name.toLowerCase();
+        } else {
+            image = this.props.data.channelLogo;
+            link = "/league/channel/" + this.props.data.channelID;
+        }
+
         return (
             <div className={classes}>
                 <div className="summary-image">
-                    <ChampionImage image={player_data.champion.image} id={player_data.champion.name.toLowerCase()} />
+                    <SummaryImage image={image} link={link} />
                 </div>
                 <div className="summary-detail">
                     <p><Link to={channelLink}>{channel}</Link></p>
@@ -127,7 +135,7 @@ var GameLogHead = React.createClass({
         this.setState({expanded: !this.state.expanded});
     },
     render: function() {
-        var classes = classNames({
+        var classes = classNames(this.props.type, {
             "game-log-head": true,
             "empty": this.props.empty
         });
@@ -180,9 +188,9 @@ var GameLogBody = React.createClass({
         var data = this.props.data;
         var log = data.map(function (match) {
             return (
-                <GameSummary key={match.id} data={match}/>
+                <GameSummary type={this.props.type} key={match.id} data={match}/>
             )
-        });
+        }.bind(this));
         return (
             <div className="game-log-body">
                 {log}
@@ -272,11 +280,21 @@ var GameLog = React.createClass({
         }
     },
     render: function() {
+        var logType = this.props.logType || {};
+        var type;
+        if (logType.channel) {
+            type = "channel";
+        } else if (logType.champion) {
+            type = "champion"
+        } else if (logType.role) {
+            type = "role"
+        }
+
         return (
             <div className="game-log">
                 <div className="game-log-main">
-                    <GameLogHead headData={this.state.headData} empty={!this.state.matches.length}/>
-                    <GameLogBody data={this.state.matches} />
+                    <GameLogHead type={type} headData={this.state.headData} empty={!this.state.matches.length}/>
+                    <GameLogBody type={type} data={this.state.matches} />
                 </div>
                 <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={() => this.loadMatches()}/>
             </div>
