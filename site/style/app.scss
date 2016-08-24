@@ -170,6 +170,11 @@ em {
             }
         }
 
+        .champion-title {
+            font-style: italic;
+            font-weight: 100;
+        }
+
         .suggestion {
             position: absolute;
             font-size: 11px;
@@ -191,13 +196,11 @@ em {
     }
 
     &.champion {
+        align-items: center;
+
         .logo {
             width: 120px;
             height: 120px;
-        }
-
-        .info h1 {
-            margin-top: (120 - 32) / 2 + px;
         }
     }
 }

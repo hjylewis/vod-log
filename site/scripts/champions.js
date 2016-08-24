@@ -1,7 +1,20 @@
+import querystring from 'querystring';
+
 function champions () {
     var champions = this;
 
-    var championEndpoint = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=RGAPI-2EFFBEA3-3500-443C-934E-1E212B9FE551";
+    function constructEndpoint (region, version, path, query) {
+        var api_key = "RGAPI-2EFFBEA3-3500-443C-934E-1E212B9FE551";
+        var url = `https://global.api.pvp.net/api/lol/static-data/${region.toLowerCase()}/${version}/${path}`;
+        query = query || {};
+        query.api_key = api_key;
+        url = url + "?" + querystring.stringify(query);
+        return url;
+    }
+
+    var championEndpoint = constructEndpoint("na", "v1.2", "champion");
+    var realmEndpoint = constructEndpoint("na", "v1.2", "realm");
+
     var promise = fetch(championEndpoint).then(function (response) {
         return response.json();
     }).then(function (response) {
@@ -13,7 +26,6 @@ function champions () {
         return formated;
     });
 
-    var realmEndpoint = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/realm?api_key=RGAPI-2EFFBEA3-3500-443C-934E-1E212B9FE551";
     var realmPromise = fetch(realmEndpoint).then(function (response) {
         return response.json();
     });
@@ -37,11 +49,12 @@ function champions () {
     };
 
     champions.getImagePath = function (id) {
-        var endPoint = `https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/${id}?champData=image&api_key=RGAPI-2EFFBEA3-3500-443C-934E-1E212B9FE551`;
+        var endPoint = constructEndpoint("na", "v1.2", `champion/${id}`, {
+            champData: "image"
+        });
         return fetch(endPoint).then(function (response) {
             return response.json();
         }).then(function (response) {
-            console.log(response);
             return response.image.full;
         });
     };
@@ -59,6 +72,7 @@ function champions () {
             return {
                 type: 'champion',
                 name: champion.name,
+                championTitle: champion.title,
                 logo: champions.getImage(realm.dd, path),
             };
         });

@@ -176,6 +176,7 @@ var GameLogHead = React.createClass({
                 {logo}
                 <div className="info">
                     <h1>{nameElement}</h1>
+                    <span className="champion-title">{camelCase(this.props.headData.championTitle)}</span>
                     {accountInfo()}
                 </div>
             </div>
