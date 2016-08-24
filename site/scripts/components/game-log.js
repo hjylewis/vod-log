@@ -327,7 +327,7 @@ var ChannelGameLog = React.createClass({
 var ChampionGameLog = React.createClass({
     getInitialState: function () {
         return {
-            logType: null
+            logType: { champion: this.props.params.championKey } //TODO this breaks it, fix this first
         };
     },
     componentDidMount: function () {
