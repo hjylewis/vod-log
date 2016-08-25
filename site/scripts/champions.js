@@ -38,25 +38,33 @@ function champions () {
     };
 
     champions.getById = function (id) {
-        return promise.then(function (champions) {
-            for (var key in champions) {
-                var champion = champions[key];
-                if (champion.id === id) {
-                    return champion;
+        if (/\d+/.test(id)) {
+            return promise.then(function (champions) {
+                for (var key in champions) {
+                    var champion = champions[key];
+                    if (champion.id === id) {
+                        return champion;
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            Promise.resolve(null);
+        }
     };
 
     champions.getImagePath = function (id) {
-        var endPoint = constructEndpoint("na", "v1.2", `champion/${id}`, {
-            champData: "image"
-        });
-        return fetch(endPoint).then(function (response) {
-            return response.json();
-        }).then(function (response) {
-            return response.image.full;
-        });
+        if (/\d+/.test(id)) {
+            var endPoint = constructEndpoint("na", "v1.2", `champion/${id}`, {
+                champData: "image"
+            });
+            return fetch(endPoint).then(function (response) {
+                return response.json();
+            }).then(function (response) {
+                return response.image.full;
+            });
+        } else {
+            Promise.resolve(null);
+        }
     };
 
     champions.getImage = function (version, champion) {
@@ -69,6 +77,10 @@ function champions () {
             champions.getImagePath(id),
             realmPromise
         ]).then(function ([champion, path, realm]) {
+            if (!champion) {
+                return null;
+            }
+
             return {
                 type: 'champion',
                 name: champion.name,

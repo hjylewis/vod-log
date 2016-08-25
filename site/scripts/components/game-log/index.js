@@ -62,7 +62,9 @@ var GameLog = React.createClass({
                 }.bind(this));
             } else if (logType.champion) {
                 champions.getChampionHead(logType.champion).then(function (champion) {
-                    this.setState({headData: champion});
+                    if (champion) {
+                        this.setState({headData: champion});
+                    }
                 }.bind(this));
             } else if (logType.role) {
 
@@ -116,7 +118,7 @@ var ChannelGameLog = React.createClass({
 var ChampionGameLog = React.createClass({
     getInitialState: function () {
         return {
-            logType: { champion: this.props.params.championKey } //TODO this breaks it, fix this first
+            logType: { champion: this.props.params.championKey }
         };
     },
     componentDidMount: function () {
