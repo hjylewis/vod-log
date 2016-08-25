@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Router, Route, Redirect, browserHistory, IndexRoute } from 'react-router';
 
 import App from './scripts/app';
-import {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog} from './scripts/components/game-log';
+import {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog} from './scripts/components/game-log/index';
 
 render((
     <Router history={browserHistory}>
