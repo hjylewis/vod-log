@@ -7,7 +7,7 @@
         border: $light-grey solid 1px;
         border-bottom: 0;
 
-        &:last-child {
+        &.last {
             border-bottom: $light-grey solid 1px;
             border-radius: 0 0 5px 5px;
         }
@@ -16,6 +16,7 @@
 
 .game-log-button-container {
     text-align: center;
+    clear: both;
 
     span {
         margin: 20px auto;
@@ -147,7 +148,6 @@
     width: 100%;
     position: relative;
     box-sizing: border-box;
-    overflow: auto;
 
     .summary-image {
         box-sizing: border-box;

@@ -72,6 +72,51 @@ var IconStrip = React.createClass({
 });
 
 var GameSummary = React.createClass({
+    getInitialState: function () {
+        return {
+            player: null
+        };
+    },
+    openVideo: function (event) {
+        if (!!Twitch) {
+            event.preventDefault();
+            if (!this.state.player) {
+                this.props.closeVideos();
+
+                var twitchID = this.props.data.twitch.id;
+                var elementID = "twitch-" + this.props.data.id;
+
+                var width = this.refs.gameSummary.offsetWidth || 550;
+                var height = width / (16/9);
+                var options = {
+                    width: width,
+                    height: height,
+                    video: twitchID,
+                    time: this.props.data.twitch.timestamp_s + "s"
+                };
+                var player = new Twitch.Player(elementID, options);
+
+                this.setState({
+                    player: player
+                });
+
+                this.props.setCloseVideos(function () {
+                    this.closeVideo();
+                }.bind(this));
+            } else {
+                this.closeVideo();
+            }
+        }
+    },
+    closeVideo: function () {
+        if (!this.state.player) return;
+
+        this.state.player.destroy();
+        this.setState({
+            player: null
+        });
+        this.props.setCloseVideos(() => {});
+    },
     render: function() {
         var channel = camelCase(this.props.data.channelID);
         var channelLink = "/league/channel/" + this.props.data.channelID;
@@ -90,7 +135,8 @@ var GameSummary = React.createClass({
         var classes = classNames({
             'game-summary': true,
             'win': match_data.win,
-            'loss': !match_data.win
+            'loss': !match_data.win,
+            'last': this.props.last
         });
 
         var image, link;
@@ -103,34 +149,52 @@ var GameSummary = React.createClass({
         }
 
         return (
-            <div className={classes}>
-                <div className="summary-image">
-                    <SummaryImage image={image} link={link} />
+            <div>
+                <div className={classes} ref="gameSummary">
+                    <div className="summary-image">
+                        <SummaryImage image={image} link={link} />
+                    </div>
+                    <div className="summary-detail">
+                        <p><Link to={channelLink}>{channel}</Link></p>
+                        <div className="bar"></div>
+                        <p><Link to={roleLink}>{role}</Link></p>
+                        <div className="bar"></div>
+                        <p>{kda}</p>
+                    </div>
+                    <IconStrip player={player_data}/>
+                    <div className="watch-button">
+                        <p className="small-text creation">{creation}</p>
+                        <a target="_blank" onClick={this.openVideo} href={this.props.data.twitch.video_url}>{this.state.player ? "Close" : "Watch"}</a>
+                        <p className="small-text duration">{durationStr}</p>
+                    </div>
                 </div>
-                <div className="summary-detail">
-                    <p><Link to={channelLink}>{channel}</Link></p>
-                    <div className="bar"></div>
-                    <p><Link to={roleLink}>{role}</Link></p>
-                    <div className="bar"></div>
-                    <p>{kda}</p>
-                </div>
-                <IconStrip player={player_data}/>
-                <div className="watch-button">
-                    <p className="small-text creation">{creation}</p>
-                    <a target="_blank" href={this.props.data.twitch.video_url}>Watch</a>
-                    <p className="small-text duration">{durationStr}</p>
-                </div>
+                <div id={"twitch-" + this.props.data.id}></div>
             </div>
         );
     }
 });
 
 var GameLogBody = React.createClass({
+    getInitialState: function () {
+        return {
+            closeVideos: () => {}
+        }
+    },
+    setCloseVideos: function (closeFn) {
+        this.setState({
+            closeVideos: closeFn
+        });
+    },
     render: function() {
         var data = this.props.data;
-        var log = data.map(function (match) {
+        var log = data.map(function (match, i) {
             return (
-                <GameSummary type={this.props.type} key={match.id} data={match}/>
+                <GameSummary
+                type={this.props.type}
+                key={match.id} data={match}
+                closeVideos={this.state.closeVideos}
+                setCloseVideos={this.setCloseVideos}
+                last={i === data.length - 1}/>
             )
         }.bind(this));
         return (
