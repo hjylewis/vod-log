@@ -74,13 +74,13 @@ var IconStrip = React.createClass({
 var GameSummary = React.createClass({
     getInitialState: function () {
         return {
-            player: null
+            video: null
         };
     },
     openVideo: function (event) {
         if (!!Twitch) {
             event.preventDefault();
-            if (!this.state.player) {
+            if (!this.state.video) {
                 this.props.closeVideos();
 
                 var twitchID = this.props.data.twitch.id;
@@ -95,9 +95,14 @@ var GameSummary = React.createClass({
                     time: this.props.data.twitch.timestamp_s + "s"
                 };
                 var player = new Twitch.Player(elementID, options);
-
+                var interval = setInterval(function () {
+                    if (player.getCurrentTime() > this.props.data.twitch.end_timestamp_s){
+                        // TODO
+                        this.closeVideo();
+                    }
+                }.bind(this),1000);
                 this.setState({
-                    player: player
+                    video: {player, interval}
                 });
 
                 this.props.setCloseVideos(function () {
@@ -109,11 +114,12 @@ var GameSummary = React.createClass({
         }
     },
     closeVideo: function () {
-        if (!this.state.player) return;
+        if (!this.state.video) return;
 
-        this.state.player.destroy();
+        this.state.video.player.destroy();
+        clearInterval(this.state.video.interval);
         this.setState({
-            player: null
+            video: null
         });
         this.props.setCloseVideos(() => {});
     },
@@ -164,7 +170,7 @@ var GameSummary = React.createClass({
                     <IconStrip player={player_data}/>
                     <div className="watch-button">
                         <p className="small-text creation">{creation}</p>
-                        <a target="_blank" onClick={this.openVideo} href={this.props.data.twitch.video_url}>{this.state.player ? "Close" : "Watch"}</a>
+                        <a target="_blank" onClick={this.openVideo} href={this.props.data.twitch.video_url}>{this.state.video ? "Close" : "Watch"}</a>
                         <p className="small-text duration">{durationStr}</p>
                     </div>
                 </div>
