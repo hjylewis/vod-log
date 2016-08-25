@@ -1,0 +1,53 @@
+body {
+  font-family: $font-stack;
+  color: $grey;
+  background-color: $background-color;
+}
+
+h1 {
+    font-size: $h1 + px;
+}
+
+h2 {
+    font-size: $h1 * (.75) + px;
+}
+
+h3 {
+    font-size: $h1 * (.75) * (.75) + px;
+}
+
+h4 {
+    font-size: $h1 * (.75) * (.75) * (.75) + px;
+}
+
+a {
+    @include resetLink();
+    cursor: pointer;
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+em {
+    font-style: italic;
+}
+
+.bar {
+    width: 30px;
+    height: 1px;
+    background-color: $grey;
+}
+
+
+
+.main {
+    margin: 20px auto;
+    width: 550px;
+
+}
+
+@media screen and (max-width: 580px) {
+    .main {
+        width: 95%;
+    }
+}
