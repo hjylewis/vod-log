@@ -77,9 +77,14 @@ var GameSummary = React.createClass({
             video: null
         };
     },
+    componentDidMount: function () {
+        this.props.addOpenVideo(function () {
+            this.openVideo();
+        }.bind(this));
+    },
     openVideo: function (event) {
         if (!!Twitch) {
-            event.preventDefault();
+            if (event) event.preventDefault();
             if (!this.state.video) {
                 this.props.closeVideos();
 
@@ -99,6 +104,7 @@ var GameSummary = React.createClass({
                     if (player.getCurrentTime() > this.props.data.twitch.end_timestamp_s){
                         // TODO
                         this.closeVideo();
+                        this.props.openNext();
                     }
                 }.bind(this),1000);
                 this.setState({
@@ -183,13 +189,27 @@ var GameSummary = React.createClass({
 var GameLogBody = React.createClass({
     getInitialState: function () {
         return {
-            closeVideos: () => {}
+            closeVideos: () => {},
+            openVideos: {}
         }
     },
     setCloseVideos: function (closeFn) {
         this.setState({
             closeVideos: closeFn
         });
+    },
+    addOpenVideo: function (index, openFn) {
+        this.state.openVideos[index] = openFn;
+        this.setState({
+            openVideos: this.state.openVideos
+        });
+        console.log(this.state.openVideos);
+    },
+    openNext: function (index) {
+        var next = index + 1;
+        if (next < 0 || next > this.props.data.length - 1) return;
+
+        this.state.openVideos[next]();
     },
     render: function() {
         var data = this.props.data;
@@ -200,6 +220,8 @@ var GameLogBody = React.createClass({
                 key={match.id} data={match}
                 closeVideos={this.state.closeVideos}
                 setCloseVideos={this.setCloseVideos}
+                addOpenVideo={(openFn) => this.addOpenVideo(i, openFn)}
+                openNext={() => this.openNext(i)}
                 last={i === data.length - 1}/>
             )
         }.bind(this));
