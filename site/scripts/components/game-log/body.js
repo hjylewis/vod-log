@@ -203,7 +203,6 @@ var GameLogBody = React.createClass({
         this.setState({
             openVideos: this.state.openVideos
         });
-        console.log(this.state.openVideos);
     },
     openNext: function (index) {
         var next = index + 1;
