@@ -47,10 +47,22 @@ em {
 .main {
     margin: 20px auto;
     width: 600px;
+    transition: width 0.5s ease-out;
+    transform: translateZ(0);
+
+    &.expanded {
+        width: 800px;
+    }
 }
 
 @media screen and (max-width: 600px) {
     .main {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .main.expanded {
         width: 95%;
     }
 }
