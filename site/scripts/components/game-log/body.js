@@ -90,7 +90,8 @@ var GameSummary = React.createClass({
     getInitialState: function () {
         return {
             video: null,
-            autoplayShow: true
+            autoplayShow: true,
+            fullscreen: false
         };
     },
     componentDidMount: function () {
@@ -149,6 +150,13 @@ var GameSummary = React.createClass({
         clearInterval(this.state.video.interval);
         this.setState({autoplayShow: false});
     },
+    toggleFullscreen: function () {
+        var mode = !this.state.fullscreen;
+        // this.props.setFullscreenMode(mode);
+        this.setState({
+            fullscreen: mode
+        });
+    },
     render: function() {
         var channel = camelCase(this.props.data.channelID);
         var channelLink = "/league/channel/" + this.props.data.channelID;
@@ -200,9 +208,9 @@ var GameSummary = React.createClass({
                         <p className="small-text duration">{durationStr}</p>
                     </div>
                 </div>
-                <div id={"twitch-" + this.props.data.id} className={classNames('twitch-container', {'fullscreen': false})}>
+                <div id={"twitch-" + this.props.data.id} className={classNames('twitch-container', {'fullscreen': this.state.fullscreen})}>
                     <AutoplayOverlay show={this.state.autoplayShow} next={this.props.openNext} cancelAutoplay={this.cancelAutoplay}/>
-                    <a onClick="" className="fullscreen-button">Fullscreen</a>
+                    <a onClick={this.toggleFullscreen} className="fullscreen-button">Fullscreen</a>
                 </div>
             </div>
         );
@@ -244,7 +252,8 @@ var GameLogBody = React.createClass({
                 setCloseVideos={this.setCloseVideos}
                 addOpenVideo={(openFn) => this.addOpenVideo(i, openFn)}
                 openNext={() => this.openNext(i)}
-                last={i === data.length - 1}/>
+                last={i === data.length - 1}
+                />
             )
         }.bind(this));
         return (

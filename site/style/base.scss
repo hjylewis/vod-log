@@ -2,6 +2,10 @@ body {
   font-family: $font-stack;
   color: $grey;
   background-color: $background-color;
+
+    .fullscreen {
+        overflow: hidden;
+    }
 }
 
 h1 {
