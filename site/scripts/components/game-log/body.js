@@ -100,9 +100,9 @@ var GameSummary = React.createClass({
                     time: this.props.data.twitch.timestamp_s + "s"
                 };
                 var player = new Twitch.Player(elementID, options);
+                console.log(player);
                 var interval = setInterval(function () {
-                    if (player.getCurrentTime() > this.props.data.twitch.end_timestamp_s){
-                        // TODO
+                    if (player.getCurrentTime() > (this.props.data.twitch.end_timestamp_s + 60)){
                         this.closeVideo();
                         this.props.openNext();
                     }
