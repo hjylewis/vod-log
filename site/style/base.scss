@@ -42,11 +42,11 @@ em {
 
 .main {
     margin: 20px auto;
-    width: 550px;
+    width: 800px;
 
 }
 
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 800px) {
     .main {
         width: 95%;
     }
