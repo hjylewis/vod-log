@@ -148,31 +148,34 @@
     width: 100%;
     position: relative;
     box-sizing: border-box;
+    display: flex;
+    flex-flow: row nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     .summary-image {
+        flex: 0 0;
         box-sizing: border-box;
         width: 100px;
         padding: 5px;
-        float: left;
         img {
             height: 90px;
         }
     }
 
     .icon-strip {
-        float: left;
+        flex: 1 1;
         margin: (50 - $icon-size) + px 0;
-        margin-left: 5px;
     }
 
 
 
     .summary-detail {
-        float: left;
+        flex: 1 1;
         font-size: 13px;
         margin: 10px 0;
         height: 80px;
-        width: 100px;
+        min-width: 100px;
         text-align: center;
         line-height: 2;
 
@@ -182,9 +185,11 @@
     }
 
     .watch-button {
+        flex: 1 1;
         display: inline-block;
         margin: (100 - (14 + 20) - (2 * 15)) / 2 + px 0;
         margin-left: 18px;
+        text-align: center;
 
         a {
             display: inline-block;
@@ -229,7 +234,7 @@
 }
 
 .icon-strip {
-    width: ($icon-size) * 6 + 10 + px;
+    min-width: ($icon-size) * 6 + 10 + px;
     height: $icon-size * 2 + px;
 
     .summoner-spells {
