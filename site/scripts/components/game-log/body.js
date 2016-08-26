@@ -71,10 +71,26 @@ var IconStrip = React.createClass({
     }
 });
 
+var AutoplayOverlay = React.createClass({
+    render: function () {
+        var style = this.props.show ? {} : {
+            display: 'none'
+        };
+
+        return (
+            <div className="twitch-autoplay-overlay" style={style}>
+                <a onClick={this.props.next}>Next</a>
+                <a onClick={this.props.cancelAutoplay}>Cancel</a>
+            </div>
+        );
+    }
+})
+
 var GameSummary = React.createClass({
     getInitialState: function () {
         return {
-            video: null
+            video: null,
+            autoplayShow: true
         };
     },
     componentDidMount: function () {
@@ -129,6 +145,10 @@ var GameSummary = React.createClass({
         });
         this.props.setCloseVideos(() => {});
     },
+    cancelAutoplay: function () {
+        clearInterval(this.state.video.interval);
+        this.setState({autoplayShow: false});
+    },
     render: function() {
         var channel = camelCase(this.props.data.channelID);
         var channelLink = "/league/channel/" + this.props.data.channelID;
@@ -161,7 +181,7 @@ var GameSummary = React.createClass({
         }
 
         return (
-            <div>
+            <div className="game-summary-container">
                 <div className={classes} ref="gameSummary">
                     <div className="summary-image">
                         <SummaryImage image={image} link={link} />
@@ -180,7 +200,10 @@ var GameSummary = React.createClass({
                         <p className="small-text duration">{durationStr}</p>
                     </div>
                 </div>
-                <div id={"twitch-" + this.props.data.id}></div>
+                <div id={"twitch-" + this.props.data.id} className={classNames('twitch-container', {'fullscreen': false})}>
+                    <AutoplayOverlay show={this.state.autoplayShow} next={this.props.openNext} cancelAutoplay={this.cancelAutoplay}/>
+                    <a onClick="" className="fullscreen-button">Fullscreen</a>
+                </div>
             </div>
         );
     }
