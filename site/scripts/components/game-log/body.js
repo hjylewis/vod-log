@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
 import {camelCase} from '../../util.js';
+import modes from '../../modes.js';
 
 var SummaryImage = React.createClass({
     render: function () {
@@ -152,7 +153,7 @@ var GameSummary = React.createClass({
     },
     toggleFullscreen: function () {
         var mode = !this.state.fullscreen;
-        // this.props.setFullscreenMode(mode);
+        modes.setMode('fullscreen', mode);
         this.setState({
             fullscreen: mode
         });
