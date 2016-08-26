@@ -197,9 +197,9 @@ var GameSummary = React.createClass({
                     </div>
                     <div className="summary-detail">
                         <p><Link to={channelLink}>{channel}</Link></p>
-                        <div className="bar"></div>
+                        <div className="rule"></div>
                         <p><Link to={roleLink}>{role}</Link></p>
-                        <div className="bar"></div>
+                        <div className="rule"></div>
                         <p>{kda}</p>
                     </div>
                     <IconStrip player={player_data}/>

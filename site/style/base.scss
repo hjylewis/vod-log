@@ -36,7 +36,7 @@ em {
     font-style: italic;
 }
 
-.bar {
+.rule {
     width: 30px;
     height: 1px;
     background-color: $grey;
@@ -52,17 +52,5 @@ em {
 
     &.expanded {
         width: 800px;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    .main {
-        width: 95%;
-    }
-}
-
-@media screen and (max-width: 800px) {
-    .main.expanded {
-        width: 95%;
     }
 }

@@ -146,6 +146,7 @@
 .game-summary-container {
     .twitch-container {
         position: relative;
+        overflow: hidden;
 
         .fullscreen-button {
             position: absolute;
@@ -224,7 +225,7 @@
         text-align: center;
         line-height: 2;
 
-        .bar {
+        .rule {
             display: inline-block;
         }
     }
