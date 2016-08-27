@@ -13,14 +13,18 @@ var AutoplayLoader = React.createClass({
         console.log(step);
         var stepInterval = setInterval(function () {
             var progress = this.state.progress + step;
-            if (progress > 0) {
+            if (progress > 1) {
                 clearInterval(stepInterval);
-            } else {
-                this.setState({
-                    progress: progress
-                });
+                this.props.play();
             }
+            this.setState({
+                progress: progress
+            });
         }.bind(this), 60);
+
+        this.props.setCancel(function () {
+            clearInterval(stepInterval);
+        });
     },
     render: function () {
         var offset = this.circumference * (1 - this.state.progress);
@@ -41,15 +45,31 @@ export default React.createClass({
         };
 
         var timeout = 10;
+        var cancelLoader;
+
+        var setCancel = function (fn) {
+            cancelLoader = fn;
+        }
+
+        var play = function () {
+            console.log("play");
+            if (cancelLoader) {
+                cancelLoader();
+            }
+            this.props.next();
+        }.bind(this);
 
         var cancel = function () {
+            if (cancelLoader) {
+                cancelLoader();
+            }
             this.props.cancelAutoplay();
         }.bind(this);
 
         return (
             <div className="twitch-autoplay-overlay" style={style}>
                 <h3>Autoplay next game:</h3>
-                {this.props.show ? <AutoplayLoader radius="50" timeout={timeout} play={this.props.next}/> : ''}
+                {this.props.show ? <AutoplayLoader radius="50" setCancel={setCancel} timeout={timeout} play={play}/> : ''}
                 <a onClick={cancel}>Cancel</a>
             </div>
         );

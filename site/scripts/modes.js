@@ -12,6 +12,11 @@ class ModeController {
         return modes;
     }
 
+    getMode(mode) {
+        var modes = this.getModes();
+        return modes[mode];
+    }
+
     setModes(modes) {
         var modesArray = Object.keys(modes).filter(function (mode) {
             return modes[mode];

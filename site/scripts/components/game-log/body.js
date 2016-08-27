@@ -93,6 +93,10 @@ var GameSummary = React.createClass({
             if (!this.state.video) {
                 this.props.closeVideos();
 
+                if (modes.getMode('fullscreen')) {
+                    this.toggleFullscreen();
+                }
+
                 var twitchID = this.props.data.twitch.id;
                 var elementID = "twitch-" + this.props.data.id;
 
@@ -133,8 +137,12 @@ var GameSummary = React.createClass({
         this.state.video.player.destroy();
         clearInterval(this.state.video.interval);
         this.setState({
-            video: null
+            video: null,
+            autoplayShow: false
         });
+        if (this.state.fullscreen) {
+            this.setState({ fullscreen: false });
+        }
         this.props.setCloseVideos(() => {});
     },
     cancelAutoplay: function () {
