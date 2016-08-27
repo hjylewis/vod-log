@@ -37,6 +37,10 @@ function champions () {
         });
     };
 
+    champions.getAll = function () {
+        return promise;
+    };
+
     champions.getById = function (id) {
         if (/\d+/.test(id)) {
             return promise.then(function (champions) {
@@ -67,16 +71,24 @@ function champions () {
         }
     };
 
-    champions.getImage = function (version, champion) {
+    champions.getImageURL = function (version, champion) {
         return `http://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion}`;
+    };
+
+    champions.getImage = function (id) {
+        return Promise.all([
+            champions.getImagePath(id),
+            realmPromise
+        ]).then(function ([path, realm]) {
+            return champions.getImageURL(realm.dd, path);
+        });
     };
 
     champions.getChampionHead = function (id) {
         return Promise.all([
             champions.getById(id),
-            champions.getImagePath(id),
-            realmPromise
-        ]).then(function ([champion, path, realm]) {
+            champions.getImage(id)
+        ]).then(function ([champion, imageURL]) {
             if (!champion) {
                 return null;
             }
@@ -85,7 +97,7 @@ function champions () {
                 type: 'champion',
                 name: champion.name,
                 championTitle: champion.title,
-                logo: champions.getImage(realm.dd, path),
+                logo: imageURL,
             };
         });
     };
