@@ -93,14 +93,14 @@ function matches () {
 
     // Wrapper
     matches.getMatchesPage = function (params) {
-        var {channel, champion, role, next} = params;
+        var {channel, champion, role, all, next} = params;
         if (channel) {
             return matches.getChannelMatches(channel, next);
         } else if (champion) {
             return matches.getChampionMatches(champion, next);
         } else if (role) {
             return matches.getRoleMatches(role, next);
-        } else {
+        } else if (all) {
             return matches.getNewMatches(next);
         }
     };

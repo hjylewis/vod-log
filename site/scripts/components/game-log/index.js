@@ -8,7 +8,7 @@ import GameLogLoad from './load';
 var GameLog = React.createClass({
     getInitialState: function () {
         var logType = this.props.logType || {};
-        var name = logType.channel || logType.champion || logType.role;
+        var name = logType.channel || logType.champion || logType.role || logType.name;
         return {
             matches: [],
             headData: {name: name},
@@ -36,7 +36,8 @@ var GameLog = React.createClass({
         matches = matches.concat(newMatches)
         this.setState({
             matches: matches,
-            loading: false
+            loading: false,
+            noMore: false
         });
 
         this.lastMatchTime = matches[matches.length - 1].creation;
@@ -47,12 +48,14 @@ var GameLog = React.createClass({
         var dbParam = dbParam || this.props.logType;
         if (dbParam) {
             dbParam.next = this.lastMatchTime;
-            return db.getMatchesPage(dbParam).then(function (newMatches) {
-                this.addMatches(newMatches);
-                return newMatches;
-            }.bind(this)).catch(function (error) {
-                console.error(error.stack);
-            });
+            if (dbParam.channel || dbParam.champion || dbParam.role || dbParam.all) {
+                return db.getMatchesPage(dbParam).then(function (newMatches) {
+                    this.addMatches(newMatches);
+                    return newMatches;
+                }.bind(this)).catch(function (error) {
+                    console.error(error.stack);
+                });
+            }
         }
     },
     loadHead: function (logType) {
@@ -98,7 +101,7 @@ var GameLog = React.createClass({
 // GameLog Wrappers
 var IndexGameLog = React.createClass({
     render: function () {
-        var logType = {};
+        var logType = { all: true };
         return (
             <GameLog logType={logType} />
         )
@@ -119,7 +122,7 @@ var ChannelGameLog = React.createClass({
 var ChampionGameLog = React.createClass({
     getInitialState: function () {
         return {
-            logType: { champion: this.props.params.championKey }
+            logType: { name: this.props.params.championKey }
         };
     },
     componentDidMount: function () {
