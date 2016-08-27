@@ -143,50 +143,33 @@
     }
 }
 
-.game-summary-container {
-    .twitch-container {
-        position: relative;
-        overflow: hidden;
+.twitch-container {
+    position: relative;
+    overflow: hidden;
 
-        .fullscreen-button {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            cursor: pointer;
-            color: white;
-            display: block;
-            background-color: green;
-        }
-        .twitch-autoplay-overlay {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            background-color: rgba(0,0,0,0.5);
-
-            color: $white;
-            a:hover {
-                color: $white;
-                text-decoration: underline;
-            }
-        }
-
-        &.fullscreen {
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            left: 0;
-
-            iframe {
-                width: 100%;
-                height: 100%;
-            }
-        }
+    .fullscreen-button {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        cursor: pointer;
+        color: white;
+        display: block;
+        background-color: green;
     }
 
+    &.fullscreen {
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        left: 0;
 
-
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
 
 .game-summary {

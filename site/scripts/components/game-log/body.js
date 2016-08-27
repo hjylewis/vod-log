@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
-import {camelCase} from '../../util.js';
-import modes from '../../modes.js';
+import {camelCase} from '../../util';
+import modes from '../../modes';
+
+import AutoplayOverlay from '../autoplay';
 
 var SummaryImage = React.createClass({
     render: function () {
@@ -71,21 +73,6 @@ var IconStrip = React.createClass({
         )
     }
 });
-
-var AutoplayOverlay = React.createClass({
-    render: function () {
-        var style = this.props.show ? {} : {
-            display: 'none'
-        };
-
-        return (
-            <div className="twitch-autoplay-overlay" style={style}>
-                <a onClick={this.props.next}>Next</a>
-                <a onClick={this.props.cancelAutoplay}>Cancel</a>
-            </div>
-        );
-    }
-})
 
 var GameSummary = React.createClass({
     getInitialState: function () {
@@ -210,7 +197,11 @@ var GameSummary = React.createClass({
                         <p className="small-text duration">{durationStr}</p>
                     </div>
                 </div>
-                <div id={"twitch-" + this.props.data.id} className={classNames('twitch-container', {'fullscreen': this.state.fullscreen})}>
+                <div
+                    id={"twitch-" + this.props.data.id}
+                    className={classNames('twitch-container', {'fullscreen': this.state.fullscreen})}
+                    ref="twitchContainer"
+                >
                     <AutoplayOverlay show={this.state.autoplayShow} next={this.props.openNext} cancelAutoplay={this.cancelAutoplay}/>
                     <a onClick={this.toggleFullscreen} className="fullscreen-button">Fullscreen</a>
                 </div>

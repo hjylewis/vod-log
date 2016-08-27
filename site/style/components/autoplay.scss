@@ -1,0 +1,44 @@
+
+.twitch-autoplay-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0,0,0,0.2);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    color: $white;
+    a:hover {
+        color: $white;
+        text-decoration: underline;
+    }
+}
+
+.autoplay-loader{
+    height: 120px;
+    width: 120px;
+    transform: rotate(270deg);
+
+    .ring {
+        stroke-width: 10px;
+        fill: transparent;
+    }
+    .center {
+        fill: black;
+        fill-opacity: 0.8;
+    }
+    .progress {
+        stroke: $white;
+    }
+
+    .play-button {
+        fill: $white;
+        cursor: pointer;
+        &:hover {
+            fill: $red;
+        }
+    }
+}
