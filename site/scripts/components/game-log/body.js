@@ -171,12 +171,17 @@ var GameSummary = React.createClass({
         var role = camelCase(player_data.role).replace('Ad', 'AD');
         var roleLink = '/league/role/' + role.toLowerCase();
 
-        var classes = classNames({
+        var summaryClasses = classNames({
             'game-summary': true,
             'win': match_data.win,
-            'loss': !match_data.win,
-            'last': this.props.last
+            'loss': !match_data.win
         });
+
+        var containerClasses = classNames({
+            'game-summary-container': true,
+            'last': this.props.last,
+            'open': this.state.video
+        })
 
         var image, link;
         if (this.props.type !== "champion") {
@@ -188,8 +193,8 @@ var GameSummary = React.createClass({
         }
 
         return (
-            <div className="game-summary-container">
-                <div className={classes} ref="gameSummary">
+            <div className={containerClasses}>
+                <div className={summaryClasses} ref="gameSummary">
                     <div className="summary-image">
                         <SummaryImage image={image} link={link} />
                     </div>
@@ -240,9 +245,22 @@ var GameLogBody = React.createClass({
     },
     openNext: function (index) {
         var next = index + 1;
-        if (next < 0 || next > this.props.data.length - 1) return;
+        if (next < 0) {
+            this.state.closeVideos();
+            return;
+        }
 
-        this.state.openVideos[next]();
+        if (next > this.props.data.length - 1) {
+            this.props.loadMore().then(function (newMatches) {
+                if (newMatches.length === 0) {
+                    this.state.closeVideos();
+                } else {
+                    this.state.openVideos[next]();
+                }
+            }.bind(this))
+            return;
+        }
+
     },
     render: function() {
         var data = this.props.data;

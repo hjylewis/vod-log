@@ -47,8 +47,9 @@ var GameLog = React.createClass({
         var dbParam = dbParam || this.props.logType;
         if (dbParam) {
             dbParam.next = this.lastMatchTime;
-            db.getMatchesPage(dbParam).then(function (newMatches) {
+            return db.getMatchesPage(dbParam).then(function (newMatches) {
                 this.addMatches(newMatches);
+                return newMatches;
             }.bind(this)).catch(function (error) {
                 console.error(error.stack);
             });
@@ -86,7 +87,7 @@ var GameLog = React.createClass({
             <div className="game-log">
                 <div className="game-log-main">
                     <GameLogHead type={type} headData={this.state.headData} empty={!this.state.matches.length}/>
-                    <GameLogBody type={type} data={this.state.matches} />
+                    <GameLogBody type={type} data={this.state.matches} loadMore={this.loadMatches}/>
                 </div>
                 <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={() => this.loadMatches()}/>
             </div>

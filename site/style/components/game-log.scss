@@ -7,8 +7,18 @@
         border: $light-grey solid 1px;
         border-bottom: 0;
 
-        &.last {
-            border-bottom: $light-grey solid 1px;
+
+    }
+
+    .last {
+        &:not(.open) {
+            .game-summary {
+                border-bottom: $light-grey solid 1px;
+                border-radius: 0 0 5px 5px;
+            }
+        }
+
+        .twitch-container {
             border-radius: 0 0 5px 5px;
         }
     }
