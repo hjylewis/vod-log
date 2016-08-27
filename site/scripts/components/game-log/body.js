@@ -115,7 +115,8 @@ var GameSummary = React.createClass({
                     width: width,
                     height: height,
                     video: twitchID,
-                    time: this.props.data.twitch.timestamp_s + "s"
+                    time: this.props.data.twitch.timestamp_s + "s",
+                    allowfullscreen: false
                 };
                 var player = new Twitch.Player(elementID, options);
                 console.log(player);
