@@ -52,7 +52,6 @@ export default React.createClass({
         }
 
         var play = function () {
-            console.log("play");
             if (cancelLoader) {
                 cancelLoader();
             }

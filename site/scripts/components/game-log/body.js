@@ -261,6 +261,7 @@ var GameLogBody = React.createClass({
             return;
         }
 
+        this.state.openVideos[next]();
     },
     render: function() {
         var data = this.props.data;
