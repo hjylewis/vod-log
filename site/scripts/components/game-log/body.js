@@ -141,7 +141,7 @@ var GameSummary = React.createClass({
             autoplayShow: false
         });
         if (this.state.fullscreen) {
-            this.setState({ fullscreen: false });
+            this.closeFullscreen();
         }
         this.props.setCloseVideos(() => {});
     },
@@ -151,10 +151,23 @@ var GameSummary = React.createClass({
     },
     toggleFullscreen: function () {
         var mode = !this.state.fullscreen;
+        if (mode) {
+            document.onkeydown = function (e) {
+                if (e.keyCode === 27) {
+                    this.toggleFullscreen();
+                }
+            }.bind(this);
+        } else {
+            document.onkeydown = () => {};
+        }
         modes.setMode('fullscreen', mode);
         this.setState({
             fullscreen: mode
         });
+    },
+    closeFullscreen: function () {
+        document.onkeydown = () => {};
+        this.setState({ fullscreen: false });
     },
     render: function() {
         var channel = camelCase(this.props.data.channelID);
