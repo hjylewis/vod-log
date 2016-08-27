@@ -78,7 +78,7 @@ var GameSummary = React.createClass({
     getInitialState: function () {
         return {
             video: null,
-            autoplayShow: true,
+            autoplayShow: false,
             fullscreen: false
         };
     },
@@ -109,8 +109,10 @@ var GameSummary = React.createClass({
                 console.log(player);
                 var interval = setInterval(function () {
                     if (player.getCurrentTime() > (this.props.data.twitch.end_timestamp_s + 60)){
-                        this.closeVideo();
-                        this.props.openNext();
+                        this.setState({
+                            autoplayShow: true
+                        })
+                        clearInterval(interval);
                     }
                 }.bind(this),1000);
                 this.setState({
