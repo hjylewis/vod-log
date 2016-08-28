@@ -30,7 +30,7 @@ class Settings {
     }
 
     get () {
-        return this.settings();
+        return this.settings;
     }
 
     setOpen (fn) {

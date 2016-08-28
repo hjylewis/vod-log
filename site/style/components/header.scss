@@ -7,12 +7,7 @@
 
     .settings {
         float:right;
-        margin: 17px 20px 17px 5px;
-        cursor: pointer;
-
-        &:hover {
-            color: $primary-color
-        }
+        padding: 17px 20px 17px 5px;
     }
 
     .category-search {

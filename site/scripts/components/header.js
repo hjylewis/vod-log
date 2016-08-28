@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import Search from './search';
+import Settings from './settings';
+
 
 
 var Logo = React.createClass({
@@ -17,9 +19,7 @@ export default React.createClass({
         return (
             <div className="header">
                 <Logo />
-                <div className="settings">
-                    <span className="icon-cog"></span>
-                </div>
+                <Settings />
                 <Search />
             </div>
         );

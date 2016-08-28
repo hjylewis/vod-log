@@ -1,0 +1,17 @@
+.settings {
+    position: relative;
+
+    .settings-button {
+        cursor: pointer;
+
+        &:hover {
+            color: $primary-color
+        }
+    }
+
+    .dropdown {
+        right: 0px;
+        border-right: 0;
+        border-bottom-right-radius: 0;
+    }
+}
