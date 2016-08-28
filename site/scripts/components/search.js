@@ -7,14 +7,24 @@ import Catgetories from '../catgetories';
 var Input = React.createClass({
     getInitialState: function () {
         return {
-            query: ''
+            query: '',
+            display: null
         };
     },
     handleChange: function (e) {
         this.setState({query: e.target.value});
+        this.props.resetResults();
     },
     search: function () {
+        this.setState({display: this.state.query});
         this.props.search(this.state.query);
+    },
+    clear: function () {
+        this.setState({
+            query: '',
+            display: null
+        });
+        this.props.resetResults();
     },
     render: function () {
         var keyPress = function (e) {
@@ -30,7 +40,9 @@ var Input = React.createClass({
                     onKeyPress={keyPress}
                 >
                 </input>
-                <button onClick={this.search}></button>
+                {this.state.query !== this.state.display ?
+                    <button onClick={this.search}>search</button> :
+                    <button onClick={this.clear}>clear</button>}
             </div>
         );
     }
@@ -49,7 +61,7 @@ var Result = React.createClass({
             <div>
                 <Link to={link}>
 
-                    <img src={this.props.data.logo}/>
+                    {this.props.data.logo ? <img src={this.props.data.logo}/> : ''}
                     <span>{this.props.data.name}</span>
                 </Link>
 
@@ -61,8 +73,12 @@ var Result = React.createClass({
 var Results = React.createClass({
     render: function () {
         var results = this.props.results.map(function (item) {
-            return <Result data={item} />
+            return <Result key={item.name} data={item} />
         });
+
+        if (results.length === 0) {
+            results = <span>No results</span>
+        }
 
         return (
             <div>
@@ -88,12 +104,15 @@ export default React.createClass({
             });
         }.bind(this));
     },
+    resetResults: function () {
+        this.setState({results: null});
+    },
     render: function () {
         return (
             <div className={classNames({
                 open: this.state.results
             })}>
-                <Input search={this.search}/>
+                <Input search={this.search} resetResults={this.resetResults}/>
                 { this.state.results ? <Results results={this.state.results}/> : ''}
             </div>
         );
