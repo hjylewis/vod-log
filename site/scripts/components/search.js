@@ -41,12 +41,7 @@ var Input = React.createClass({
         this.setState({
             focus: true
         });
-    },
-    blur: function () {
-        this.setState({
-            focus: false
-        });
-        this.props.resetResults();
+        this.props.showResults();
     },
     componentDidMount: function () {
         this.props.setClear(() => {
@@ -74,7 +69,6 @@ var Input = React.createClass({
                         onChange={this.handleChange}
                         onKeyPress={keyPress}
                         onFocus={this.focus}
-                        onBlur={this.blur}
                         placeholder="Search"
                     >
                     </input>
@@ -120,7 +114,10 @@ var Results = React.createClass({
         }
 
         return (
-            <div className="results">
+            <div className={classNames({
+                results: true,
+                hide: this.props.hide
+            })}>
                 {results}
             </div>
         );
@@ -133,12 +130,14 @@ export default React.createClass({
     getInitialState: function () {
         return {
             results: null,
+            hide: true,
             clear: () => {}
         }
     },
     search: function (query) {
         Catgetories.search(query).then(function (results) {
             this.setState({
+                hide: false,
                 results: results
             });
         }.bind(this));
@@ -151,21 +150,34 @@ export default React.createClass({
     },
     // Hides results
     resetResults: function () {
-        this.setState({results: null});
+        this.setState({
+            results: null,
+            hide: true
+        });
     },
     // Clears input AND Hides Results
     resetAndClear: function () {
+        console.log("close");
         this.state.clear();
         this.resetResults();
+    },
+    hideResults: function () {
+        console.log("hide");
+        this.setState({ hide: true });
+    },
+    showResults: function () {
+        this.setState({ hide: false });
     },
     render: function () {
         return (
             <div className={classNames({
-                'category-search': true,
-                open: this.state.results
-            })}>
-                <Input search={this.search} resetResults={this.resetResults} setClear={this.setClear}/>
-                { this.state.results ? <Results results={this.state.results} close={this.resetAndClear}/> : ''}
+                    'category-search': true,
+                    open: this.state.results
+                })}
+                ref="categorySearch"
+            >
+                <Input search={this.search} resetResults={this.resetResults} showResults={this.showResults} hideResults={this.hideResults} setClear={this.setClear}/>
+                { this.state.results ? <Results results={this.state.results} hide={this.state.hide} close={this.resetAndClear}/> : ''}
             </div>
         );
     }
