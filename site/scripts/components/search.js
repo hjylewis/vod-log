@@ -143,14 +143,17 @@ export default React.createClass({
             });
         }.bind(this));
     },
+    // Clear function clears input
     setClear: function (fn) {
         this.setState({
             clear: fn
         });
     },
+    // Hides results
     resetResults: function () {
         this.setState({results: null});
     },
+    // Clears input AND Hides Results
     resetAndClear: function () {
         this.state.clear();
         this.resetResults();
