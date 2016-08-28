@@ -21,6 +21,8 @@ var GameLog = React.createClass({
         this.loadHead(this.props.logType);
     },
     componentWillReceiveProps: function(nextProps) {
+        console.log(nextProps.logType);
+        this.setState(this.getInitialState());
         this.loadMatches(nextProps.logType, true);
         this.loadHead(nextProps.logType);
     },

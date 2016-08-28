@@ -49,6 +49,15 @@
 
     }
 
+    .no-results {
+        text-align: center;
+        padding: 10px;
+        color: $red;
+        font-size: 13;
+        font-style: italic;
+        font-weight: 300;
+    }
+
     .results {
         clear: both;
         background-color: $white;

@@ -51,6 +51,7 @@ var Input = React.createClass({
                         onChange={this.handleChange}
                         onKeyPress={keyPress}
                         onFocus={this.focus}
+                        placeholder="Search"
                     >
                     </input>
                 </div>
@@ -91,7 +92,7 @@ var Results = React.createClass({
         }.bind(this));
 
         if (results.length === 0) {
-            results = <span>No results</span>
+            results = <div className="no-results">No results</div>
         }
 
         return (
