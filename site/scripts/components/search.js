@@ -1,5 +1,5 @@
-import React from 'React';
-import classNames from 'classNames';
+import React from 'react';
+import classNames from 'classnames';
 import { Link } from 'react-router';
 
 import Catgetories from '../catgetories';
@@ -21,7 +21,7 @@ var Input = React.createClass({
             if (e.charCode === 13) {
                 this.search();
             }
-        };
+        }.bind(this);
         return (
             <div>
                 <input
@@ -37,40 +37,44 @@ var Input = React.createClass({
 });
 
 var Result = React.createClass({
-    rendor: function () {
+    render: function () {
         var link;
         if (this.props.data.type === "champion") {
             link = "/league/champion/" + this.props.data.name.toLowerCase();
         } else if (this.props.data.type === "channel") {
-            link = "/league/channel/" + this.props.data.channelID;
+            link = "/league/channel/" + this.props.data.name;
         }
 
         return (
-            <Link to={link}>
-                <div>
+            <div>
+                <Link to={link}>
+
                     <img src={this.props.data.logo}/>
                     <span>{this.props.data.name}</span>
-                </div>
-            </Link>
+                </Link>
+
+            </div>
         )
     }
 })
 
 var Results = React.createClass({
-    rendor: function () {
+    render: function () {
         var results = this.props.results.map(function (item) {
-            <Result data={item} />
+            return <Result data={item} />
         });
 
         return (
-            {results}
-        )
+            <div>
+                {results}
+            </div>
+        );
     }
 });
 
 
 
-var CategorySearch = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {
             results: null
@@ -78,17 +82,20 @@ var CategorySearch = React.createClass({
     },
     search: function (query) {
         Catgetories.search(query).then(function (results) {
+            console.log(results);
             this.setState({
                 results: results
             });
-        });
+        }.bind(this));
     },
     render: function () {
-        <div className={classNames({
-            open: this.state.results
-        })}>
-            <Input search={}/>
-            <Results results={this.state.results}/>
-        </div>
+        return (
+            <div className={classNames({
+                open: this.state.results
+            })}>
+                <Input search={this.search}/>
+                { this.state.results ? <Results results={this.state.results}/> : ''}
+            </div>
+        );
     }
 });

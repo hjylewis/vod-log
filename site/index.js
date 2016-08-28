@@ -5,8 +5,6 @@ import { Router, Route, Redirect, browserHistory, IndexRoute } from 'react-route
 import App from './scripts/app';
 import {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog} from './scripts/components/game-log/index';
 
-import Catgetories from './scripts/catgetories';
-
 render((
     <Router history={browserHistory}>
         <Redirect from="/" to="league" />
