@@ -2,6 +2,8 @@ import React from 'React';
 import classNames from 'classNames';
 import { Link } from 'react-router';
 
+import Catgetories from '../catgetories';
+
 var Input = React.createClass({
     getInitialState: function () {
         return {
@@ -75,9 +77,11 @@ var CategorySearch = React.createClass({
         }
     },
     search: function (query) {
-        this.setState({
-            results: [];
-        })
+        Catgetories.search(query).then(function (results) {
+            this.setState({
+                results: results
+            });
+        });
     },
     render: function () {
         <div className={classNames({
