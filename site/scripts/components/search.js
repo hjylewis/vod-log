@@ -51,6 +51,12 @@ var Input = React.createClass({
                 focus: false
             });
         });
+
+        this.props.setBlur(() => {
+            this.setState({
+                focus: false
+            });
+        });
     },
     render: function () {
         var keyPress = function (e) {
@@ -131,8 +137,20 @@ export default React.createClass({
         return {
             results: null,
             hide: true,
-            clear: () => {}
+            clear: null,
+            blur: null
         }
+    },
+    componentDidMount: function () {
+        window.addEventListener('mousedown', this.pageClick, false);
+    },
+    pageClick: function (e) {
+        if (this.mouseIsDownOnSearch) {
+            return;
+        }
+
+        this.hideResults();
+        if (this.state.blur) this.state.blur();
     },
     search: function (query) {
         Catgetories.search(query).then(function (results) {
@@ -148,6 +166,12 @@ export default React.createClass({
             clear: fn
         });
     },
+    // Blur function reduces search input
+    setBlur: function (fn) {
+        this.setState({
+            blur: fn
+        });
+    },
     // Hides results
     resetResults: function () {
         this.setState({
@@ -157,16 +181,20 @@ export default React.createClass({
     },
     // Clears input AND Hides Results
     resetAndClear: function () {
-        console.log("close");
-        this.state.clear();
+        if (this.state.clear) this.state.clear();
         this.resetResults();
     },
     hideResults: function () {
-        console.log("hide");
         this.setState({ hide: true });
     },
     showResults: function () {
         this.setState({ hide: false });
+    },
+    onMouseDown: function () {
+        this.mouseIsDownOnSearch = true;
+    },
+    onMouseUp: function () {
+        this.mouseIsDownOnSearch = false;
     },
     render: function () {
         return (
@@ -175,8 +203,16 @@ export default React.createClass({
                     open: this.state.results
                 })}
                 ref="categorySearch"
+                onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}
             >
-                <Input search={this.search} resetResults={this.resetResults} showResults={this.showResults} hideResults={this.hideResults} setClear={this.setClear}/>
+                <Input
+                    search={this.search}
+                    resetResults={this.resetResults}
+                    showResults={this.showResults}
+                    hideResults={this.hideResults}
+                    setClear={this.setClear}
+                    setBlur={this.setBlur}
+                />
                 { this.state.results ? <Results results={this.state.results} hide={this.state.hide} close={this.resetAndClear}/> : ''}
             </div>
         );
