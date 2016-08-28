@@ -17,11 +17,13 @@ var GameLog = React.createClass({
         }
     },
     componentDidMount: function() {
+        this.lastMatchTime = null;
         this.loadMatches(this.props.logType);
         this.loadHead(this.props.logType);
     },
     componentWillReceiveProps: function(nextProps) {
         var logType = nextProps.logType || {};
+        this.lastMatchTime = null;
         this.setState({
             matches: [],
             headData: {name: logType.channel || logType.role || logType.name},
