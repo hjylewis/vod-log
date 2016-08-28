@@ -36,6 +36,15 @@ var Input = React.createClass({
             focus: true
         });
     },
+    componentDidMount: function () {
+        this.props.setClear(() => {
+            this.setState({
+                query: '',
+                display: null,
+                focus: false
+            });
+        });
+    },
     render: function () {
         var keyPress = function (e) {
             if (e.charCode === 13) {
@@ -110,7 +119,8 @@ var Results = React.createClass({
 export default React.createClass({
     getInitialState: function () {
         return {
-            results: null
+            results: null,
+            clear: () => {}
         }
     },
     search: function (query) {
@@ -120,8 +130,17 @@ export default React.createClass({
             });
         }.bind(this));
     },
+    setClear: function (fn) {
+        this.setState({
+            clear: fn
+        });
+    },
     resetResults: function () {
         this.setState({results: null});
+    },
+    resetAndClear: function () {
+        this.state.clear();
+        this.resetResults();
     },
     render: function () {
         return (
@@ -129,8 +148,8 @@ export default React.createClass({
                 'category-search': true,
                 open: this.state.results
             })}>
-                <Input search={this.search} resetResults={this.resetResults}/>
-                { this.state.results ? <Results results={this.state.results} close={this.resetResults}/> : ''}
+                <Input search={this.search} resetResults={this.resetResults} setClear={this.setClear}/>
+                { this.state.results ? <Results results={this.state.results} close={this.resetAndClear}/> : ''}
             </div>
         );
     }
