@@ -2,13 +2,15 @@ import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
+import {camelCase} from '../util';
 import Catgetories from '../catgetories';
 
 var Input = React.createClass({
     getInitialState: function () {
         return {
             query: '',
-            display: null
+            display: null,
+            focus: false
         };
     },
     handleChange: function (e) {
@@ -22,9 +24,15 @@ var Input = React.createClass({
     clear: function () {
         this.setState({
             query: '',
-            display: null
+            display: null,
+            focus: false
         });
         this.props.resetResults();
+    },
+    focus: function () {
+        this.setState({
+            focus: true
+        });
     },
     render: function () {
         var keyPress = function (e) {
@@ -33,12 +41,16 @@ var Input = React.createClass({
             }
         }.bind(this);
         return (
-            <div className="input-container">
+            <div className={classNames({
+                "input-container": true,
+                focus: this.state.focus
+            })}>
                 <div className="input">
                     <input
                         value={this.state.query}
                         onChange={this.handleChange}
                         onKeyPress={keyPress}
+                        onFocus={this.focus}
                     >
                     </input>
                 </div>
@@ -56,16 +68,18 @@ var Input = React.createClass({
 var Result = React.createClass({
     render: function () {
         var link = `/league/${this.props.data.type}/${this.props.data.name.toLowerCase()}`;
-
+        var name = this.props.data.type === "role" ? camelCase(this.props.data.name).replace('Ad', 'AD') : camelCase(this.props.data.name);
         return (
-            <div>
-                <Link to={link}>
-
+            <Link to={link}>
+                <div className="result">
                     {this.props.data.logo ? <img src={this.props.data.logo}/> : ''}
-                    <span>{this.props.data.name}</span>
-                </Link>
+                    <div className="info">
+                        <p>{name}</p>
+                        <p className="type">{camelCase(this.props.data.type)}</p>
+                    </div>
+                </div>
+            </Link>
 
-            </div>
         )
     }
 })
@@ -81,7 +95,7 @@ var Results = React.createClass({
         }
 
         return (
-            <div>
+            <div className="results">
                 {results}
             </div>
         );

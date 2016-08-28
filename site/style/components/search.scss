@@ -1,7 +1,7 @@
 
 .category-search {
     position: absolute;
-    width: 300px;
+    width: 250px;
     right: 0;
     top: 0;
     z-index: 1;
@@ -11,6 +11,14 @@
         height: 50px;
         position: relative;
         padding: (50 - 27) /2 + px 10px;
+        box-sizing: border-box;
+        width: 170px;
+        transition: width 0.5s ease-out;
+
+        &.focus {
+            width: 100%;
+        }
+
         .input {
             border-radius: 5px;
             padding: 5px;
@@ -21,6 +29,7 @@
             input {
                 border: 0;
                 outline: none;
+                width: 100%;
             }
         }
 
@@ -30,7 +39,50 @@
             right: 16px;
             font-size: 13px;
             color: $grey;
+            cursor: pointer;
+
+            &:hover {
+                color: $primary-color;
+            }
         }
 
+    }
+
+    .results {
+        clear: both;
+        background-color: $white;
+        border: $light-grey solid 1px;
+        border-top: 0;
+        border-right: 0;
+        border-bottom-left-radius: 5px;
+        box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.1);
+
+        .result {
+            cursor: pointer;
+            height: 50px;
+                padding: 3px 5px;
+
+            &:hover {
+                background-color: rgba(0,0,0,0.05);
+            }
+
+            img {
+                height: 50px;
+                border-radius: 5px;
+                float: left;
+            }
+
+            .info {
+                float: left;
+                height: 26px;
+                padding: (50 - 26) / 2 + px 5px;
+                .type {
+                    font-style: italic;
+                    font-size: 10px;
+                    font-weight: 300;
+                }
+
+            }
+        }
     }
 }
