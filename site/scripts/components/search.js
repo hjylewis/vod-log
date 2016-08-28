@@ -50,12 +50,7 @@ var Input = React.createClass({
 
 var Result = React.createClass({
     render: function () {
-        var link;
-        if (this.props.data.type === "champion") {
-            link = "/league/champion/" + this.props.data.name.toLowerCase();
-        } else if (this.props.data.type === "channel") {
-            link = "/league/channel/" + this.props.data.name;
-        }
+        var link = `/league/${this.props.data.type}/${this.props.data.name.toLowerCase()}`;
 
         return (
             <div>

@@ -18,7 +18,13 @@ class Catgetories {
                 channel.type = "channel";
                 return channel;
             });
-            this.catgetories = champions.concat(channels);
+            var roles = ["Top", "Jungle", "Mid", "AD Carry", "Support"].map(function (role) {
+                return {
+                    type: "role",
+                    name: role
+                };
+            });
+            this.catgetories = champions.concat(channels).concat(roles);
             return this.catgetories;
         }.bind(this));
     }
