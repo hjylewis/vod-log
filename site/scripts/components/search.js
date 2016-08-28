@@ -14,8 +14,14 @@ var Input = React.createClass({
         };
     },
     handleChange: function (e) {
-        this.setState({query: e.target.value});
+        var value = e.target.value;
+        this.setState({query: value});
         this.props.resetResults();
+        setTimeout(() => {
+            if (value === this.state.query) {
+                this.search();
+            }
+        }, 1000);
     },
     search: function () {
         if (this.state.query.length > 0) {
