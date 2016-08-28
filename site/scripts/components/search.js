@@ -42,6 +42,12 @@ var Input = React.createClass({
             focus: true
         });
     },
+    blur: function () {
+        this.setState({
+            focus: false
+        });
+        this.props.resetResults();
+    },
     componentDidMount: function () {
         this.props.setClear(() => {
             this.setState({
@@ -68,6 +74,7 @@ var Input = React.createClass({
                         onChange={this.handleChange}
                         onKeyPress={keyPress}
                         onFocus={this.focus}
+                        onBlur={this.blur}
                         placeholder="Search"
                     >
                     </input>
