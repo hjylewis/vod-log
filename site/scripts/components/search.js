@@ -33,16 +33,21 @@ var Input = React.createClass({
             }
         }.bind(this);
         return (
-            <div>
-                <input
-                    value={this.state.query}
-                    onChange={this.handleChange}
-                    onKeyPress={keyPress}
-                >
-                </input>
-                {this.state.query !== this.state.display ?
-                    <button onClick={this.search}>search</button> :
-                    <button onClick={this.clear}>clear</button>}
+            <div className="input-container">
+                <div className="input">
+                    <input
+                        value={this.state.query}
+                        onChange={this.handleChange}
+                        onKeyPress={keyPress}
+                    >
+                    </input>
+                </div>
+
+                <div className="input-button">
+                    {this.state.query !== this.state.display ?
+                        <span className="icon-search" onClick={this.search}></span> :
+                        <span className="icon-cross" onClick={this.clear}></span>}
+                </div>
             </div>
         );
     }
@@ -105,6 +110,7 @@ export default React.createClass({
     render: function () {
         return (
             <div className={classNames({
+                'category-search': true,
                 open: this.state.results
             })}>
                 <Input search={this.search} resetResults={this.resetResults}/>

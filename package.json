@@ -22,6 +22,7 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
     "css-loader": "^0.23.1",
+    "file-loader": "^0.9.0",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",
     "grunt-contrib-copy": "^1.0.0",
@@ -34,6 +35,7 @@
     "npm": "^3.10.5",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
     "whatwg-fetch": "^1.0.0"
