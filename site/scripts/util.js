@@ -9,12 +9,14 @@ Promise.forEach = function (array, promise) {
 };
 
 function camelCase (str) {
-    if (str) {
+    if (str && typeof str === 'string') {
         var words = str.split(' ');
         words = words.map(function (word) {
             return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
         });
         return words.join(' ');
+    } else {
+        return str ? str.toString() : '';
     }
 }
 

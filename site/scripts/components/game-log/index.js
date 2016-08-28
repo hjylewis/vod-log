@@ -21,8 +21,13 @@ var GameLog = React.createClass({
         this.loadHead(this.props.logType);
     },
     componentWillReceiveProps: function(nextProps) {
-        console.log(nextProps.logType);
-        this.setState(this.getInitialState());
+        var logType = nextProps.logType || {};
+        this.setState({
+            matches: [],
+            headData: {name: logType.channel || logType.champion || logType.role || logType.name},
+            loading: false,
+            noMore: false
+        });
         this.loadMatches(nextProps.logType, true);
         this.loadHead(nextProps.logType);
     },
@@ -129,6 +134,16 @@ var ChampionGameLog = React.createClass({
     },
     componentDidMount: function () {
         champions.get(this.props.params.championKey).then(function (champion) {
+            this.setState({
+                logType: { champion: champion.id }
+            });
+        }.bind(this));
+    },
+    componentWillReceiveProps: function (newProps) {
+        this.setState({
+            logType: { name: newProps.params.championKey }
+        });
+        champions.get(newProps.params.championKey).then(function (champion) {
             this.setState({
                 logType: { champion: champion.id }
             });

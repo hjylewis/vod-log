@@ -181,7 +181,7 @@ var GameSummary = React.createClass({
         var durationStr = duration.minutes() + "m " + duration.seconds() + "s";
         var creation = moment(match_data.creation).fromNow();
         var patch = /^[0-9]+\.[0-9]+/.exec(match_data.matchVersion);
-        var role = camelCase(player_data.role).replace('Ad', 'AD');
+        var role = player_data.role ? camelCase(player_data.role).replace('Ad', 'AD') : '';
         var roleLink = '/league/role/' + role.toLowerCase();
 
         var summaryClasses = classNames({
