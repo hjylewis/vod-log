@@ -1,7 +1,7 @@
 
 .category-search {
     position: absolute;
-    width: 250px;
+    width: 300px;
     right: 0;
     top: 0;
     z-index: 1;
@@ -11,12 +11,13 @@
         height: 50px;
         position: relative;
         padding: (50 - 27) /2 + px 10px;
+        margin-right: 10px;
         box-sizing: border-box;
         width: 170px;
         transition: width 0.5s ease-out;
 
         &.focus {
-            width: 100%;
+            width: calc(100% - 10px);
         }
 
         .input {
