@@ -55,19 +55,6 @@
     }
 
     .results {
-        position: absolute;
-        z-index: 1;
-        width: 290px;
-        top: 50px;
-        left: 10px;
-
-        background-color: $white;
-
-        border: $light-grey solid 1px;
-        border-bottom-right-radius: 5px;
-        border-bottom-left-radius: 5px;
-        box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.1);
-
         .result {
             cursor: pointer;
             height: 50px;

@@ -122,6 +122,7 @@ var Results = React.createClass({
         return (
             <div className={classNames({
                 results: true,
+                dropdown: true,
                 hide: this.props.hide
             })}>
                 {results}
