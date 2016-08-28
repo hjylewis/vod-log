@@ -8,7 +8,7 @@ import GameLogLoad from './load';
 var GameLog = React.createClass({
     getInitialState: function () {
         var logType = this.props.logType || {};
-        var name = logType.channel || logType.champion || logType.role || logType.name;
+        var name = logType.channel || logType.role || logType.name;
         return {
             matches: [],
             headData: {name: name},
@@ -24,7 +24,7 @@ var GameLog = React.createClass({
         var logType = nextProps.logType || {};
         this.setState({
             matches: [],
-            headData: {name: logType.channel || logType.champion || logType.role || logType.name},
+            headData: {name: logType.channel || logType.role || logType.name},
             loading: false,
             noMore: false
         });
@@ -135,7 +135,10 @@ var ChampionGameLog = React.createClass({
     componentDidMount: function () {
         champions.get(this.props.params.championKey).then(function (champion) {
             this.setState({
-                logType: { champion: champion.id }
+                logType: {
+                    champion: champion.id,
+                    name: this.props.params.championKey
+                 }
             });
         }.bind(this));
     },
@@ -145,7 +148,10 @@ var ChampionGameLog = React.createClass({
         });
         champions.get(newProps.params.championKey).then(function (champion) {
             this.setState({
-                logType: { champion: champion.id }
+                logType: {
+                    champion: champion.id,
+                    name: newProps.params.championKey
+                }
             });
         }.bind(this));
     },
