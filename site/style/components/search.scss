@@ -10,7 +10,7 @@
         padding: (50 - 27) /2 + px 10px;
         box-sizing: border-box;
         width: 170px;
-        transition: width 0.5s ease-out;
+        transition: width 0.2s ease-out;
 
         &.focus {
             width: calc(100% - 10px);
