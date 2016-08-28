@@ -71,7 +71,7 @@ var Result = React.createClass({
         var name = this.props.data.type === "role" ? camelCase(this.props.data.name).replace('Ad', 'AD') : camelCase(this.props.data.name);
         return (
             <Link to={link}>
-                <div className="result">
+                <div onClick={this.props.close} className="result">
                     {this.props.data.logo ? <img src={this.props.data.logo}/> : ''}
                     <div className="info">
                         <p>{name}</p>
@@ -87,8 +87,8 @@ var Result = React.createClass({
 var Results = React.createClass({
     render: function () {
         var results = this.props.results.map(function (item) {
-            return <Result key={item.name} data={item} />
-        });
+            return <Result key={item.name} data={item} close={this.props.close} />
+        }.bind(this));
 
         if (results.length === 0) {
             results = <span>No results</span>
@@ -112,7 +112,6 @@ export default React.createClass({
     },
     search: function (query) {
         Catgetories.search(query).then(function (results) {
-            console.log(results);
             this.setState({
                 results: results
             });
@@ -128,7 +127,7 @@ export default React.createClass({
                 open: this.state.results
             })}>
                 <Input search={this.search} resetResults={this.resetResults}/>
-                { this.state.results ? <Results results={this.state.results}/> : ''}
+                { this.state.results ? <Results results={this.state.results} close={this.resetResults}/> : ''}
             </div>
         );
     }
