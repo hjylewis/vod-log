@@ -18,8 +18,10 @@ var Input = React.createClass({
         this.props.resetResults();
     },
     search: function () {
-        this.setState({display: this.state.query});
-        this.props.search(this.state.query);
+        if (this.state.query.length > 0) {
+            this.setState({display: this.state.query});
+            this.props.search(this.state.query);
+        }
     },
     clear: function () {
         this.setState({
