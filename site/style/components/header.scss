@@ -5,7 +5,17 @@
     border: $light-grey solid 1px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 
-    .search {
+    .settings {
+        float:right;
+        margin: 17px 20px 17px 5px;
+        cursor: pointer;
+
+        &:hover {
+            color: $primary-color
+        }
+    }
+
+    .category-search {
         float: right;
     }
 }

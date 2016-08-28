@@ -5,6 +5,17 @@ import { Link } from 'react-router';
 import {camelCase} from '../util';
 import Catgetories from '../catgetories';
 
+var Caret = React.createClass({
+    render: function () {
+        return (
+            <div className="dropdown-caret">
+                <div className="caret-outer"></div>
+                <div className="caret-inner"></div>
+            </div>
+        );
+    }
+});
+
 var Input = React.createClass({
     getInitialState: function () {
         return {

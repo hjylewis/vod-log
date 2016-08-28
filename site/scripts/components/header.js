@@ -17,6 +17,9 @@ export default React.createClass({
         return (
             <div className="header">
                 <Logo />
+                <div className="settings">
+                    <span className="icon-cog"></span>
+                </div>
                 <Search />
             </div>
         );
