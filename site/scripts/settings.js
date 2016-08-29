@@ -1,5 +1,7 @@
 import sessionstorage from 'sessionstorage';
 
+const VERSION = 1;
+
 class Settings {
     constructor () {
         var defaults = {
@@ -9,6 +11,10 @@ class Settings {
             }
         };
         this.settings = this.getSession();
+        if (!this.settings.version || this.settings.version < VERSION) {
+            deleteSession();
+            this.settings = {};
+        }
         Object.assign(this.settings, defaults);
         this.setSession();
         console.log(this.settings);
@@ -20,8 +26,12 @@ class Settings {
     }
 
     setSession () {
-        this.settings.updated = new Date();
+        this.settings.version = VERSION;
         sessionstorage.setItem("settings", JSON.stringify(this.settings));
+    }
+
+    deleteSession () {
+        sessionstorage.removeItem("settings");
     }
 
     update (update) {
