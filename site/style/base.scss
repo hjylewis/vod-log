@@ -49,7 +49,7 @@ em {
 .main {
     margin: 20px auto;
     width: 600px;
-    transition: width 0.5s ease-out;
+    transition: width 0.5s ease-in-out;
 
     &.expanded {
         width: 800px;

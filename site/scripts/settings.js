@@ -12,7 +12,7 @@ class Settings {
         };
         this.settings = this.getSession();
         if (!this.settings.version || this.settings.version < VERSION) {
-            deleteSession();
+            this.deleteSession();
             this.settings = {};
         }
         Object.assign(this.settings, defaults);
