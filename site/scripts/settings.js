@@ -1,4 +1,4 @@
-import sessionstorage from 'sessionstorage';
+import store from 'store';
 
 const VERSION = 1;
 
@@ -10,33 +10,32 @@ class Settings {
                 directionDown: true
             }
         };
-        this.settings = this.getSession();
+        this.settings = this.getStore();
         if (!this.settings.version || this.settings.version < VERSION) {
-            this.deleteSession();
+            this.deleteStore();
             this.settings = {};
         }
         Object.assign(this.settings, defaults);
-        this.setSession();
+        this.setStore();
         console.log(this.settings);
     }
 
-    getSession () {
-        var session = sessionstorage.getItem("settings");
-        return session ? JSON.parse(session) : {};
+    getStore () {
+        return store.get("settings") || {};
     }
 
-    setSession () {
+    setStore () {
         this.settings.version = VERSION;
-        sessionstorage.setItem("settings", JSON.stringify(this.settings));
+        store.set("settings", this.settings);
     }
 
-    deleteSession () {
-        sessionstorage.removeItem("settings");
+    deleteStore () {
+        store.remove("settings");
     }
 
     update (update) {
         Object.assign(this.settings, update);
-        this.setSession();
+        this.setStore();
     }
 
     get () {
