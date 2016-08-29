@@ -5,12 +5,16 @@ import settings from '../settings';
 
 var Settings = React.createClass({
     render: function () {
+        console.log(this.props.data);
+        var autoplaySettings = this.props.data.autoplay || {};
         return (
             <div className={classNames({
                 dropdown: true,
                 hide: this.props.hide
             })}>
-                SETTINGS
+                <h3>Settings</h3>
+                <span>Autoplay:</span> <input type="checkbox" checked={autoplaySettings.enabled}></input>
+                <span>Direction:</span> <span>{autoplaySettings.directionDown ? "Down" : "Up"}</span>
             </div>
         );
     }
