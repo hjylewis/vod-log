@@ -19,7 +19,7 @@ var Settings = React.createClass({
                     <h3>Autoplay</h3>
                     <span>Autoplay:</span> <input type="checkbox" disabled={this.props.data.newtab} onChange={this.props.handleAutoplayChange} checked={autoplaySettings.enabled || false}></input>
                     <span>Direction:</span>
-                    <select disabled={this.props.data.newtab} onChange={this.props.handleAutoplayDirectionChange} value={autoplaySettings.directionDown ? "down" : "up"}>
+                    <select disabled={this.props.data.newtab || !autoplaySettings.enabled} onChange={this.props.handleAutoplayDirectionChange} value={autoplaySettings.directionDown ? "down" : "up"}>
                         <option value="down">Down</option>
                         <option value="up">Up</option>
                     </select>
