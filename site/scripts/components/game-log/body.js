@@ -4,6 +4,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import {camelCase} from '../../util';
 import modes from '../../modes';
+import settings from '../../settings';
 
 import AutoplayOverlay from '../autoplay';
 
@@ -88,7 +89,7 @@ var GameSummary = React.createClass({
         }.bind(this));
     },
     openVideo: function (event) {
-        if (!!Twitch) {
+        if (!!Twitch && !settings.get().newtab) {
             if (event) event.preventDefault();
             if (!this.state.video) {
                 this.props.closeVideos();
