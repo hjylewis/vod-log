@@ -258,7 +258,8 @@ var GameLogBody = React.createClass({
         });
     },
     openNext: function (index) {
-        var next = index + 1;
+        var autoplaySettings = settings.get().autoplay || {};
+        var next = autoplaySettings.directionDown === false ? index - 1 : index + 1;
         if (next < 0) {
             this.state.closeVideos();
             return;
