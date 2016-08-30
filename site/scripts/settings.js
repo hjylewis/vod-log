@@ -8,7 +8,8 @@ class Settings {
             autoplay: {
                 enabled: true,
                 directionDown: true
-            }
+            },
+            newtab: false
         };
         this.settings = this.getStore();
         if (!this.settings.version || this.settings.version < VERSION) {
