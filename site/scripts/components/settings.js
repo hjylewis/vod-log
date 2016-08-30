@@ -8,22 +8,20 @@ var Settings = React.createClass({
         var autoplaySettings = this.props.data.autoplay || {};
         return (
             <div className={classNames({
+                'settings-panel': true,
                 dropdown: true,
                 hide: this.props.hide
             })}>
                 <h2>Settings</h2>
-                <span>Open videos in new tab: </span><input type="checkbox" onChange={this.props.handleNewTabChange} checked={this.props.data.newtab || false}></input>
-                <span className={classNames({
-                    "disabled": this.props.data.newtab
-                })}>
-                    <h3>Autoplay</h3>
-                    <span>Autoplay:</span> <input type="checkbox" disabled={this.props.data.newtab} onChange={this.props.handleAutoplayChange} checked={autoplaySettings.enabled || false}></input>
-                    <span>Direction:</span>
+                <p><span>Open videos in new tab: </span><input type="checkbox" onChange={this.props.handleNewTabChange} checked={this.props.data.newtab || false}></input></p>
+                <p><span>Autoplay:</span> <input type="checkbox" disabled={this.props.data.newtab} onChange={this.props.handleAutoplayChange} checked={autoplaySettings.enabled || false}></input></p>
+                <p>
+                    <span>Autoplay direction:</span>
                     <select disabled={this.props.data.newtab || !autoplaySettings.enabled} onChange={this.props.handleAutoplayDirectionChange} value={autoplaySettings.directionDown ? "down" : "up"}>
                         <option value="down">Down</option>
                         <option value="up">Up</option>
                     </select>
-                </span>
+                </p>
             </div>
         );
     }

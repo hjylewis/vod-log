@@ -14,4 +14,14 @@
         border-right: 0;
         border-bottom-right-radius: 0;
     }
+
+    .settings-panel {
+        padding: 10px;
+        line-height: 30px;
+        font-size: 13px;
+
+        h2 {
+            border-bottom: #555 solid 1px;
+        }
+    }
 }
