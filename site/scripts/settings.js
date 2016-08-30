@@ -15,7 +15,7 @@ class Settings {
             this.deleteStore();
             this.settings = {};
         }
-        Object.assign(this.settings, defaults);
+        this.settings = Object.assign(defaults, this.settings || {});
         this.setStore();
         console.log(this.settings);
     }
