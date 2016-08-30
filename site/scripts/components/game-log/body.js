@@ -114,9 +114,12 @@ var GameSummary = React.createClass({
                 console.log(player);
                 var interval = setInterval(function () {
                     if (player.getCurrentTime() > (this.props.data.twitch.end_timestamp_s + 60)){
-                        this.setState({
-                            autoplayShow: true
-                        })
+                        var autoplaySettings = settings.get().autoplay || {};
+                        if (autoplaySettings.enabled) {
+                            this.setState({
+                                autoplayShow: true
+                            })
+                        }
                         clearInterval(interval);
                     }
                 }.bind(this),1000);
