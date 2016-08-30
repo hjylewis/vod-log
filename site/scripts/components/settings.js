@@ -62,13 +62,11 @@ export default  React.createClass({
         this.mouseIsDownOnSettings = false;
     },
     handleAutoplayChange: function (e) {
-        console.log(e.target.checked);
         this.state.settings.autoplay.enabled = e.target.checked;
         this.setState({settings: this.state.settings});
         settings.update(this.state.settings);
     },
     handleAutoplayDirectionChange: function (e) {
-        console.log(e.target.value === "down");
         this.state.settings.autoplay.directionDown = e.target.value === "down";
         this.setState({settings: this.state.settings});
         settings.update(this.state.settings);

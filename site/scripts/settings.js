@@ -18,7 +18,6 @@ class Settings {
         }
         this.settings = Object.assign(defaults, this.settings || {});
         this.setStore();
-        console.log(this.settings);
     }
 
     getStore () {

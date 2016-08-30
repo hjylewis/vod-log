@@ -1,5 +1,7 @@
 import React from 'react';
 
+import settings from '../settings';
+
 var AutoplayLoader = React.createClass({
     getInitialState: function () {
         this.radius = this.props.radius;
@@ -16,6 +18,7 @@ var AutoplayLoader = React.createClass({
             if (progress > 1) {
                 clearInterval(stepInterval);
                 this.props.play();
+                return;
             }
             this.setState({
                 progress: progress
@@ -64,6 +67,11 @@ export default React.createClass({
             }
             this.props.cancelAutoplay();
         }.bind(this);
+
+        var openSettings = function () {
+            window.scrollTo(0, 0);
+            settings.open();
+        }
 
         return (
             <div className="twitch-autoplay-overlay" style={style}>
