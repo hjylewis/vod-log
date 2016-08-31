@@ -159,14 +159,29 @@
     background-color: black;
     // transition: height 0.5s ease-out;
 
+    &:hover {
+        .fullscreen-button {
+            display: block;
+        }
+    }
+
     .fullscreen-button {
         position: absolute;
-        bottom: 0;
-        right: 0;
+        bottom: 10px;
+        right: 73px;
         cursor: pointer;
-        color: white;
-        display: block;
-        background-color: green;
+        display: none;
+        transition: display 1s ease;
+
+        .player-icon-fullscreen {
+            fill: white;
+            width: 30px;
+            height: 30px;
+
+            &:hover {
+                fill: $light-twitch;
+            }
+        }
     }
 
     &.fullscreen {

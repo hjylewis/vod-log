@@ -235,7 +235,11 @@ var GameSummary = React.createClass({
                     ref="twitchContainer"
                 >
                     <AutoplayOverlay show={this.state.autoplayShow} next={this.props.openNext} cancelAutoplay={this.cancelAutoplay}/>
-                    <a onClick={this.toggleFullscreen} className="fullscreen-button">Fullscreen</a>
+                    <a onClick={this.toggleFullscreen} className="fullscreen-button">
+                        <svg className="player-icon-fullscreen">
+                            <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="/style/icons/twitch.svg#icon_fullscreen"></use>
+                        </svg>
+                    </a>
                 </div>
             </div>
         );
