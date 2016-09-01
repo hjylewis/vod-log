@@ -303,7 +303,10 @@ var GameLogBody = React.createClass({
             )
         }.bind(this));
         return (
-            <div className="game-log-body">
+            <div className={classNames({
+                "game-log-body": true,
+                "solo": this.props.solo
+            })}>
                 {log}
             </div>
         );

@@ -98,8 +98,8 @@ var GameLog = React.createClass({
         return (
             <div className="game-log">
                 <div className="game-log-main">
-                    <GameLogHead type={type} headData={this.state.headData} empty={!this.state.matches.length}/>
-                    <GameLogBody type={type} data={this.state.matches} loadMore={this.loadMatches}/>
+                    {!this.props.logType.noHeader ? <GameLogHead type={type} headData={this.state.headData} empty={!this.state.matches.length}/> : ''}
+                    <GameLogBody solo={this.props.logType.noHeader} type={type} data={this.state.matches} loadMore={this.loadMatches}/>
                 </div>
                 <GameLogLoad loading={this.state.loading} noMore={this.state.noMore} onClick={() => this.loadMatches()}/>
             </div>
@@ -110,7 +110,7 @@ var GameLog = React.createClass({
 // GameLog Wrappers
 var IndexGameLog = React.createClass({
     render: function () {
-        var logType = { all: true };
+        var logType = { all: true, noHeader: true };
         return (
             <GameLog logType={logType} />
         )

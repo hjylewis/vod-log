@@ -24,6 +24,15 @@
     }
 }
 
+.game-log-body.solo {
+    .game-summary-container:first-child {
+        .game-summary {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+    }
+}
+
 .game-log-button-container {
     text-align: center;
     clear: both;
