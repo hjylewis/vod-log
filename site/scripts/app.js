@@ -8,7 +8,9 @@ export default React.createClass({
             <DocumentTitle title='vodlog | League of Legends'>
                 <div>
                     <Header />
-                    {this.props.children}
+                    <div className="page">
+                        {this.props.children}
+                    </div>
                 </div>
             </DocumentTitle>
         );
