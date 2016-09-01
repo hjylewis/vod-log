@@ -123,7 +123,9 @@ var ChannelGameLog = React.createClass({
             channel: this.props.params.channelID
         };
         return (
-            <GameLog logType={logType} />
+            <div className="main">
+                <GameLog logType={logType} />
+            </div>
         )
     }
 });
@@ -159,7 +161,9 @@ var ChampionGameLog = React.createClass({
     },
     render: function () {
         return (
-            <GameLog logType={this.state.logType} />
+            <div className="main">
+                <GameLog logType={this.state.logType} />
+            </div>
         );
     }
 });
@@ -170,7 +174,9 @@ var RoleGameLog = React.createClass({
             role: this.props.params.role.toUpperCase()
         };
         return (
-            <GameLog logType={logType} />
+            <div className="main">
+                <GameLog logType={logType} />
+            </div>
         )
     }
 });

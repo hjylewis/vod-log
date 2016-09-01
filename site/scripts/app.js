@@ -6,9 +6,7 @@ export default React.createClass({
         return (
             <div>
                 <Header />
-                <div className="main">
-                    {this.props.children}
-                </div>
+                {this.props.children}
             </div>
         );
     }
