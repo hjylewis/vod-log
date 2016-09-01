@@ -1,4 +1,6 @@
 import React from 'react';
+import DocumentTitle from 'react-document-title';
+
 import db from '../../database/database.js';
 import champions from '../../champions';
 import GameLogHead from './head';
@@ -123,9 +125,11 @@ var ChannelGameLog = React.createClass({
             channel: this.props.params.channelID
         };
         return (
-            <div className="main">
-                <GameLog logType={logType} />
-            </div>
+            <DocumentTitle title={"vodlog | " + logType.channel}>
+                <div className="main">
+                    <GameLog logType={logType} />
+                </div>
+            </DocumentTitle>
         )
     }
 });
@@ -161,9 +165,11 @@ var ChampionGameLog = React.createClass({
     },
     render: function () {
         return (
-            <div className="main">
-                <GameLog logType={this.state.logType} />
-            </div>
+            <DocumentTitle title={"vodlog | " + this.props.params.championKey}>
+                <div className="main">
+                    <GameLog logType={this.state.logType} />
+                </div>
+            </DocumentTitle>
         );
     }
 });
@@ -174,9 +180,11 @@ var RoleGameLog = React.createClass({
             role: this.props.params.role.toUpperCase()
         };
         return (
-            <div className="main">
-                <GameLog logType={logType} />
-            </div>
+            <DocumentTitle title={"vodlog | " + logType.role.toLowerCase()}>
+                <div className="main">
+                    <GameLog logType={logType} />
+                </div>
+            </DocumentTitle>
         )
     }
 });
