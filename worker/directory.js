@@ -11,6 +11,10 @@ var directory = {
         {name: "Lil Bunny FuFuu", region: "NA"},
     ],
 
+    "TSM_Doublelift": [
+        {name: "Doublelift", region: "NA"},
+    ],
+
     "rush": [
         {name: "Tiltlord", region: "KR"},
     ],
