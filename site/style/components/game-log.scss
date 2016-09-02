@@ -51,6 +51,7 @@
         border-radius: 100px;
         transition: none 200ms ease-out;
         transition-property: color, background;
+        background-color: $white;
 
         &:hover {
             background: $primary-color;
