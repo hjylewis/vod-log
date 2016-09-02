@@ -6,8 +6,20 @@
 
     text-align: center;
 
+    .hero-content {
+        padding-top: 70px;
+        margin: auto;
+
+        width: 100%;
+        max-width: 800px;
+    }
+
     .title {
         text-shadow: -7px 5px $black;
+    }
+
+    .subtitle {
+        line-height: 30px;
     }
 
     h3 {

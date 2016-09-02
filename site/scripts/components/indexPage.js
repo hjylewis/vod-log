@@ -6,9 +6,13 @@ var IndexPage = React.createClass({
         return (
             <div>
                 <div className="hero">
-                    <div className="title">SKIP TO THE GOOD PARTS</div>
-                    <h3>Tired of watching streamers in queue and not in game?</h3>
-                    <h3>Watch the VODs worth watching</h3>
+                    <div className="hero-content">
+                        <div className="title">SKIP TO THE GOOD PARTS</div>
+                        <div className="subtitle">
+                            <h3>Tired of watching streamers in queue and not in game?</h3>
+                            <h3>Watch the VODs worth watching</h3>
+                        </div>
+                    </div>
                 </div>
                 <div className="main">
                     <IndexGameLog />
