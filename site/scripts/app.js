@@ -1,6 +1,7 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
 import Header from './components/header';
+import Footer from './components/footer';
 
 export default React.createClass({
     render: function() {
@@ -11,6 +12,7 @@ export default React.createClass({
                     <div className="page">
                         {this.props.children}
                     </div>
+                    <Footer />
                 </div>
             </DocumentTitle>
         );
