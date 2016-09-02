@@ -1,7 +1,12 @@
+"use strict";
+
 var dbConn = require('./lib/database');
 var Twitch = require('./lib/twitch');
 var RiotGames = require('./lib/riotgames');
 var minimist = require('minimist');
+var Promise = require("bluebird");
+
+var directory = require('./directory');
 
 var copyDBfromEnvs = function (start_env, end_env) {
     return new Promise(function (resolve, reject) {
@@ -22,6 +27,8 @@ global.clearMatches = function () {
 };
 
 global.addAccount = function (args) {
+    var force = args.f || args.force;
+
     var channel = args.c || args.channel;
     if (!channel) {
         console.log("Missing -c");
@@ -44,12 +51,18 @@ global.addAccount = function (args) {
         var usernames = Object.keys(account);
         if (usernames.length > 0){
             account = account[usernames[0]];
-            return dbConn.addAccount({
-                id: account.id,
-                name: account.name,
-                region: region,
-                type: "League of Legends" // HARDCODE
-            }, channel);
+
+            return dbConn.getAccount(account.id).then(function (dbAccount) {
+                if (dbAccount && !force) {
+                    return;
+                }
+                return dbConn.addAccount({
+                    id: account.id,
+                    name: account.name,
+                    region: region,
+                    type: "League of Legends" // HARDCODE
+                }, channel);
+            });
         } else {
             console.log("No account found");
         }
@@ -57,19 +70,42 @@ global.addAccount = function (args) {
 };
 
 global.addChannel = function (args) {
+    var force = args.f || args.force;
+
     var name = args.n || args.name;
     if (!name) {
         console.log("Missing -n");
         return;
     }
 
-    return Twitch.api({url: 'channels/' + name}).then(function (channel) {
-        return dbConn.addChannel({
-            id: channel._id,
-            name: name,
-            type: "twitch", // HARDCODE
-            logo: channel.logo,
-            url: channel.url
+    return dbConn.getChannel(name).then(function (channel) {
+        if (channel && !force) {
+            return;
+        }
+
+        console.log("addChannel");
+        return Twitch.api({url: 'channels/' + name}).then(function (channel) {
+            return dbConn.addChannel({
+                id: channel._id,
+                name: name,
+                type: "twitch", // HARDCODE
+                logo: channel.logo,
+                url: channel.url
+            });
+        });
+    });
+};
+
+global.directory = function (args) {
+    var force = args.f || args.force;
+
+    return Promise.map(Object.keys(directory), function (channel) {
+        let args = { name: channel, force: force };
+        return global.addChannel(args).then(function () {
+            return Promise.map(directory[channel], function (account) {
+                let args = { channel: channel, name: account.name, region: account.region, force: force };
+                return global.addAccount(args);
+            });
         });
     });
 };

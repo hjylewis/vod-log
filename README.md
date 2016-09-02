@@ -31,7 +31,6 @@ $node worker/helper.js [command]
 **Commands:**
 * copyDB
 * clearMatches
-* addChannel -n [channel]
-* addAccount -c [channel] -n [account] -r [region]
-
-
+* addChannel -n [channel] [-f]
+* addAccount -c [channel] -n [account] -r [region] [-f]
+* directory [-f]

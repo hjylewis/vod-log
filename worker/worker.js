@@ -280,7 +280,7 @@ function saveMatch(params) {
         });
     }).then(function (params) {
         return dbConn.getChannel(channelID).then(function (channel) {
-            params.matchStore.channelLogo = channel.logo;
+            params.matchStore.channelLogo = channel.logo || null;
             return params;
         });
     }).then(function (params) {
