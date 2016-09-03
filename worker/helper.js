@@ -78,6 +78,8 @@ global.addChannel = function (args) {
         return;
     }
 
+    var displayName = args.d || args.displayName || name;
+
     return dbConn.getChannel(name).then(function (channel) {
         if (channel && !force) {
             return;
@@ -88,6 +90,7 @@ global.addChannel = function (args) {
             return dbConn.addChannel({
                 id: channel._id,
                 name: name,
+                displayName: displayName,
                 type: "twitch", // HARDCODE
                 logo: channel.logo,
                 url: channel.url
@@ -100,9 +103,13 @@ global.directory = function (args) {
     var force = args.f || args.force;
 
     return Promise.map(Object.keys(directory), function (channel) {
-        let args = { name: channel, force: force };
+        let args = {
+            name: channel,
+            displayName: directory[channel].displayName,
+            force: force
+        };
         return global.addChannel(args).then(function () {
-            return Promise.map(directory[channel], function (account) {
+            return Promise.map(directory[channel].accounts, function (account) {
                 let args = { channel: channel, name: account.name, region: account.region, force: force };
                 return global.addAccount(args);
             });
