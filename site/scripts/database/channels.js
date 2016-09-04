@@ -13,7 +13,7 @@ function channels () {
     channels.getAllChannels = function () {
         var ref = connection.store + "/channels";
         return connection.getData(ref);
-    }
+    };
 
     channels.getChannelHead = function (id) {
         return channels.getChannel(id).then(function (channel) {
