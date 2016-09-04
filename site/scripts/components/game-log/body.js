@@ -122,7 +122,6 @@ var GameSummary = React.createClass({
                     allowfullscreen: false
                 };
                 var player = new Twitch.Player(elementID, options);
-                console.log(player);
                 var interval = setInterval(function () {
                     if (player.getCurrentTime() > (this.props.data.twitch.end_timestamp_s + 60)){
                         var autoplaySettings = settings.get().autoplay || {};
