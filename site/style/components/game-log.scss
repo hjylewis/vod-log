@@ -224,8 +224,9 @@
         box-sizing: border-box;
         width: 100px;
         padding: 5px;
-        img {
+        img, .defaultImg {
             height: 90px;
+            width: 90px;
         }
     }
 

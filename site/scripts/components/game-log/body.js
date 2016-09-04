@@ -7,11 +7,18 @@ import modes from '../../modes';
 import settings from '../../settings';
 
 import AutoplayOverlay from '../autoplay';
+import DefaultImg from '../defaultImg';
+
 
 var SummaryImage = React.createClass({
     render: function () {
         return (
-            <Link to={this.props.link}><img src={this.props.image}></img></Link>
+            <Link to={this.props.link}>
+                {this.props.image ?
+                    <img src={this.props.image}></img> :
+                    <DefaultImg />
+                }
+            </Link>
         )
     }
 });
@@ -209,7 +216,7 @@ var GameSummary = React.createClass({
             link = "/league/champion/" + player_data.champion.name.toLowerCase();
         } else {
             image = this.props.data.channelLogo;
-            link = "/league/channel/" + this.props.data.channelID;
+            link = "/league/channel/" + this.props.data.channel.id;
         }
 
         return (
