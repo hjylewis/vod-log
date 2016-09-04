@@ -7,7 +7,7 @@ import {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog} from './scri
 import {IndexPage} from './scripts/components/indexPage';
 
 render((
-    <Router history={browserHistory}>
+    <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
         <Redirect from="/" to="league" />
         <Route path="/league" component={App}>
             <IndexRoute component={IndexPage}/>
