@@ -40,7 +40,8 @@ class Catgetories {
                 distance: 100,
                 maxPatternLength: 32,
                 keys: [
-                    "name"
+                    "name",
+                    "displayName"
                 ]
             };
             var fuse = new Fuse(catgetories, options);

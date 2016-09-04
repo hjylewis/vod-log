@@ -178,8 +178,8 @@ var GameSummary = React.createClass({
         this.setState({ fullscreen: false });
     },
     render: function() {
-        var channel = camelCase(this.props.data.channelID);
-        var channelLink = "/league/channel/" + this.props.data.channelID;
+        var channel = this.props.data.channel.displayName;
+        var channelLink = "/league/channel/" + this.props.data.channel.id;
         var match_data = this.props.data.match_data;
         var player_data = match_data.player_data;
 

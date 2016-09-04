@@ -20,6 +20,7 @@ function channels () {
             return {
                 type: 'channel',
                 name: channel.name,
+                displayName: channel.displayName,
                 url: channel.url,
                 logo: channel.logo,
                 accounts: Object.keys(channel.accounts)

@@ -92,8 +92,8 @@ var Input = React.createClass({
 
 var Result = React.createClass({
     render: function () {
-        var link = `/league/${this.props.data.type}/${this.props.data.name.toLowerCase()}`;
-        var name = this.props.data.type === "role" ? camelCase(this.props.data.name).replace('Ad', 'AD') : camelCase(this.props.data.name);
+        var link = `/league/${this.props.data.type}/${this.props.data.name}`;
+        var name = this.props.data.type === "role" ? camelCase(this.props.data.name).replace('Ad', 'AD') : (this.props.data.displayName || camelCase(this.props.data.name));
         return (
             <Link to={link}>
                 <div onClick={this.props.close} className="result">

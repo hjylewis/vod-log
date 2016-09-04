@@ -1,6 +1,7 @@
 import Fuse from 'fuse.js';
 
-import connection from './connection.js';
+import connection from './connection';
+import channels from './channels';
 
 function matches () {
     var matches = this;
@@ -8,6 +9,17 @@ function matches () {
     function _joinMatches (matchIds) {
         return Promise.forEach(matchIds, function (matchId) {
             return connection.addListener(firebase.database().ref(connection.store + '/matches/' + matchId));
+        }).then(function (matches) {
+            return Promise.forEach(matches, function (match) {
+                return channels.getChannel(match.channelID).then(function (channel) {
+                    match.channel = {
+                        id: match.channelID,
+                        displayName: channel.displayName
+                    };
+                    delete match.channelID;
+                    return match;
+                });
+            });
         });
     }
 
