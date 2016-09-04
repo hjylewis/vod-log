@@ -7,6 +7,8 @@ var riotGames = require("./lib/riotgames");
 var utils = require("./lib/utils");
 var moment = require('moment');
 
+var env = require("../env.json").worker_env;
+
 function getAccounts (channel) {
     var accountIDs = Object.keys(channel.accounts);
 
@@ -332,7 +334,7 @@ var crawlForNewMatches = function () {
     });
 };
 
-
+console.log("env: " + env);
 crawlForNewMatches().then(function () {
     console.log("done");
 }).catch(function (error) {
