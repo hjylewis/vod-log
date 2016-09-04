@@ -72,7 +72,7 @@ function champions () {
     };
 
     champions.getImageURL = function (version, champion) {
-        return `http://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion}`;
+        return `//ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion}`;
     };
 
     champions.getImage = function (id) {

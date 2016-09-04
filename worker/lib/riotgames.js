@@ -224,7 +224,7 @@ var getSummonerSpell = function (id) {
 
 var getChampionImage = function (path) {
     // TODO fetch data dragon version https://developer.riotgames.com/api/methods#!/1055/3632
-    return `http://ddragon.leagueoflegends.com/cdn/6.16.2/img/champion/${path}`;
+    return `//ddragon.leagueoflegends.com/cdn/6.16.2/img/champion/${path}`;
 };
 
 var getKeystoneMasteries = function () {
@@ -234,7 +234,7 @@ var getKeystoneMasteries = function () {
 
 var getMasteryImage = function (id) {
     // TODO fetch data dragon version https://developer.riotgames.com/api/methods#!/1055/3632
-    return `http://ddragon.leagueoflegends.com/cdn/6.16.2/img/mastery/${id}.png`;
+    return `//ddragon.leagueoflegends.com/cdn/6.16.2/img/mastery/${id}.png`;
 };
 
 var getItemImage = function (id) {
@@ -242,7 +242,7 @@ var getItemImage = function (id) {
     if (id === 0) {
         return null;
     }
-    return `http://ddragon.leagueoflegends.com/cdn/6.16.2/img/item/${id}.png`;
+    return `//ddragon.leagueoflegends.com/cdn/6.16.2/img/item/${id}.png`;
 };
 
 module.exports = {

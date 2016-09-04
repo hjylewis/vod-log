@@ -5,7 +5,8 @@
   "main": "Gruntfile.js",
   "scripts": {
     "start": "webpack-dev-server --colors --content-base site/ --history-api-fallback",
-    "production": "webpack --config webpack.config.production.js"
+    "production": "webpack --config webpack.config.production.js",
+    "deploy": "npm run production && firebase deploy"
   },
   "repository": {
     "type": "git",
