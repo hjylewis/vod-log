@@ -18,8 +18,12 @@ var copyDBfromEnvs = function (start_env, end_env) {
     });
 };
 
-global.copyDB = function () {
+global.copyDBtoDev = function () {
     return copyDBfromEnvs('production', 'dev');
+};
+
+global.copyDBtoProduction = function () {
+    return copyDBfromEnvs('dev', 'production');
 };
 
 global.clearMatches = function () {

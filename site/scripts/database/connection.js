@@ -1,13 +1,14 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
 
-import '../util.js';
+import '../util';
+import env from '../environment';
 
 function connection () {
     var connection = this;
 
     // TODO dev env
-    connection.store = "dev/store";
+    connection.store = `${env || 'production'}/store`;
 
 
     // Initialize Firebase

@@ -30,6 +30,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-http-server": "^2.0.0",
     "grunt-webpack": "^1.0.14",
+    "json-loader": "^0.5.4",
     "load-grunt-tasks": "^3.5.0",
     "node-sass": "^3.8.0",
     "npm": "^3.10.5",
