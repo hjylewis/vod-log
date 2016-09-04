@@ -43,6 +43,10 @@ var KeystoneImage = React.createClass({
 
 var Items = React.createClass({
     render: function () {
+        if (!Array.isArray(this.props.items)) {
+            throw "Items should be an array";
+        }
+
         var items = this.props.items.map(function (item, i) {
             if (!item) {
                 return (
@@ -69,7 +73,7 @@ var IconStrip = React.createClass({
             <div className="icon-strip">
                 <SummonerSpells spell1={this.props.player.spell1} spell2={this.props.player.spell2} />
                 <KeystoneImage image={this.props.player.keystone.image} />
-                <Items items={this.props.player.stats.items} />
+                <Items items={this.props.player.stats.items || []} />
             </div>
         )
     }
@@ -176,7 +180,6 @@ var GameSummary = React.createClass({
     render: function() {
         var channel = camelCase(this.props.data.channelID);
         var channelLink = "/league/channel/" + this.props.data.channelID;
-
         var match_data = this.props.data.match_data;
         var player_data = match_data.player_data;
 
