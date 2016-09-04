@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {camelCase} from '../../util.js';
+import DefaultImg from '../defaultImg';
 
 var GameLogHead = React.createClass({
     getInitialState: function () {
@@ -26,7 +27,15 @@ var GameLogHead = React.createClass({
             accounts.push(<a key={accounts.length} onClick={this.expandToggle}><em>(less)</em></a>);
         }
 
-        var logo = this.props.headData.logo ? <img className="logo" src={this.props.headData.logo} /> : null;
+        var logo;
+        if (this.props.headData.logo) {
+            logo = <img className="logo" src={this.props.headData.logo} />;
+        } else if (this.props.type === "channel") {
+            logo = <DefaultImg />;
+        } else {
+            logo = null;
+        }
+
         var name = this.props.headData.displayName || (this.props.headData.name ? camelCase(this.props.headData.name).replace('Ad', 'AD') : '');
         var nameElement = this.props.headData.url ? <a href={this.props.headData.url} target="_blank">{name}</a> : <span className="stripped">{name}</span>;
         var accountInfo = function () {

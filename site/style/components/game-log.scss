@@ -96,10 +96,16 @@
         }
     }
 
-    .logo {
+    .logo, .defaultImg {
         flex: 0 0 auto;
         border-radius: 5px;
         float: left;
+    }
+
+    .defaultImg {
+        width: 120px;
+        height: 120px;
+        padding: 31px 0;
     }
 
     .info {
@@ -151,6 +157,8 @@
             width: 155px;
             height: 155px;
         }
+
+
     }
 
     &.champion {
