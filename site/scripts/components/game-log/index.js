@@ -3,6 +3,8 @@ import DocumentTitle from 'react-document-title';
 
 import db from '../../database/database.js';
 import champions from '../../champions';
+import channels from '../../database/channels';
+
 import GameLogHead from './head';
 import GameLogBody from './body';
 import GameLogLoad from './load';
@@ -120,12 +122,31 @@ var IndexGameLog = React.createClass({
 });
 
 var ChannelGameLog = React.createClass({
-    render: function () {
-        var logType = {
+    getInitialState: function () {
+        return {
             channel: this.props.params.channelID
         };
+    },
+    componentDidMount: function () {
+        channels.getChannel(this.props.params.channelID).then(function (channel) {
+            this.ready = true;
+            this.setState({channel: channel.displayName});
+        }.bind(this));
+    },
+    componentWillReceiveProps: function (newProps) {
+        this.ready = false;
+        channels.getChannel(newProps.params.channelID).then(function (channel) {
+            this.ready = true;
+            this.setState({channel: channel.displayName});
+        }.bind(this));
+    },
+    render: function () {
+        var logType = {
+            name: this.props.params.channelID,
+            channel: this.ready ? this.props.params.channelID : null
+        };
         return (
-            <DocumentTitle title={"vodlog | " + logType.channel}>
+            <DocumentTitle title={"vodlog | " + this.state.channel}>
                 <div className="main">
                     <GameLog logType={logType} />
                 </div>
