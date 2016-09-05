@@ -17,7 +17,7 @@ export default React.createClass({
                                 <br />
                                 <p>Just make sure that your email contains the necessary information:</p>
                                 <ul>
-                                    <li>Twitch channel and IGN information</li>
+                                    <li>Twitch channel, IGN information, and region</li>
                                     <li>Screenshot of Twitch VOD where streamer uses that IGN</li>
                                     <li>Link to Twich VOD where streamer uses that IGN (with the relevant timestamp)</li>
                                 </ul>
