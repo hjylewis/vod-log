@@ -13,7 +13,7 @@ export default React.createClass({
                         <div className="suggestion-page">
                             <div className="title">Missing Information?</div>
                             <div className="body">
-                                <p>If you think the vodlog is missing channel or account message, shoot us a message!</p>
+                                <p>If you think the vodlog is missing a streamer or an associated account, shoot us a message!</p>
                                 <br />
                                 <p>Just make sure that your email contains the necessary information:</p>
                                 <ul>
