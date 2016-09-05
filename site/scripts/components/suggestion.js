@@ -12,13 +12,20 @@ export default React.createClass({
                     <div className="page">
                         <div className="suggestion-page">
                             <div className="title">Missing Information?</div>
-                            <p>If you think the vodlog is missing channel or account message, shoot us a message!</p>
-                            <p>Just make sure that your email contains the necessary information:</p>
-                            <ul>
-                                <li>Twitch channel and IGN information</li>
-                                <li>Screenshot of Twitch VOD where streamer uses that IGN</li>
-                                <li>Link to Twich VOD where streamer uses that IGN</li>
-                            </ul>
+                            <div className="body">
+                                <p>If you think the vodlog is missing channel or account message, shoot us a message!</p>
+                                <br />
+                                <p>Just make sure that your email contains the necessary information:</p>
+                                <ul>
+                                    <li>Twitch channel and IGN information</li>
+                                    <li>Screenshot of Twitch VOD where streamer uses that IGN</li>
+                                    <li>Link to Twich VOD where streamer uses that IGN</li>
+                                </ul>
+                                <br />
+                                <p>Suggestions without the necessary information will be ignored.</p>
+                                <br />
+                                <p>Thanks for all your help!</p>
+                            </div>
                         </div>
                     </div>
                     <Footer />

@@ -5,6 +5,12 @@
     }
 }
 
+@media screen and (max-width: 700px) {
+    .suggestion-page {
+        width: 95%;
+    }
+}
+
 @media screen and (max-width: 800px) {
     .main.expanded {
         width: 95%;
