@@ -1,6 +1,5 @@
-
-@media screen and (max-width: 600px) {
-    .main {
+@media screen and (max-width: 800px) {
+    .main.expanded {
         width: 95%;
     }
 }
@@ -9,10 +8,104 @@
     .suggestion-page {
         width: 95%;
     }
+
+    .hero .title {
+        text-shadow: -5px 3px #242929;
+        font-size: 70px;
+    }
 }
 
-@media screen and (max-width: 800px) {
-    .main.expanded {
+@media screen and (max-width: 600px) {
+    .main {
         width: 95%;
     }
+}
+
+@media screen and (max-width: 570px) {
+    .game-summary .icon-strip {
+        display: none
+    }
+
+    .category-search {
+        width: 180px;
+    }
+
+    .header .logo {
+        font-size: 27px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .game-summary .watch-button {
+        margin-left: 0;
+    }
+
+    .hero{
+        height: 300px;
+
+        .title {
+            font-size: 50px;
+        }
+
+        .subtitle {
+            h3 {
+                font-size: 15px;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+    .game-log-head {
+
+        &.channel {
+            padding-bottom: 20px;
+            .logo {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .hero{
+        .subtitle {
+            h3 {
+                font-size: 13px;
+            }
+        }
+    }
+
+    .header {
+        .logo {
+            display: none;
+        }
+
+        .logo.abbreviated {
+            display: inline-block;
+        }
+    }
+}
+
+@media screen and (max-width: 330px) {
+    .hero{
+        height: 250px;
+
+        .title {
+            font-size: 40px;
+        }
+
+        .subtitle {
+            h3 {
+                font-size: 12px;
+            }
+        }
+    }
+
 }

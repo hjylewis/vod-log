@@ -9,7 +9,10 @@ import Settings from './settings';
 var Logo = React.createClass({
     render: function() {
         return (
-            <Link to="/league"><span className="logo">VODLOG</span></Link>
+            <Link to="/league">
+                <span className="logo">VODLOG</span>
+                <span className="logo abbreviated">VL</span>
+            </Link>
         );
     }
 });

@@ -26,5 +26,9 @@
         &:hover {
             color: $black
         }
+
+        &.abbreviated {
+            display: none;
+        }
     }
 }
