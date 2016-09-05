@@ -110,11 +110,16 @@ global.directory = function (args) {
         let args = {
             name: channel,
             displayName: directory[channel].displayName,
-            force: force
+            force: force === true || force === "channel"
         };
         return global.addChannel(args).then(function () {
             return Promise.map(directory[channel].accounts, function (account) {
-                let args = { channel: channel, name: account.name, region: account.region, force: force };
+                let args = {
+                    channel: channel,
+                    name: account.name,
+                    region: account.region,
+                    force: force === true || force === "account"
+                };
                 return global.addAccount(args);
             });
         });
