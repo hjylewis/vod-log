@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
+import ReactTooltip from 'react-tooltip';
+
 import {camelCase} from '../../util';
 import modes from '../../modes';
 import settings from '../../settings';
@@ -30,10 +32,12 @@ var SummonerSpells = React.createClass({
         return (
             <div className="summoner-spells">
                 <div className="icon">
-                    <div className={spell1Classes}/>
+                    <div data-tip={camelCase(this.props.spell1)} data-place="bottom" className={spell1Classes}/>
+                    <ReactTooltip delayShow={1000} />
                 </div>
                 <div  className="icon">
-                    <div className={spell2Classes}/>
+                    <div data-tip={camelCase(this.props.spell2)} data-place="bottom" className={spell2Classes}/>
+                    <ReactTooltip delayShow={1000} />
                 </div>
             </div>
         )
