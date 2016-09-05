@@ -18,4 +18,8 @@
         list-style: inherit;
         list-style-position: inside;
     }
+
+    a {
+        @include resetLink($primary-color, underline);
+    }
 }

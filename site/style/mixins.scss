@@ -4,7 +4,7 @@
     -moz-transform-origin: 0 0;
 }
 
-@mixin resetLink($color: $grey) {
+@mixin resetLink($color: $grey, $decoration: none) {
     &:link {
         color: $color;
         text-decoration: none;
@@ -17,7 +17,7 @@
 
     &:hover {
         color: $color;
-        text-decoration: none;
+        text-decoration: $decoration;
     }
 
     &:active {
