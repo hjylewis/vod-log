@@ -18,6 +18,7 @@ var directory = {
         displayName: "Bunnyfufuu",
         accounts: [
             {name: "Lil Bunny FuFuu", region: "NA"},
+            {name: "Laminated Shrimp", region: "NA"}
         ]
     },
     "HaiL9": {
