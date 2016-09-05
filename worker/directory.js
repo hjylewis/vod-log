@@ -103,6 +103,12 @@ var directory = {
         accounts: [
             {name: "Anivia Kid", region: "NA"},
         ]
+    },
+    "LiquidDardoch": {
+        displayName: "Dardoch",
+        accounts: [
+            {name: "ghetto oprah", region: "NA"},
+        ]
     }
 };
 
