@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
@@ -24,6 +26,7 @@ var Input = React.createClass({
         }, 1000);
     },
     search: function () {
+        this.focus();
         if (this.state.query.length > 0) {
             this.setState({display: this.state.query});
             this.props.search(this.state.query);
@@ -56,6 +59,8 @@ var Input = React.createClass({
             this.setState({
                 focus: false
             });
+
+
         });
     },
     render: function () {
@@ -81,9 +86,17 @@ var Input = React.createClass({
                 </div>
 
                 <div className="input-button">
-                    {this.state.query !== this.state.display ?
-                        <span className="icon-search" onClick={this.search}></span> :
-                        <span className="icon-cross" onClick={this.clear}></span>}
+                    <span className="search-icon">
+                        {this.state.query !== this.state.display ?
+                            <span className="icon-search" onClick={this.search}></span> :
+                            <span className="icon-cross" onClick={this.clear}></span>}
+                    </span>
+
+                    {/* When the screen is small enough and the input is hidden when not focused,
+                      * only display search icon and not the clear icon */}
+                    <span className="search-icon without-clear">
+                        <span className="icon-search" onClick={this.search}></span>
+                    </span>
                 </div>
             </div>
         );

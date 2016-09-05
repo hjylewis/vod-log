@@ -41,6 +41,10 @@
             &:hover {
                 color: $primary-color;
             }
+
+            .without-clear {
+                display: none;
+            }
         }
 
     }

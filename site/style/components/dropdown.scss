@@ -4,6 +4,9 @@
     width: 290px;
     top: 50px;
 
+    max-height: calc(100vh - 50px);
+    overflow-y: auto;
+
     background-color: $white;
 
     border: $light-grey solid 1px;

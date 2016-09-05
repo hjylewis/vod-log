@@ -44,6 +44,30 @@
         margin-left: 0;
     }
 
+
+
+    .category-search .input-container {
+        .input {
+            display: none;
+        }
+
+        &.focus {
+            .input {
+                display: inherit;
+            }
+        }
+
+        .input-button {
+            .search-icon {
+                display: none;
+            }
+
+            .without-clear {
+                display: inherit;
+            }
+        }
+    }
+
     .hero{
         height: 300px;
 
