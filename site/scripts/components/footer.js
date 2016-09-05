@@ -6,7 +6,7 @@ export default React.createClass({
         var year = new Date().getFullYear();
         return (
             <div className="footer">
-                <p>Email | Twitter | Github</p>
+                <p>Email | <a href="https://twitter.com/hjylewis">Twitter</a> | <a href="https://github.com/hjylewis/vod-log">Github</a></p>
                 <p>&#169; {year} vodlog</p>
             </div>
         );
