@@ -7,8 +7,19 @@ import {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog} from './scri
 import {IndexPage} from './scripts/components/indexPage';
 import Suggestion from './scripts/components/suggestion';
 
+import analytics from './scripts/analytics';
+
+
+var onUpdate = function () {
+    //Scroll to top
+    window.scrollTo(0, 0);
+
+    // Analytics
+    analytics.updatePage(window.location.pathname);
+};
+
 render((
-    <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
+    <Router history={browserHistory} onUpdate={onUpdate}>
         <Redirect from="/" to="league" />
         <Route path="/league" component={App}>
             <IndexRoute component={IndexPage}/>
