@@ -14,7 +14,7 @@ var Settings = React.createClass({
             })}>
                 <h2>Settings</h2>
                 <p><span>Open videos in new tab: </span><input type="checkbox" onChange={this.props.handleNewTabChange} checked={this.props.data.newtab || false}></input></p>
-                <p><span>Autoplay:</span> <input type="checkbox" disabled={this.props.data.newtab} onChange={this.props.handleAutoplayChange} checked={autoplaySettings.enabled || false}></input></p>
+                <p><span>Autoplay next video:</span> <input type="checkbox" disabled={this.props.data.newtab} onChange={this.props.handleAutoplayChange} checked={autoplaySettings.enabled || false}></input></p>
                 <p>
                     <span>Autoplay direction:</span>
                     <select disabled={this.props.data.newtab || !autoplaySettings.enabled} onChange={this.props.handleAutoplayDirectionChange} value={autoplaySettings.directionDown ? "down" : "up"}>
