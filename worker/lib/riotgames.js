@@ -42,10 +42,13 @@ class ApiState {
             callback = params.callback;
 
         var self = this;
-
         request(options, function (error, response, body) {
             if (!error) {
-                body = JSON.parse(body);
+                try {
+                    body = JSON.parse(body);
+                } catch (e) {
+                    throw body;
+                }
                 if (body.status && body.status.status_code === 429) {
                     var retrySeconds = response.headers['retry-after'] ? parseInt(response.headers['retry-after']) : 0;
                     self.pushRequest(params); // re-add

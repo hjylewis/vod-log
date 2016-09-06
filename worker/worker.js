@@ -270,7 +270,8 @@ function saveMatch(params) {
             timestamp_s: Math.round(timestamp / 1000), //seconds
             video_url: video_url
         },
-        creation: match.timestamp
+        creation: match.timestamp,
+        bootcamp: account.bootcamp || null
     };
     return riotGames.getMatch(account.region, match.matchId).then((matchDetails) => {
         params.matchStore = matchStore;

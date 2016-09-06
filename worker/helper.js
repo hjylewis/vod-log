@@ -64,6 +64,7 @@ global.addAccount = function (args) {
                     id: account.id,
                     name: account.name,
                     region: region,
+                    bootcamp: args.bootcamp || null,
                     type: "League of Legends" // HARDCODE
                 }, channel);
             });
@@ -118,6 +119,7 @@ global.directory = function (args) {
                     channel: channel,
                     name: account.name,
                     region: account.region,
+                    bootcamp: account.bootcamp,
                     force: force === true || force === "account"
                 };
                 return global.addAccount(args);

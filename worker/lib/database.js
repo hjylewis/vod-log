@@ -189,6 +189,20 @@ var addMatch = function (match) {
         });
     }));
 
+    if (match.bootcamp) {
+        var bootcampRef = ref.child("bootcamps/" + match.bootcamp + "/matches/" + match.id);
+        promises.push(new Promise(function (resolve, reject) {
+            bootcampRef.set(matchDigest, function (error) {
+                if (error) {
+                    console.error("Add Match (to bootcamp) failed: " + error.code);
+                    reject(error);
+                } else {
+                    resolve();
+                }
+            });
+        }));
+    }
+
     return Promise.all(promises);
 };
 
