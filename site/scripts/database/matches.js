@@ -24,7 +24,7 @@ function matches () {
     }
 
     matches.getMatches = function (params) {
-        var {channel, champion, role} = params;
+        var {channel, champion, role, bootcamp} = params;
         var {limit, orderBy, endAt} = params;
 
         var ref = connection.store + "/matches";
@@ -35,6 +35,8 @@ function matches () {
             ref = connection.store + '/champions/' + champion + '/matches';
         } else if (role) {
             ref = connection.store + '/roles/' + role + '/matches';
+        } else if (bootcamp) {
+            ref = connection.store + '/bootcamps/' + bootcamp + '/matches';
         }
 
         return connection.getDataSet(ref, params).then(function (matches) {
@@ -136,15 +138,31 @@ function matches () {
         return matches.getMatches(params);
     };
 
+    matches.getBootcampMatches = function (bootcamp, next) {
+        var params = {
+            bootcamp: bootcamp,
+            orderBy: "creation",
+            limit: 10
+        };
+
+        if (next) {
+            params.endAt = next - 1;
+        }
+
+        return matches.getMatches(params);
+    };
+
     // Wrapper
     matches.getMatchesPage = function (params) {
-        var {channel, champion, role, all, search, next} = params;
+        var {channel, champion, role, bootcamp, all, search, next} = params;
         if (channel) {
             return matches.getChannelMatches(channel, next);
         } else if (champion) {
             return matches.getChampionMatches(champion, next);
         } else if (role) {
             return matches.getRoleMatches(role, next);
+        } else if (bootcamp) {
+            return matches.getBootcampMatches(bootcamp, next);
         } else if (all) {
             return matches.getNewMatches(search, next);
         }

@@ -4,6 +4,8 @@ import DocumentTitle from 'react-document-title';
 import db from '../../database/database.js';
 import champions from '../../champions';
 import channels from '../../database/channels';
+import bootcamps from '../../database/bootcamps';
+
 
 import GameLogHead from './head';
 import GameLogBody from './body';
@@ -12,10 +14,9 @@ import GameLogLoad from './load';
 var GameLog = React.createClass({
     getInitialState: function () {
         var logType = this.props.logType || {};
-        var name = logType.channel || logType.role || logType.name;
         return {
             matches: [],
-            headData: {name: name},
+            headData: {name: logType.name},
             loading: false,
             noMore: false
         }
@@ -30,7 +31,7 @@ var GameLog = React.createClass({
         this.lastMatchTime = null;
         this.setState({
             matches: [],
-            headData: {name: logType.channel || logType.role || logType.name},
+            headData: {name: logType.name},
             loading: false,
             noMore: false
         });
@@ -61,7 +62,7 @@ var GameLog = React.createClass({
         var dbParam = dbParam || this.props.logType;
         if (dbParam) {
             dbParam.next = this.lastMatchTime;
-            if (dbParam.channel || dbParam.champion || dbParam.role || dbParam.all) {
+            if (dbParam.channel || dbParam.champion || dbParam.role || dbParam.bootcamp || dbParam.all) {
                 return db.getMatchesPage(dbParam).then(function (newMatches) {
                     this.addMatches(newMatches);
                     return newMatches;
@@ -142,7 +143,6 @@ var ChannelGameLog = React.createClass({
     },
     render: function () {
         var logType = {
-            name: this.props.params.channelID,
             channel: this.ready ? this.props.params.channelID : null
         };
         return (
@@ -198,6 +198,7 @@ var ChampionGameLog = React.createClass({
 var RoleGameLog = React.createClass({
     render: function () {
         var logType = {
+            name: this.props.params.role.toUpperCase(),
             role: this.props.params.role.toUpperCase()
         };
         return (
@@ -210,4 +211,38 @@ var RoleGameLog = React.createClass({
     }
 });
 
-export {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog}
+var BootcampGameLog = React.createClass({
+    getInitialState: function () {
+        return {
+            bootcamp: ""
+        };
+    },
+    componentDidMount: function () {
+        bootcamps.getBootcamp(this.props.params.bootcampKey).then(function (bootcamp) {
+            this.ready = true;
+            this.setState({bootcamp: bootcamp.displayName});
+        }.bind(this));
+    },
+    componentWillReceiveProps: function (newProps) {
+        this.ready = false;
+        channels.getChannel(newProps.params.bootcampKey).then(function (bootcamp) {
+            this.ready = true;
+            this.setState({bootcamp: bootcamp.displayName});
+        }.bind(this));
+    },
+    render: function () {
+        var logType = {
+            name: this.state.bootcamp,
+            bootcamp: this.ready ? this.props.params.bootcampKey : null
+        };
+        return (
+            <DocumentTitle title={"vodlog | " + this.state.bootcamp}>
+                <div className="main">
+                    <GameLog logType={logType} />
+                </div>
+            </DocumentTitle>
+        )
+    }
+});
+
+export {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog, BootcampGameLog}

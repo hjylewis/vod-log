@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Router, Route, Redirect, browserHistory, IndexRoute } from 'react-router';
 
 import App from './scripts/app';
-import {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog} from './scripts/components/game-log/index';
+import {IndexGameLog, ChannelGameLog, ChampionGameLog, RoleGameLog, BootcampGameLog} from './scripts/components/game-log/index';
 import {IndexPage} from './scripts/components/indexPage';
 import Suggestion from './scripts/components/suggestion';
 
@@ -26,6 +26,7 @@ render((
             <Route path="/league/channel/:channelID" component={ChannelGameLog} />
             <Route path="/league/role/:role" component={RoleGameLog} />
             <Route path="/league/champion/:championKey" component={ChampionGameLog} />
+            <Route path="/league/bootcamp/:bootcampKey" component={BootcampGameLog} />
         </Route>
         <Route path="/suggestion" component={Suggestion}></Route>
     </Router>
