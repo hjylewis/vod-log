@@ -14,6 +14,7 @@ In `env.json` write:
 ```
 {
     "env": {
+        "worker_env": "dev",
         "site_env": "dev"
     }
 }
