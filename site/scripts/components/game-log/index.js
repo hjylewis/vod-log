@@ -225,7 +225,7 @@ var BootcampGameLog = React.createClass({
     },
     componentWillReceiveProps: function (newProps) {
         this.ready = false;
-        channels.getChannel(newProps.params.bootcampKey).then(function (bootcamp) {
+        bootcamps.getBootcamp(newProps.params.bootcampKey).then(function (bootcamp) {
             this.ready = true;
             this.setState({bootcamp: bootcamp.displayName});
         }.bind(this));

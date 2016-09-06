@@ -1,13 +1,15 @@
 import Fuse from 'fuse.js';
 import Champions from './champions';
 import Channels from './database/channels';
+import Bootcamps from './database/bootcamps';
 
 class Catgetories {
     constructor () {
         this.promise = Promise.all([
             Champions.getAll(),
-            Channels.getAllChannels()
-        ]).then(function ([champions, channels]) {
+            Channels.getAllChannels(),
+            Bootcamps.getAllBootcamps()
+        ]).then(function ([champions, channels, bootcamps]) {
             champions = Object.keys(champions).map(function (key) {
                 var champion = champions[key];
                 champion.type = "champion";
@@ -18,13 +20,19 @@ class Catgetories {
                 channel.type = "channel";
                 return channel;
             });
+            bootcamps = Object.keys(bootcamps).map(function (key) {
+                var bootcamp = bootcamps[key];
+                bootcamp.name = key;
+                bootcamp.type = "bootcamp";
+                return bootcamp;
+            });
             var roles = ["Top", "Jungle", "Mid", "AD Carry", "Support"].map(function (role) {
                 return {
                     type: "role",
                     name: role
                 };
             });
-            this.catgetories = champions.concat(channels).concat(roles);
+            this.catgetories = champions.concat(channels).concat(roles).concat(bootcamps);
             return this.catgetories;
         }.bind(this));
     }

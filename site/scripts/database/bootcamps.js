@@ -9,6 +9,11 @@ function bootcamps () {
         return connection.getData(ref);
     };
 
+    bootcamps.getAllBootcamps = function () {
+        var ref = connection.store + "/bootcamps";
+        return connection.getData(ref);
+    };
+
 }
 
 export default new bootcamps();
