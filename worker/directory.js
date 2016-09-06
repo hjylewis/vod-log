@@ -133,7 +133,28 @@ var directory = {
         accounts: [
             {name: "Liquid Lourlo", region: "NA"},
         ]
-    }
+    },
+
+    /**********************************
+     *************EULCS****************
+     **********************************/
+
+    //G2
+    "trick_lol": {
+        displayName: "Trick",
+        accounts: [
+            {name: "%EC%84%B8%EC%B2%B4%EC%A0%95%EC%9D%84%20%ED%96%A5%ED%95%98%EC%97%AC", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+
+    //H2K
+    "ryulol": {
+        displayName: "Ryu",
+        accounts: [
+            {name: "lIIIllIIllllI", region: "EUW"},
+            {name: "%EC%9E%91%EC%9E%91%EC%A3%BD%EC%96%B4%EB%9D%BC%EC%9E%89", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
 };
 
 module.exports = directory;
