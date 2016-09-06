@@ -23,6 +23,24 @@
     }
 
     h3 {
-        color: $black
+        color: $black;
     }
+
+    .korean-bootcamp-btn {
+        padding: 15px 30px;
+        border-radius: 30px;
+        border: $white solid 1px;
+
+        transition: none 200ms ease-out;
+        transition-property: color, background;
+
+        color: $white;
+
+        &:hover {
+            color: $blue;
+            background-color: $white;
+        }
+    }
+
+
 }
