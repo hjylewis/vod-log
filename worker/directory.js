@@ -126,6 +126,14 @@ var directory = {
             {name: "ghetto oprah", region: "NA"},
         ]
     }
+
+    //Liquid
+    "Lourlo": {
+        displayName: "Lourlo",
+        accounts: [
+            {name: "Liquid Lourlo", region: "NA"},
+        ]
+    }
 };
 
 module.exports = directory;
