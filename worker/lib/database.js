@@ -6,6 +6,7 @@ firebase.initializeApp({
   databaseURL: "https://vod-log.firebaseio.com/"
 });
 
+console.log("env: " + env);
 var db = firebase.database();
 var ref = db.ref(`${env || 'dev'}/store`);
 

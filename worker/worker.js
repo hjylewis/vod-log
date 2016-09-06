@@ -335,7 +335,6 @@ var crawlForNewMatches = function () {
     });
 };
 
-console.log("env: " + env);
 crawlForNewMatches().then(function () {
     console.log("done");
 }).catch(function (error) {
