@@ -3,6 +3,8 @@ body {
   color: $grey;
   background-color: $background-color;
 
+  min-width: 320px;
+
     &.fullscreen {
         overflow: hidden;
     }
