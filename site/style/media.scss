@@ -71,6 +71,10 @@
     .hero{
         height: 300px;
 
+        .hero-content {
+            padding: 40px 0;
+        }
+
         .title {
             font-size: 50px;
         }
@@ -79,6 +83,12 @@
             h3 {
                 font-size: 15px;
             }
+        }
+
+        .korean-bootcamp-btn {
+            font-size: 13px;
+            margin: 15px 0 0;
+            padding: 10px 20px;
         }
     }
 
@@ -104,6 +114,10 @@
                 font-size: 13px;
             }
         }
+
+        .korean-bootcamp-btn {
+            font-size: 11px;
+        }
     }
 
     .header {
@@ -121,6 +135,10 @@
     .hero{
         height: 250px;
 
+        .hero-content {
+            padding: 30px 0;
+        }
+
         .title {
             font-size: 40px;
         }
@@ -129,6 +147,11 @@
             h3 {
                 font-size: 12px;
             }
+        }
+
+        .korean-bootcamp-btn {
+            font-size: 10px;
+            padding: 5px 10px;
         }
     }
 
