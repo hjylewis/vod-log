@@ -10,23 +10,33 @@ Need:
 * `worker/cert/firebase.json`
 * `worker/cert/riotgamesapi.json`
 
+In `env.json` write:
+```
+{
+    "env": {
+        "site_env": "dev"
+    }
+}
+```
+
 site
 ----
 ```
-$npm start
+$ npm install
+$ npm start
 ```
 Then go to localhost:8080.
 
 worker
 ------
 ```
-$node worker/worker.js
+$ node worker/worker.js
 ```
 
 helper
 ------
 ```
-$node worker/helper.js [command]
+$ node worker/helper.js [command]
 ```
 **Commands:**
 * copyDB
