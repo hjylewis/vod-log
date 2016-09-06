@@ -75,6 +75,13 @@ var directory = {
             {name: "Wolhaiksong", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
+    "vincentgmd": {
+        displayName: "Biofrost",
+        accounts: [
+            {name: "Biofrost", region: "NA"},
+            {name: "TSM SlGHTSTONE", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
 
     // CLG
     "Aphromoo": {
