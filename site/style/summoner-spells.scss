@@ -8,7 +8,7 @@
 }
 
 .flash { @include summoner-spell(240, 0); }
-.clease { @include summoner-spell(48, 0); }
+.cleanse { @include summoner-spell(48, 0); }
 .clairvoyance { @include summoner-spell(96, 0); }
 .ignite { @include summoner-spell(144, 0); }
 .barrier { @include summoner-spell(0, 0); }
