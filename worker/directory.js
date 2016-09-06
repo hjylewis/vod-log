@@ -125,7 +125,7 @@ var directory = {
         accounts: [
             {name: "ghetto oprah", region: "NA"},
         ]
-    }
+    },
 
     //Liquid
     "Lourlo": {
