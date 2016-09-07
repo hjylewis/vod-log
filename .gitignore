@@ -1,4 +1,5 @@
 node_modules/
+logs/
 cert/
 dist/
 env.json
