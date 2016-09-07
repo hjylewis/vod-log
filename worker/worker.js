@@ -191,6 +191,10 @@ function createMatchData (accountID, match, matchDetails) {
     var participantId,
         participant;
 
+    if (!matchDetails.participantIdentities) {
+        throw "MissingParticipantIdentitiesException";
+    }
+
     matchDetails.participantIdentities.some(function (id) {
         if (id.player.summonerId === parseInt(accountID)) {
             participantId = id.participantId;
