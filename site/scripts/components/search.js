@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 
 import {camelCase} from '../util';
 import Catgetories from '../catgetories';
+import analytics from '../analytics';
 
 var Input = React.createClass({
     getInitialState: function () {
@@ -28,6 +29,7 @@ var Input = React.createClass({
     search: function () {
         this.focus();
         if (this.state.query.length > 0) {
+            analytics.search(this.state.query);
             this.setState({display: this.state.query});
             this.props.search(this.state.query);
         }

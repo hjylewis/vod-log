@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import settings from '../settings';
+import analytics from '../analytics';
 
 var Settings = React.createClass({
     render: function () {
@@ -51,6 +52,7 @@ export default  React.createClass({
         this.setState({ open: false });
     },
     toggleOpen: function () {
+        analytics.settings(!this.state.open);
         this.setState({ open: !this.state.open });
     },
     onMouseDown: function () {

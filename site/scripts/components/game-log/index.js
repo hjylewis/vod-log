@@ -5,7 +5,7 @@ import db from '../../database/database.js';
 import champions from '../../champions';
 import channels from '../../database/channels';
 import bootcamps from '../../database/bootcamps';
-
+import analytics from '../../analytics';
 
 import GameLogHead from './head';
 import GameLogBody from './body';
@@ -63,6 +63,9 @@ var GameLog = React.createClass({
         if (dbParam) {
             dbParam.next = this.lastMatchTime;
             if (dbParam.channel || dbParam.champion || dbParam.role || dbParam.bootcamp || dbParam.all) {
+                if (dbParam.next) {
+                    analytics.loadMore();
+                }
                 return db.getMatchesPage(dbParam).then(function (newMatches) {
                     this.addMatches(newMatches);
                     return newMatches;

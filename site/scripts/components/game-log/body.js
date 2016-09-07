@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import {camelCase} from '../../util';
 import modes from '../../modes';
 import settings from '../../settings';
+import analytics from '../../analytics';
 
 import AutoplayOverlay from '../autoplay';
 import DefaultImg from '../defaultImg';
@@ -100,6 +101,7 @@ var GameSummary = React.createClass({
         }.bind(this));
     },
     openVideo: function (event) {
+        analytics.playVideo();
         if (!!Twitch && !settings.get().newtab) {
             if (event) event.preventDefault();
             if (!this.state.video) {
@@ -147,6 +149,7 @@ var GameSummary = React.createClass({
     },
     closeVideo: function () {
         if (!this.state.video) return;
+        analytics.closeVideo();
 
         this.state.video.player.destroy();
         clearInterval(this.state.video.interval);
@@ -174,6 +177,8 @@ var GameSummary = React.createClass({
         } else {
             document.onkeydown = () => {};
         }
+
+        analytics.fullscreenVideo(mode);
         modes.setMode('fullscreen', mode);
         this.setState({
             fullscreen: mode

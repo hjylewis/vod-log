@@ -1,6 +1,7 @@
 import React from 'react';
 
 import settings from '../settings';
+import analytics from '../analytics';
 
 var AutoplayLoader = React.createClass({
     getInitialState: function () {
@@ -58,6 +59,7 @@ export default React.createClass({
             if (cancelLoader) {
                 cancelLoader();
             }
+            analytics.autoplayVideo();
             this.props.next();
         }.bind(this);
 
@@ -65,6 +67,7 @@ export default React.createClass({
             if (cancelLoader) {
                 cancelLoader();
             }
+            analytics.autoplayCancelVideo();
             this.props.cancelAutoplay();
         }.bind(this);
 
