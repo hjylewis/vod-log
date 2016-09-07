@@ -143,6 +143,15 @@ var directory = {
         ]
     },
 
+    //EnVyUs
+    "lod": {
+        displayName: "LOD",
+        accounts: [
+            {name: "lod2", region: "NA"},
+            {name: "EnVy LOD", region: "NA"},
+        ]
+    },
+
     /**********************************
      *************EULCS****************
      **********************************/
