@@ -54,6 +54,10 @@ global.addAccount = function (args) {
     }
 
     return RiotGames.getAccountByName(region, name).then(function (account) {
+        if (account.status && account.status.status_code !== 200) {
+            return Promise.reject("Error with RiotGames: " + account.status.status_code);
+        }
+
         var usernames = Object.keys(account);
         if (usernames.length > 0){
             account = account[usernames[0]];
