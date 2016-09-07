@@ -1,6 +1,7 @@
 import env from './environment';
 
 var ga;
+
 // Analytics
 if (env === 'production') {
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

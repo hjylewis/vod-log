@@ -1,5 +1,7 @@
 import env from '../../env.json';
 
-console.log("env: " + env.site_env);
+var site_env = process.env.NODE_ENV || env.site_env || "dev";
+
+console.log("env: " + site_env);
 
 export default env.site_env;
