@@ -18,12 +18,14 @@ var copyDBfromEnvs = function (start_env, end_env) {
     });
 };
 
-global.copyDBtoDev = function () {
-    return copyDBfromEnvs('production', 'dev');
-};
+global.copyDB = function (args) {
+    var destination = args.d || args.destination || 'dev';
 
-global.copyDBtoProduction = function () {
-    return copyDBfromEnvs('dev', 'production');
+    if (destination === 'dev') {
+        return copyDBfromEnvs('production', 'dev');
+    } else if (destination === 'production') {
+        return copyDBfromEnvs('dev', 'production');
+    }
 };
 
 global.clearMatches = function () {

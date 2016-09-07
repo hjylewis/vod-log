@@ -40,9 +40,8 @@ helper
 $ node worker/helper.js [command]
 ```
 **Commands:**
-* copyDBtoDev
-* copyDBtoProduction
+* copyDB [-d <destination>]
 * clearMatches
-* addChannel -n [channel] [-f]
-* addAccount -c [channel] -n [account] -r [region] [-f]
+* addChannel -n <channel> [-f]
+* addAccount -c <channel> -n <account> -r <region> [-f]
 * directory [-f]
