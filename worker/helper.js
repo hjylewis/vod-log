@@ -66,6 +66,8 @@ global.addAccount = function (args) {
                 if (dbAccount && !force) {
                     return;
                 }
+                console.log("add account: " + account.name);
+
                 return dbConn.addAccount({
                     id: account.id,
                     name: account.name,
@@ -96,7 +98,7 @@ global.addChannel = function (args) {
             return;
         }
 
-        console.log("addChannel");
+        console.log("add channel: " + name);
         return Twitch.api({url: 'channels/' + name}).then(function (channel) {
             return dbConn.addChannel({
                 id: channel._id,
@@ -142,6 +144,7 @@ function execute(args) {
     }
 
     if (fn && fn in global && typeof global[fn] === "function") {
+        console.log('Running: ' + fn);
         var promise = global[fn](args);
 
         if (promise) {
