@@ -31,6 +31,7 @@ var directory = {
         displayName: "Jensen",
         accounts: [
             {name: "C9 Jensenn", region: "NA"},
+            {name: "C9%20%EC%84%B9%EC%8B%9C%EC%A0%A0%EC%8A%A8", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "rush": {
