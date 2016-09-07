@@ -75,7 +75,7 @@ global.addAccount = function (args) {
                 }, channel);
             });
         } else {
-            console.log("No account found");
+            console.log("No account found: " + name);
         }
     });
 };

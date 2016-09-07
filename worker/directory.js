@@ -12,7 +12,8 @@ var directory = {
         accounts: [
             {name: "C9 Meteos", region: "NA"},
             {name: "C10 Meteos", region: "NA"},
-            {name: "Short Dog", region: "NA"}
+            {name: "Short Dog", region: "NA"},
+            {name: "c9memeos", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "bunnyfufuu": {
@@ -33,6 +34,18 @@ var directory = {
         accounts: [
             {name: "C9 Jensenn", region: "NA"},
             {name: "C9%20%EC%84%B9%EC%8B%9C%EC%A0%A0%EC%8A%A8", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "nrgimpact": {
+        displayName: "Impact",
+        accounts: [
+            {name: "C9 Inches", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "smoothie_lol": {
+        displayName: "Smoothie",
+        accounts: [
+            {name: "c9%EC%8A%A4%EB%AC%B4%EB%94%94", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "rush": {
