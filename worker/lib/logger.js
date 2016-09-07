@@ -88,6 +88,10 @@ class Logger {
             console.log(log);
         }
     }
+
+    close () {
+        fs.closeSync(this.file);
+    }
 }
 
 module.exports = new Logger(env);

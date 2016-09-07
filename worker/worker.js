@@ -346,6 +346,7 @@ crawlForNewMatches().then(function () {
     logger.error("failed");
     logger.error(error.stack);
 }).then(function () {
+    logger.close();
     dbConn.close();
     process.exit();
 });
