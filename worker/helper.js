@@ -141,7 +141,7 @@ function execute(args) {
         dbConn.setEnv(args.env);
     }
 
-    if (fn in global && typeof global[fn] === "function") {
+    if (fn && fn in global && typeof global[fn] === "function") {
         var promise = global[fn](args);
 
         if (promise) {
@@ -156,6 +156,9 @@ function execute(args) {
         } else {
             process.exit();
         }
+    } else {
+        console.log("Missing command");
+        process.exit();
     }
 }
 
