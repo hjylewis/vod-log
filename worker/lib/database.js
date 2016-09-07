@@ -1,4 +1,5 @@
 var firebase = require("firebase");
+var logger = require('./logger');
 var env = require("../../env.json").worker_env;
 
 firebase.initializeApp({
@@ -6,7 +7,7 @@ firebase.initializeApp({
   databaseURL: "https://vod-log.firebaseio.com/"
 });
 
-console.log("env: " + env);
+logger.debug("env: " + env);
 var db = firebase.database();
 var ref = db.ref(`${env || 'dev'}/store`);
 
@@ -19,7 +20,7 @@ var getStore = function () {
         ref.once("value", function(snapshot) {
             resolve(snapshot.val());
         }, function (error) {
-            console.log("Get Store failed: " + error.code);
+            logger.error("Get Store failed: " + error.code);
             reject(error);
         });
     });
@@ -29,7 +30,7 @@ var setStore = function (store) {
     return new Promise(function (resolve, reject) {
         ref.set(store, function(error) {
             if (error) {
-                console.log("Set Store failed: " + error.code);
+                logger.error("Set Store failed: " + error.code);
                 reject(error);
             } else {
                 resolve();
@@ -45,7 +46,7 @@ var getChannels = function () {
         channelsRef.once("value", function(snapshot) {
             resolve(snapshot.val());
         }, function (error) {
-            console.error("Channels get failed: " + error.code);
+            logger.error("Channels get failed: " + error.code);
             reject(error);
         });
     });
@@ -57,7 +58,7 @@ var getChannel = function (channelID) {
         channelRef.once("value", function(snapshot) {
             resolve(snapshot.val());
         }, function (error) {
-            console.error("Channel get failed: " + error.code);
+            logger.error("Channel get failed: " + error.code);
             reject(error);
         });
     });
@@ -69,7 +70,7 @@ var addChannel = function (channel) {
     return new Promise(function (resolve, reject) {
         channelRef.set(channel, function (error) {
             if (error) {
-                console.error("Channel add failed: " + error.code);
+                logger.error("Channel add failed: " + error.code);
                 reject(error);
             } else {
                 resolve();
@@ -90,12 +91,12 @@ var addAccount = function (account, channelID) {
     return new Promise(function (resolve, reject) {
         accountRef.set(account, function (error) {
             if (error) {
-                console.error("Account add failed: " + error.code);
+                logger.error("Account add failed: " + error.code);
                 reject(error);
             } else {
                 channelAccountRef.set(true, function (error) {
                     if (error) {
-                        console.error("Account add failed: " + error.code);
+                        logger.error("Account add failed: " + error.code);
                         reject(error);
                     } else {
                         resolve();
@@ -113,7 +114,7 @@ var getAccount = function (accountID) {
         accountRef.once("value", function(snapshot) {
             resolve(snapshot.val());
         }, function (error) {
-            console.log("Account get failed: " + error.code);
+            logger.error("Account get failed: " + error.code);
             reject(error);
         });
     });
@@ -124,7 +125,7 @@ var updateAccount = function (accountID, update) {
     return new Promise(function (resolve, rejcect) {
         accountRef.update(update, function (error) {
             if (error) {
-                console.error("Update Account failed: " + error.code);
+                logger.error("Update Account failed: " + error.code);
                 reject(error);
             } else {
                 resolve();
@@ -146,7 +147,7 @@ var addMatch = function (match) {
     promises.push(new Promise(function (resolve, reject) {
         matchRef.set(match, function (error) {
             if (error) {
-                console.error("Add Match failed: " + error.code);
+                logger.error("Add Match failed: " + error.code);
                 reject(error);
             } else {
                 resolve();
@@ -158,7 +159,7 @@ var addMatch = function (match) {
     promises.push(new Promise(function (resolve, reject) {
         channelRef.set(matchDigest, function (error) {
             if (error) {
-                console.error("Add Match (to channel) failed: " + error.code);
+                logger.error("Add Match (to channel) failed: " + error.code);
                 reject(error);
             } else {
                 resolve();
@@ -170,7 +171,7 @@ var addMatch = function (match) {
     promises.push(new Promise(function (resolve, reject) {
         championRef.set(matchDigest, function (error) {
             if (error) {
-                console.error("Add Match (to channel) failed: " + error.code);
+                logger.error("Add Match (to channel) failed: " + error.code);
                 reject(error);
             } else {
                 resolve();
@@ -182,7 +183,7 @@ var addMatch = function (match) {
     promises.push(new Promise(function (resolve, reject) {
         roleRef.set(matchDigest, function (error) {
             if (error) {
-                console.error("Add Match (to channel) failed: " + error.code);
+                logger.error("Add Match (to channel) failed: " + error.code);
                 reject(error);
             } else {
                 resolve();
@@ -195,7 +196,7 @@ var addMatch = function (match) {
         promises.push(new Promise(function (resolve, reject) {
             bootcampRef.set(matchDigest, function (error) {
                 if (error) {
-                    console.error("Add Match (to bootcamp) failed: " + error.code);
+                    logger.error("Add Match (to bootcamp) failed: " + error.code);
                     reject(error);
                 } else {
                     resolve();
@@ -213,7 +214,7 @@ var clearMatches = function () {
     promises.push(new Promise(function (resolve, reject) {
         matchesRef.set({}, function(error) {
             if (error) {
-                console.log("Clear matches failed: " + error.code);
+                logger.error("Clear matches failed: " + error.code);
                 reject(error);
             } else {
                 resolve();
@@ -225,7 +226,7 @@ var clearMatches = function () {
     promises.push(new Promise(function (resolve, reject) {
         matchesRef.set({}, function(error) {
             if (error) {
-                console.log("Clear matches failed: " + error.code);
+                logger.error("Clear matches failed: " + error.code);
                 reject(error);
             } else {
                 resolve();
@@ -237,7 +238,7 @@ var clearMatches = function () {
     promises.push(new Promise(function (resolve, reject) {
         matchesRef.set({}, function(error) {
             if (error) {
-                console.log("Clear matches failed: " + error.code);
+                logger.error("Clear matches failed: " + error.code);
                 reject(error);
             } else {
                 resolve();
@@ -250,11 +251,10 @@ var clearMatches = function () {
         channelsRef.once("value", function(snapshot) {
             var promises = [];
             snapshot.forEach(function(child) {
-                console.log(child.key);
                 promises.push(new Promise(function (resolve, reject) {
                     channelsRef.child(child.key + "/matches").set({}, function(error) {
                         if (error) {
-                            console.log("Clear matches failed: " + error.code);
+                            logger.error("Clear matches failed: " + error.code);
                             reject(error);
                         } else {
                             resolve();
@@ -269,7 +269,7 @@ var clearMatches = function () {
                 reject(error);
             });
         }, function (error) {
-            console.log("Get channels failed: " + error.code);
+            logger.error("Get channels failed: " + error.code);
             reject(error);
         });
     }));

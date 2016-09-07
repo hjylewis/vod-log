@@ -5,6 +5,7 @@ var dbConn = require('./lib/database');
 var twitch = require("./lib/twitch");
 var riotGames = require("./lib/riotgames");
 var utils = require("./lib/utils");
+var logger = require('./lib/logger');
 var moment = require('moment');
 
 var env = require("../env.json").worker_env;
@@ -293,7 +294,7 @@ function saveMatch(params) {
             return params;
         });
     }).then(function (params) {
-        console.log(`Saving ${params.channelID} match ${params.matchStore.id}`);
+        logger.debug(`Saving ${params.channelID} match ${params.matchStore.id}`);
         return dbConn.addMatch(params.matchStore).then( () => params);
     }).then(function (params) {
         return updateLastMatchTime(params.account, params.match.timestamp + 1000);
@@ -340,10 +341,10 @@ var crawlForNewMatches = function () {
 };
 
 crawlForNewMatches().then(function () {
-    console.log("done");
+    logger.debug("done");
 }).catch(function (error) {
-    console.log("failed");
-    console.log(error.stack);
+    logger.error("failed");
+    logger.error(error.stack);
 }).then(function () {
     dbConn.close();
     process.exit();

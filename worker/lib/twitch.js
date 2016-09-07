@@ -2,6 +2,7 @@ var request = require('request');
 var querystring = require('querystring');
 var moment = require('moment');
 var utils = require('./utils');
+var logger = require('./logger');
 
 var headers = {
     'Accept': 'application/vnd.twitchtv.v3+json'
@@ -31,7 +32,7 @@ var api = function (params) {
         request(options, function (error, response, body) {
             error = error || JSON.parse(body).error;
             if (error) {
-                console.error("Twitch api call failed: " + error);
+                logger.error("Twitch api call failed: " + error);
                 reject(error);
             } else {
                 resolve(JSON.parse(body));

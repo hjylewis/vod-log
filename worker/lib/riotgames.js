@@ -3,6 +3,7 @@
 var request = require('request');
 var querystring = require('querystring');
 var api_key = require('../cert/riotgamesapi.json').api_key;
+var logger = require('./logger');
 
 var TEN_SEC_MAX = 10,
     TEN_MIN_MAX = 500;
@@ -28,12 +29,12 @@ class ApiState {
     }
 
     _suspend (retrySeconds) {
-        console.log(`RiotGames Api suspended for ${retrySeconds}`);
+        logger.debug(`RiotGames Api suspended for ${retrySeconds}`);
         this.suspended = true;
     }
 
     _unsuspend () {
-        console.log("RiotGames Api unsuspended");
+        logger.debug("RiotGames Api unsuspended");
         this.suspended = false;
     }
 
@@ -73,7 +74,7 @@ class ApiState {
         this.tenSecCount++;
         this.tenMinCount++;
 
-        console.log(`RiotGames Api request (${this.tenSecCount}/${TEN_SEC_MAX}) (${this.tenMinCount}/${TEN_MIN_MAX}): ${url}`);
+        logger.debug(`RiotGames Api request (${this.tenSecCount}/${TEN_SEC_MAX}) (${this.tenMinCount}/${TEN_MIN_MAX}): ${url}`);
 
         var that = this;
         setTimeout(function () {
@@ -141,7 +142,7 @@ var makeRequest = function(params) {
             options: options,
             callback: function (error, response, body) {
                 if (error) {
-                    console.log("Riot Games Api request failed: " + error);
+                    logger.error("Riot Games Api request failed: " + error);
                     reject(error);
                 } else {
                     resolve(body);
@@ -159,7 +160,7 @@ var makeStaticRequest = function (params) {
     return new Promise(function (resolve, reject) {
         request(options, function (error, response, body) {
             if (error) {
-                console.log("Riot Games Api request failed: " + error);
+                logger.error("Riot Games Api request failed: " + error);
                 reject(error);
             } else {
                 body = JSON.parse(body);
