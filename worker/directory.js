@@ -3,7 +3,8 @@ var directory = {
     "c9sneaky": {
         displayName: "Sneaky",
         accounts: [
-            {name: "C9 Sneaky", region: "NA"}
+            {name: "C9 Sneaky", region: "NA"},
+            {name: "C9 SneakyOppa", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "meteos": {
@@ -161,6 +162,7 @@ var directory = {
         displayName: "Trick",
         accounts: [
             {name: "%EC%84%B8%EC%B2%B4%EC%A0%95%EC%9D%84%20%ED%96%A5%ED%95%98%EC%97%AC", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "MakeEuGreatAgain", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
 
@@ -172,6 +174,22 @@ var directory = {
             {name: "%EC%9E%91%EC%9E%91%EC%A3%BD%EC%96%B4%EB%9D%BC%EC%9E%89", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
+
+    // FNC
+    "fabiantje": {
+        displayName: "Febiven",
+        accounts: [
+            {name: "14March", region: "EUW"},
+        ]
+    },
+
+    //	Vitality
+    "cabochardlol": {
+        displayName: "Cabochard",
+        accounts: [
+            {name: "v Cabochard", region: "EUW"},
+        ]
+    }
 };
 
 module.exports = directory;
