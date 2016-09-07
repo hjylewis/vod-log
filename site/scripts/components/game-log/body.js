@@ -239,7 +239,9 @@ var GameSummary = React.createClass({
                     <IconStrip player={player_data}/>
                     <div className="watch-button">
                         <p className="small-text creation">{creation}</p>
-                        <a target="_blank" onClick={this.openVideo} href={this.props.data.twitch.video_url}>{this.state.video ? "Close" : "Watch"}</a>
+                        <a target="_blank" onClick={this.openVideo} href={this.props.data.twitch.video_url} rel="nofollow">
+                            {this.state.video ? "Close" : "Watch"}
+                        </a>
                         <p className="small-text duration">{durationStr}</p>
                     </div>
                 </div>

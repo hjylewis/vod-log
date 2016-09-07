@@ -37,7 +37,7 @@ var GameLogHead = React.createClass({
         }
 
         var name = this.props.headData.displayName || (this.props.headData.name ? camelCase(this.props.headData.name).replace('Ad', 'AD') : '');
-        var nameElement = this.props.headData.url ? <a href={this.props.headData.url} target="_blank">{name}</a> : <span className="stripped">{name}</span>;
+        var nameElement = this.props.headData.url ? <a href={this.props.headData.url} target="_blank" rel="nofollow">{name}</a> : <span className="stripped">{name}</span>;
         var accountInfo = function () {
             if (accounts.length > 0 ) {
                 return (
