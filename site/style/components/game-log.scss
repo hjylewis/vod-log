@@ -113,6 +113,10 @@
         float: left;
         margin-left: 30px;
 
+        &.no-logo {
+            margin-right: 30px;
+        }
+
         h1 {
             margin: 10px 0 15px 0;
             font-weight: 600;

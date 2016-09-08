@@ -21,24 +21,9 @@
     }
 }
 
-@media screen and (max-width: 570px) {
-    .game-summary .icon-strip {
-        display: none
-    }
+@media screen and (max-width: 590px) {
 
-    .category-search {
-        width: 180px;
-    }
-
-    .header .logo {
-        font-size: 27px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    .info.no-logo {
+    .game-log-head .info.no-logo {
         margin: 0;
         text-align: center;
     }
@@ -61,6 +46,25 @@
             margin-top: 6px;
             width: 100%;
         }
+    }
+
+}
+
+@media screen and (max-width: 570px) {
+    .game-summary .icon-strip {
+        display: none
+    }
+
+    .category-search {
+        width: 180px;
+    }
+
+    .header .logo {
+        font-size: 27px;
+    }
+
+    h1 {
+        font-size: 24px;
     }
 }
 
