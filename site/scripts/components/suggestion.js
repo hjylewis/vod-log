@@ -18,8 +18,7 @@ export default React.createClass({
                                 <p>Just make sure that your email contains the necessary information:</p>
                                 <ul>
                                     <li>Twitch channel, IGN information, and region</li>
-                                    <li>Screenshot of Twitch VOD where streamer uses that IGN</li>
-                                    <li>Link to Twich VOD where streamer uses that IGN (with the relevant timestamp)</li>
+                                    <li>Link to Twich VOD where streamer uses that IGN</li>
                                 </ul>
                                 <br />
                                 <p>Suggestions without the necessary information will be ignored.</p>
