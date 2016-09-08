@@ -98,7 +98,7 @@ var OtherChannelsList = React.createClass({
 
         return (
             <div>
-                In game with:
+                <span>In game with: </span>
                 {channels}
             </div>
         )
