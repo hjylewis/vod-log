@@ -37,6 +37,31 @@
     h1 {
         font-size: 24px;
     }
+
+    .info.no-logo {
+        margin: 0;
+        text-align: center;
+    }
+
+    .email-signup {
+        text-align: center;
+        width: 364px;
+
+        label {
+            font-size: 16px;
+        }
+
+        input.email {
+            width: 100%;
+        }
+
+        .button {
+            display: block;
+            margin-left: 0;
+            margin-top: 6px;
+            width: 100%;
+        }
+    }
 }
 
 @media screen and (max-width: 470px) {
@@ -90,6 +115,10 @@
             margin: 15px 0 0;
             padding: 10px 20px;
         }
+    }
+
+    .email-signup {
+        width: 95%;
     }
 
 }

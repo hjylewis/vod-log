@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {camelCase} from '../../util.js';
 import DefaultImg from '../defaultImg';
+import EmailSignup from '../emailSignup';
 
 var GameLogHead = React.createClass({
     getInitialState: function () {
@@ -58,10 +59,14 @@ var GameLogHead = React.createClass({
         return (
             <div className={classes}>
                 {logo}
-                <div className="info">
+                <div className={classNames({
+                    info: true,
+                    'no-logo': logo === null
+                })}>
                     <h1>{nameElement}</h1>
                     <span className="champion-title">{camelCase(this.props.headData.championTitle)}</span>
                     {accountInfo()}
+                    <EmailSignup />
                 </div>
             </div>
         );

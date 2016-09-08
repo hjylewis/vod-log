@@ -1,0 +1,50 @@
+.email-signup {
+    padding-top: 5px;
+    display: inline-block;
+
+    label {
+        color: $black;
+        font-size: 20px;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    input.email {
+        font-size: 15px;
+        border: 0;
+        border-radius: 3px;
+        background-color: $white;
+        box-sizing: border-box;
+        height: 32px;
+        padding: 0px 0.4em;
+        display: inline-block;
+        margin: 0;
+        width: 360px;
+        vertical-align: top;
+        outline: none;
+    }
+
+    .button {
+        cursor: pointer;
+        font-size: 13px;
+        border: none;
+        border-radius: 3px;
+        letter-spacing: .03em;
+        color: $white;
+        background-color: $grey;
+        box-sizing: border-box;
+        height: 32px;
+        line-height: 32px;
+        padding: 0 18px;
+        display: inline-block;
+        margin: 0;
+        transition: all 0.23s ease-in-out 0s;
+
+        margin-left: 10px;
+
+        &:hover {
+            color: $white;
+            background-color: $black;
+        }
+    }
+}
