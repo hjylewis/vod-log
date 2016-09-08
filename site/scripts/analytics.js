@@ -16,7 +16,6 @@ if (env === 'production') {
     console.log("analytics on");
 
     ga('create', 'UA-83616899-1', 'auto');
-    ga('send', 'pageview');
 } else {
     ga = function () {
         return;
