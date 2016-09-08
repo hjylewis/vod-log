@@ -205,6 +205,12 @@ function createMatchData (accountID, match, matchDetails) {
         }
     });
 
+    var otherParticipants = matchDetails.participantIdentities.map(function (participant) {
+        return participant.player.summonerId;
+    }).filter(function (summonerId) {
+        return summonerId !== parseInt(accountID);
+    });
+
     if (participantId) {
         matchDetails.participants.some(function (p) {
             if (p.participantId === participantId) {
@@ -240,6 +246,24 @@ function createMatchData (accountID, match, matchDetails) {
             map: matchDetails.mapId,
             player_data: participant
         };
+    }).then(function (matchData) {
+        // Add other channels
+        var otherChannels = [];
+        return Promise.map(otherParticipants, function (otherParticipant) {
+            return dbConn.getAccount(otherParticipant).then(function (account) {
+                if (account) {
+                    return dbConn.getChannel(account.channelID).then(function (channel) {
+                        otherChannels.push({
+                            id: channel.name,
+                            displayName: channel.displayName
+                        });
+                    });
+                }
+            });
+        }).then(function () {
+            matchData.otherChannels = otherChannels;
+            return matchData;
+        });
     });
 }
 
@@ -284,11 +308,13 @@ function saveMatch(params) {
         matchStore.twitch.end_timestamp_s = Math.round(matchDetails.matchDuration + (parseInt(timestamp) / 1000)); //seconds
         return params;
     }).then(function (params) {
+        // Add match data
         return createMatchData(params.account.id, params.match, params.matchDetails).then(function (match_data) {
             params.matchStore.match_data = match_data;
             return params;
         });
     }).then(function (params) {
+        // Add channel Logo
         return dbConn.getChannel(channelID).then(function (channel) {
             params.matchStore.channelLogo = channel.logo || null;
             return params;
@@ -347,7 +373,6 @@ crawlForNewMatches().then(function () {
     logger.dateAndTime();
     logger.error(error.stack);
 }).then(function () {
-    logger.close();
     dbConn.close();
     process.exit();
 });

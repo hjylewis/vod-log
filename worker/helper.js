@@ -140,7 +140,6 @@ global.directory = function (args) {
 // a Migration, don't forsee me using this again
 global.addChannelToAccount = function () {
     return dbConn.getChannels().then(function (channels) {
-        console.log(channels);
         return Promise.map(Object.keys(channels), function (channelID) {
             var channel = channels[channelID];
 

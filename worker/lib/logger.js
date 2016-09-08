@@ -94,7 +94,7 @@ class Logger {
     }
 
     close () {
-        fs.closeSync(this.file);
+        fs.close(this.file);
     }
 }
 
