@@ -344,6 +344,7 @@ crawlForNewMatches().then(function () {
     logger.debug("done");
 }).catch(function (error) {
     logger.error("failed");
+    logger.dateAndTime();
     logger.error(error.stack);
 }).then(function () {
     logger.close();

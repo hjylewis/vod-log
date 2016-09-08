@@ -29,8 +29,8 @@ class Logger {
             fs.mkdirSync(this.logDir);
         }
 
-        var date = moment().format('YYYY-MM-DD');
-        var filePath = path.join(this.logDir, date);
+        this.date = moment().format('YYYY-MM-DD');
+        var filePath = path.join(this.logDir, this.date);
         this.file = fs.openSync(filePath, 'a');
     }
 
@@ -71,9 +71,9 @@ class Logger {
         var top_bar = '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>';
         var bot_bar = '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<';
 
-        var time = moment().format('HH:mm:ss');
+        this.time = moment().format('HH:mm:ss');
 
-        var header = top_bar + '\n' + time + '\n' + bot_bar;
+        var header = top_bar + '\n' + this.time + '\n' + bot_bar;
         this._addToFile(header);
     }
 
@@ -87,6 +87,10 @@ class Logger {
         if (this.env === 'dev') {
             console.log(log);
         }
+    }
+
+    dateAndTime () {
+        console.log(this.data + ' ' + this.time);
     }
 
     close () {
