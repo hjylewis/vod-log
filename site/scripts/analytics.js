@@ -94,6 +94,23 @@ var loadMore = function () {
     });
 };
 
+var emailSignupToggle = function (open) {
+    ga('send', {
+        hitType: 'event',
+        eventCategory: 'EmailSignup',
+        eventAction: 'toggle',
+        eventValue: open
+    });
+};
+
+var emailSignupSubscribe = function () {
+    ga('send', {
+        hitType: 'event',
+        eventCategory: 'EmailSignup',
+        eventAction: 'subscribe'
+    });
+};
+
 export default {
     updatePage,
 
@@ -106,5 +123,8 @@ export default {
     search,
     settings,
 
-    loadMore
+    loadMore,
+
+    emailSignupToggle,
+    emailSignupSubscribe
 };

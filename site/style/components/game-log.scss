@@ -120,9 +120,23 @@
         h1 {
             margin: 10px 0 15px 0;
             font-weight: 600;
+            display: inline-block;
 
             .stripped {
                 margin-bottom: 10px;
+            }
+        }
+
+        .signup-toggle {
+            font-size: 32px;
+            font-weight: 600;
+
+            color: $white;
+
+            cursor: pointer;
+
+            &:hover {
+                color: $black;
             }
         }
 

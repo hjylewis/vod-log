@@ -3,13 +3,21 @@ import classNames from 'classnames';
 import {camelCase} from '../../util.js';
 import DefaultImg from '../defaultImg';
 import EmailSignup from '../emailSignup';
+import analytics from '../../analytics';
 
 var GameLogHead = React.createClass({
     getInitialState: function () {
-        return {expanded: false};
+        return {
+            expanded: false,
+            openEmailSignup: false
+        };
     },
     expandToggle: function () {
         this.setState({expanded: !this.state.expanded});
+    },
+    emailSignupToggle: function () {
+        analytics.emailSignupToggle(!this.state.openEmailSignup);
+        this.setState({openEmailSignup: !this.state.openEmailSignup});
     },
     render: function() {
         var classes = classNames(this.props.type, {
@@ -56,6 +64,10 @@ var GameLogHead = React.createClass({
                 return null;
             }
         }.bind(this);
+
+        var isBootcamp = this.props.headData.name === "Korean Bootcamp 2016";
+        // var emailSignupToggle = !this.state.openEmailSignup ? <span className="signup-toggle" onClick={this.emailSignupToggle}>+</span> : '';
+    var emailSignupToggle = <span className="signup-toggle" onClick={this.emailSignupToggle}> +</span>;
         return (
             <div className={classes}>
                 {logo}
@@ -64,9 +76,11 @@ var GameLogHead = React.createClass({
                     'no-logo': logo === null
                 })}>
                     <h1>{nameElement}</h1>
+                    {isBootcamp ? emailSignupToggle : ''}
                     <span className="champion-title">{camelCase(this.props.headData.championTitle)}</span>
                     {accountInfo()}
-                    <EmailSignup />
+                    {isBootcamp && this.state.openEmailSignup ?
+                        <EmailSignup onSubscribe={this.emailSignupToggle} /> : ''}
                 </div>
             </div>
         );
