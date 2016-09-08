@@ -73,6 +73,7 @@ global.addAccount = function (args) {
                     name: account.name,
                     region: region,
                     bootcamp: args.bootcamp || null,
+                    channelID: channel,
                     type: "League of Legends" // HARDCODE
                 }, channel);
             });
@@ -131,6 +132,20 @@ global.directory = function (args) {
                     force: force === true || force === "account"
                 };
                 return global.addAccount(args);
+            });
+        });
+    });
+};
+
+// a Migration, don't forsee me using this again
+global.addChannelToAccount = function () {
+    return dbConn.getChannels().then(function (channels) {
+        console.log(channels);
+        return Promise.map(Object.keys(channels), function (channelID) {
+            var channel = channels[channelID];
+
+            return Promise.map(Object.keys(channel.accounts), function (accountID) {
+                return dbConn.updateAccount(accountID, { channelID: channelID });
             });
         });
     });
