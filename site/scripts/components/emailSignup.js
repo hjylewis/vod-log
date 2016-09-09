@@ -6,7 +6,6 @@ export default React.createClass({
     render: function () {
         var onSubscribe = () => {
             analytics.emailSignupSubscribe();
-            this.props.onSubscribe();
         }
 
         return (

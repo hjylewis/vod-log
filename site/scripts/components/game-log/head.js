@@ -66,8 +66,6 @@ var GameLogHead = React.createClass({
         }.bind(this);
 
         var isBootcamp = this.props.headData.name === "Korean Bootcamp 2016";
-        // var emailSignupToggle = !this.state.openEmailSignup ? <span className="signup-toggle" onClick={this.emailSignupToggle}>+</span> : '';
-    var emailSignupToggle = <span className="signup-toggle" onClick={this.emailSignupToggle}> +</span>;
         return (
             <div className={classes}>
                 {logo}
@@ -76,11 +74,9 @@ var GameLogHead = React.createClass({
                     'no-logo': logo === null
                 })}>
                     <h1>{nameElement}</h1>
-                    {isBootcamp ? emailSignupToggle : ''}
                     <span className="champion-title">{camelCase(this.props.headData.championTitle)}</span>
                     {accountInfo()}
-                    {isBootcamp && this.state.openEmailSignup ?
-                        <EmailSignup onSubscribe={this.emailSignupToggle} /> : ''}
+                    {isBootcamp  ? <EmailSignup /> : ''}
                 </div>
             </div>
         );
