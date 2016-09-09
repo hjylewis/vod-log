@@ -65,8 +65,8 @@ global.addAccount = function (args) {
             return dbConn.getAccount(account.id).then(function (dbAccount) {
                 if (dbAccount && !force) {
                     // name change
-                    if (dbAccount.name !== name) {
-                        return dbConn.updateAccount(account.id, { name: name });
+                    if (dbAccount.name !== account.name) {
+                        return dbConn.updateAccount(account.id, { name: account.name });
                     }
                     return;
                 }
