@@ -179,6 +179,30 @@ var directory = {
             {name: "MakeEuGreatAgain", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
+    "mithylol": {
+        displayName: "Mithy",
+        accounts: [
+            {name: "G2%EB%AF%B8%ED%8B%B0%EA%B9%80%EC%B9%98%EA%B0%93", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "zvanillan": {
+        displayName: "Zven",
+        accounts: [
+            {name: "iog10", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "perrkz": {
+        displayName: "Perkz",
+        accounts: [
+            {name: "G2%EA%B9%80%EC%B9%98%EB%84%88%EB%AC%B4%EC%A2%8B%EC%95%84", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "expect74": {
+        displayName: "Expect",
+        accounts: [
+            {name: "%EC%88%A8%EC%89%AC%EC%96%B4%EC%84%9C%EC%A3%84%EC%86%A1%EC%9A%94", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
 
     //H2K
     "ryulol": {
