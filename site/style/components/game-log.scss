@@ -236,28 +236,37 @@
 }
 
 .game-summary {
-    height: 100px;
     width: 100%;
     position: relative;
     box-sizing: border-box;
-    display: flex;
-    flex-flow: row nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
+
+    .game-summary-main {
+        height: 110px;
+        width: 100%;
+        position: relative;
+
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        box-sizing: border-box;
+        padding: 10px;
+    }
 
     .summary-image {
         box-sizing: border-box;
-        width: 100px;
-        padding: 5px;
         img, .defaultImg {
             height: 90px;
             width: 90px;
+            border-radius: 3px;
         }
     }
 
     .icon-strip {
         flex: 1 1;
-        margin: (50 - $icon-size) + px 0;
     }
 
 
@@ -265,7 +274,6 @@
     .summary-detail {
         flex: 1 1;
         font-size: 13px;
-        margin: 10px 0;
         height: 80px;
         min-width: 100px;
         text-align: center;
@@ -279,7 +287,6 @@
     .watch-button {
         flex: 1 1;
         display: inline-block;
-        margin: (100 - (14 + 20) - (2 * 15)) / 2 + px 0;
         margin-left: 18px;
         text-align: center;
 
@@ -314,7 +321,29 @@
         }
     }
 
+    .other-channels {
+        text-align: right;
+        font-size: 12px;
+        padding: 0 10px 10px;
 
+        a {
+            display: inline-block;
+
+            margin: 0 1px;
+            padding: 3px;
+            box-sizing: border-box;
+
+            border: $blue solid 1px;
+            border-radius: 5px;
+
+            color: $blue;
+
+            &:hover {
+                background-color: $blue;
+                color: $white;
+            }
+        }
+    }
 
     &.win {
         border-left: $green solid 2px;

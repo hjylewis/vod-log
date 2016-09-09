@@ -97,7 +97,7 @@ var OtherChannelsList = React.createClass({
         })
 
         return (
-            <div>
+            <div className="other-channels">
                 <span>In game with: </span>
                 {channels}
             </div>
@@ -244,23 +244,25 @@ var GameSummary = React.createClass({
         return (
             <div className={containerClasses}>
                 <div className={summaryClasses} ref="gameSummary">
-                    <div className="summary-image">
-                        <SummaryImage image={image} link={link} />
-                    </div>
-                    <div className="summary-detail">
-                        <p><Link to={channelLink}>{channel}</Link></p>
-                        <div className="rule"></div>
-                        <p><Link to={roleLink}>{role}</Link></p>
-                        <div className="rule"></div>
-                        <p>{kda}</p>
-                    </div>
-                    <IconStrip player={player_data}/>
-                    <div className="watch-button">
-                        <p className="small-text creation">{creation}</p>
-                        <a target="_blank" onClick={this.openVideo} href={this.props.data.twitch.video_url} rel="nofollow">
-                            {this.state.video ? "Close" : "Watch"}
-                        </a>
-                        <p className="small-text duration">{durationStr}</p>
+                    <div className="game-summary-main">
+                        <div className="summary-image">
+                            <SummaryImage image={image} link={link} />
+                        </div>
+                        <div className="summary-detail">
+                            <p><Link to={channelLink}>{channel}</Link></p>
+                            <div className="rule"></div>
+                            <p><Link to={roleLink}>{role}</Link></p>
+                            <div className="rule"></div>
+                            <p>{kda}</p>
+                        </div>
+                        <IconStrip player={player_data}/>
+                        <div className="watch-button">
+                            <p className="small-text creation">{creation}</p>
+                            <a target="_blank" onClick={this.openVideo} href={this.props.data.twitch.video_url} rel="nofollow">
+                                {this.state.video ? "Close" : "Watch"}
+                            </a>
+                            <p className="small-text duration">{durationStr}</p>
+                        </div>
                     </div>
                     {match_data.otherChannels ? <OtherChannelsList channels={match_data.otherChannels} /> : ''}
                 </div>
