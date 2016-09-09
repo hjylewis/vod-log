@@ -52,6 +52,7 @@ var directory = {
         displayName: "Rush",
         accounts: [
             {name: "Tiltlord", region: "KR"},
+            {name: "C9 Rush", region: "KR"}
         ]
     },
 
@@ -184,7 +185,7 @@ var directory = {
         displayName: "Ryu",
         accounts: [
             {name: "lIIIllIIllllI", region: "EUW"},
-            {name: "%EC%9E%91%EC%9E%91%EC%A3%BD%EC%96%B4%EB%9D%BC%EC%9E%89", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "RyuSangWook", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
 

@@ -55,7 +55,7 @@ global.addAccount = function (args) {
 
     return RiotGames.getAccountByName(region, name).then(function (account) {
         if (account.status && account.status.status_code !== 200) {
-            return Promise.reject("Error with RiotGames: " + account.status.status_code);
+            return Promise.reject(new Error("Error with RiotGames (" + account.status.status_code + ") while getting " + name));
         }
 
         var usernames = Object.keys(account);
@@ -64,6 +64,10 @@ global.addAccount = function (args) {
 
             return dbConn.getAccount(account.id).then(function (dbAccount) {
                 if (dbAccount && !force) {
+                    // name change
+                    if (dbAccount.name !== name) {
+                        return dbConn.updateAccount(account.id, { name: name });
+                    }
                     return;
                 }
                 console.log("add account: " + account.name);
