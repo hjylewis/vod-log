@@ -239,9 +239,10 @@
     width: 100%;
     position: relative;
     box-sizing: border-box;
+    padding: 10px;
 
     .game-summary-main {
-        height: 110px;
+        height: 90px;
         width: 100%;
         position: relative;
 
@@ -253,7 +254,6 @@
         overflow-y: hidden;
 
         box-sizing: border-box;
-        padding: 10px;
     }
 
     .summary-image {
@@ -324,7 +324,7 @@
     .other-channels {
         text-align: right;
         font-size: 12px;
-        padding: 0 10px 10px;
+        padding-top: 10px;
 
         a {
             display: inline-block;
