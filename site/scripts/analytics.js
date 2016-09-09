@@ -1,4 +1,5 @@
 import env from './environment';
+import timer from './timer';
 
 var ga;
 
@@ -110,6 +111,35 @@ var emailSignupSubscribe = function () {
         eventAction: 'subscribe'
     });
 };
+
+// When window is closed
+window.addEventListener('unload', function () {
+    if (timer) {
+        timer.stop();
+        var time = timer.getTimes();
+
+        ga('send', {
+            hitType: 'timing',
+            timingCategory: 'Session Timing',
+            timingVar: 'visible',
+            timingValue: time.totalVisibleTime
+        }, {'transport': 'beacon'});
+
+        ga('send', {
+            hitType: 'timing',
+            timingCategory: 'Session Timing',
+            timingVar: 'hidden',
+            timingValue: time.totalHiddenTime
+        }, {'transport': 'beacon'});
+
+        ga('send', {
+            hitType: 'timing',
+            timingCategory: 'Session Timing',
+            timingVar: 'total',
+            timingValue: time.totalTime
+        }, {'transport': 'beacon'});
+    }
+}, false);
 
 export default {
     updatePage,
