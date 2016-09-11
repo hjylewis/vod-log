@@ -52,7 +52,8 @@ var directory = {
         displayName: "Rush",
         accounts: [
             {name: "Tiltlord", region: "KR"},
-            {name: "C9 Rush", region: "KR"}
+            {name: "C9 Rush", region: "KR"},
+            {name: "pvman", region: "KR"}
         ]
     },
 
@@ -118,7 +119,7 @@ var directory = {
         displayName: "Huhi",
         accounts: [
             {name: "Huhi", region: "NA"},
-            {name: "%EC%9B%85%EC%98%B9%EC%9B%85", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "meandus", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "Xmithie": {
@@ -188,7 +189,7 @@ var directory = {
     "zvanillan": {
         displayName: "Zven",
         accounts: [
-            {name: "iog10", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "G2 WeeksVacation", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "perrkz": {
