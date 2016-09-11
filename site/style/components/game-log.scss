@@ -273,11 +273,15 @@
 
     .summary-detail {
         flex: 1 1;
-        font-size: 13px;
+        font-size: 0; //weird rule whitespacing
         height: 80px;
         min-width: 100px;
         text-align: center;
         line-height: 2;
+
+        p {
+            font-size: 13px;
+        }
 
         .rule {
             display: inline-block;
@@ -360,7 +364,7 @@
 
     .summoner-spells {
         display: inline-block;
-        width: $icon-size;
+        width: $icon-size + px;
         .spell {
             border-radius: 5px;
             $icon-size-padding: $icon-size - 2;
