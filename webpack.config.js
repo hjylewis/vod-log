@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -13,6 +14,12 @@ module.exports = {
     },
 
     plugins: [
+        new CleanWebpackPlugin(['build'], {
+            root: __dirname + '/site/',
+            verbose: true,
+            dry: false,
+            exclude: ['favicon.ico', 'riot.txt']
+        }),
         new HtmlWebpackPlugin({
             template: './site/index.ejs'
         })
