@@ -5,7 +5,7 @@
   "main": "Gruntfile.js",
   "scripts": {
     "start": "webpack-dev-server --colors --content-base site/ --history-api-fallback",
-    "production": "webpack --config webpack.config.production.js",
+    "production": "webpack",
     "deploy": "npm run production && firebase deploy"
   },
   "repository": {
@@ -44,6 +44,8 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
+    "webpack-merge": "^0.14.1",
+    "webpack-validator": "^2.2.7",
     "whatwg-fetch": "^1.0.0"
   },
   "dependencies": {

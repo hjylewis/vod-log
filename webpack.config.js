@@ -1,8 +1,12 @@
+var validate = require('webpack-validator');
+var merge = require('webpack-merge');
+
+var webpack = require("webpack");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-module.exports = {
+var shared = {
     entry: {
         bundle: ['whatwg-fetch', './site/index.js']
     },
@@ -20,14 +24,10 @@ module.exports = {
             dry: false,
             exclude: ['favicon.ico', 'riot.txt']
         }),
-        new ExtractTextPlugin("styles.css"),
         new HtmlWebpackPlugin({
             template: './site/index.ejs'
         })
     ],
-
-    debug: true,
-    devtool: 'source-map',
 
     module: {
         loaders: [
@@ -35,11 +35,6 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader?presets[]=es2015&presets[]=react'
-            },
-            {
-                test: /\.scss$/,
-                // loaders: ["style", "css?sourceMap", "sass?sourceMap"]
-                loader: ExtractTextPlugin.extract(["css?sourceMap", "sass?sourceMap"])
             },
             {
                 test: /\.woff(2)?(\?[a-z0-9]+)?$/,
@@ -56,3 +51,49 @@ module.exports = {
         ]
     }
 };
+
+var config;
+console.log(process.env.npm_lifecycle_event);
+switch(process.env.npm_lifecycle_event) {
+  case 'production':
+    config = merge(shared, {
+        plugins: [
+            new ExtractTextPlugin("styles.css"),
+            new webpack.optimize.UglifyJsPlugin(),
+            new webpack.DefinePlugin({
+                'process.env': {
+                    'NODE_ENV': JSON.stringify('production')
+                }
+            })
+        ],
+
+        module: {
+            loaders: [
+                {
+                    test: /\.scss$/,
+                    loader: ExtractTextPlugin.extract(["css?sourceMap", "sass?sourceMap"])
+                }
+            ]
+        },
+
+        debug: false,
+        devtool: false,
+    });
+    break;
+  default:
+    config = merge(shared, {
+        module: {
+            loaders: [
+                {
+                    test: /\.scss$/,
+                    loaders: ["style", "css?sourceMap", "sass?sourceMap"]
+                }
+            ]
+        },
+
+        debug: true,
+        devtool: 'source-map',
+    });
+}
+
+module.exports = validate(config);

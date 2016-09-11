@@ -1,7 +1,7 @@
 node_modules/
 logs/
 cert/
-dist/
+build/
 env.json
 .sass-cache
 .DS_Store
