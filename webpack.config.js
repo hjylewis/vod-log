@@ -1,9 +1,9 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: {
-        style: './site/style-index.js',
         bundle: ['whatwg-fetch', './site/index.js']
     },
 
@@ -20,6 +20,7 @@ module.exports = {
             dry: false,
             exclude: ['favicon.ico', 'riot.txt']
         }),
+        new ExtractTextPlugin("styles.css"),
         new HtmlWebpackPlugin({
             template: './site/index.ejs'
         })
@@ -37,7 +38,8 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                loaders: ["style", "css?sourceMap", "sass?sourceMap"]
+                // loaders: ["style", "css?sourceMap", "sass?sourceMap"]
+                loader: ExtractTextPlugin.extract(["css?sourceMap", "sass?sourceMap"])
             },
             {
                 test: /\.woff(2)?(\?[a-z0-9]+)?$/,
