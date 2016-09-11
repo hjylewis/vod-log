@@ -14,6 +14,10 @@ class Timer {
         this.listener = visibility.addVisibilityListener(this.listen.bind(this));
     }
 
+    static support () {
+        return window.performance && window.performance.mark;
+    }
+
     listen (visibility) {
         if (visibility !== this.visibility) {
             // get time difference
@@ -52,4 +56,4 @@ class Timer {
     }
 }
 
-export default window.performance ? new Timer() : null;
+export default Timer.support() ? new Timer() : null;
