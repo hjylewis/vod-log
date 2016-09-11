@@ -1,3 +1,5 @@
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
     entry: {
         style: './site/style-index.js',
@@ -5,10 +7,16 @@ module.exports = {
     },
 
     output: {
-        path: __dirname + '/site/compiled',
+        path: __dirname + '/site/build/',
         filename: '[name].js',
-        publicPath: '/compiled'
+        publicPath: '/'
     },
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './site/index.ejs'
+        })
+    ],
 
     debug: true,
     devtool: 'source-map',
