@@ -33,7 +33,7 @@ var directory = {
         displayName: "Jensen",
         accounts: [
             {name: "C9 Jensenn", region: "NA"},
-            {name: "C9%20%EC%84%B9%EC%8B%9C%EC%A0%A0%EC%8A%A8", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "c9 mid", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "nrgimpact": {
@@ -62,7 +62,7 @@ var directory = {
         displayName: "Doublelift",
         accounts: [
             {name: "Doublelift", region: "NA"},
-            {name: "iosm13", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "TSM Zero and Ten", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "TSM_Bjergsen": {
@@ -112,7 +112,7 @@ var directory = {
         displayName: "Darshan",
         accounts: [
             {name: "DarDarBlNKS", region: "NA"},
-            {name: "Iust", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "huhi PogChamp", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "LOLWhoIsHe": {
@@ -189,12 +189,14 @@ var directory = {
     "zvanillan": {
         displayName: "Zven",
         accounts: [
+            {name: "danish wonderboy", region: "EUW"},
             {name: "G2 WeeksVacation", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "perrkz": {
         displayName: "Perkz",
         accounts: [
+            {name: "cro wonderboy", region: "EUW"},
             {name: "G2%EA%B9%80%EC%B9%98%EB%84%88%EB%AC%B4%EC%A2%8B%EC%95%84", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
@@ -228,7 +230,40 @@ var directory = {
         accounts: [
             {name: "v Cabochard", region: "EUW"},
         ]
+    },
+
+    //Splyce
+    "m1kyx": {
+        displayName: "M1kyx",
+        accounts: [
+            {name: "spybard", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "sencux": {
+        displayName: "Sencux",
+        accounts: [
+            {name: "%EC%83%A4%EB%9E%84%EB%9D%BC%EB%9D%BC1110", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "kobbelol": {
+        displayName: "Kobbe",
+        accounts: [
+            {name: "spy%EC%B9%B4%EC%8A%A4%ED%8D%BC", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "wunderwearisfame": {
+        displayName: "Wunder",
+        accounts: [
+            {name: "wunderboy", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "trashylol": {
+        displayName: "Trashy",
+        accounts: [
+            {name: "danishro", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
     }
+
 };
 
 module.exports = directory;
