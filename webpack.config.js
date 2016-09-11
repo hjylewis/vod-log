@@ -22,7 +22,7 @@ var shared = {
             root: __dirname + '/site/',
             verbose: true,
             dry: false,
-            exclude: ['favicon.ico', 'riot.txt']
+            exclude: ['favicon.ico', 'riot.txt', 'twitch.svg']
         }),
         new HtmlWebpackPlugin({
             template: './site/index.ejs'
@@ -53,7 +53,6 @@ var shared = {
 };
 
 var config;
-console.log(process.env.npm_lifecycle_event);
 switch(process.env.npm_lifecycle_event) {
   case 'production':
     config = merge(shared, {

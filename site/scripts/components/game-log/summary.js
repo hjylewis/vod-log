@@ -275,8 +275,8 @@ var GameSummary = React.createClass({
                     <a onClick={this.toggleFullscreen} className="fullscreen-button">
                         <svg className="player-icon-fullscreen">
                             {!this.state.fullscreen ?
-                                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="/style/icons/twitch.svg#icon_fullscreen"></use> :
-                                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="/style/icons/twitch.svg#icon_unfullscreen"></use>}
+                                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="/twitch.svg#icon_fullscreen"></use> :
+                                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="/twitch.svg#icon_unfullscreen"></use>}
                         </svg>
                     </a>
                 </div>

@@ -4,7 +4,7 @@
   "description": "vod log ======= worker - a worker that pulls from twitch and riot apis to at vods to database site - frontend react site that hosts vod info",
   "main": "Gruntfile.js",
   "scripts": {
-    "start": "webpack-dev-server --colors --content-base site/ --history-api-fallback",
+    "start": "webpack-dev-server --colors --content-base site/build --history-api-fallback",
     "production": "webpack",
     "deploy": "npm run production && firebase deploy"
   },
