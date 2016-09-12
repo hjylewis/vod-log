@@ -112,7 +112,7 @@ var directory = {
         displayName: "Darshan",
         accounts: [
             {name: "DarDarBlNKS", region: "NA"},
-            {name: "huhi PogChamp", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "amatuer", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "LOLWhoIsHe": {
@@ -223,6 +223,12 @@ var directory = {
             {name: "14March", region: "EUW"},
         ]
     },
+    "rekkles": {
+        displayName: "Rekkles",
+        accounts: [
+            {name: "fnc rekkles", region: "EUW"},
+        ]
+    },
 
     //	Vitality
     "cabochardlol": {
@@ -236,13 +242,13 @@ var directory = {
     "m1kyx": {
         displayName: "M1kyx",
         accounts: [
-            {name: "spybard", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "SPY Hugh Mungus", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "sencux": {
         displayName: "Sencux",
         accounts: [
-            {name: "%EC%83%A4%EB%9E%84%EB%9D%BC%EB%9D%BC1110", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "SPY Laursen", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "kobbelol": {
