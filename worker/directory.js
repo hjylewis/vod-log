@@ -213,6 +213,26 @@ var directory = {
         accounts: [
             {name: "lIIIllIIllllI", region: "EUW"},
             {name: "RyuSangWook", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "captain of na", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "jankos": {
+        displayName: "Jankos",
+        accounts: [
+            {name: "H2k Choker", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "odoamne": {
+        displayName: "Odoamne",
+        accounts: [
+            {name: "H2K Odoamne", region: "KR", bootcamp: "worlds_korea_2016"},
+        ]
+    },
+    "lolvander": {
+        displayName: "Vander",
+        accounts: [
+            {name: "H2K Vander", region: "EUW"},
+            {name: "H2K SupportIsDog", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
 
