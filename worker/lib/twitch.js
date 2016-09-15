@@ -3,9 +3,11 @@ var querystring = require('querystring');
 var moment = require('moment');
 var utils = require('./utils');
 var logger = require('./logger');
+var clientID = require('../cert/twitch.json').clientID;
 
 var headers = {
-    'Accept': 'application/vnd.twitchtv.v3+json'
+    'Accept': 'application/vnd.twitchtv.v3+json',
+    'Client-ID': clientID
 };
 
 // Construct timestamped video urls
