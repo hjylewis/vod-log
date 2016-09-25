@@ -48,7 +48,7 @@ class ApiState {
                 try {
                     body = JSON.parse(body);
                 } catch (e) {
-                    throw body;
+                    throw new Error(body);
                 }
                 if (body.status && body.status.status_code === 429) {
                     var retrySeconds = response.headers['retry-after'] ? parseInt(response.headers['retry-after']) : 0;

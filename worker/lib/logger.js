@@ -39,7 +39,7 @@ class Logger {
             log = log + '\n';
             fs.writeSync(this.file, log);
         } else {
-            throw "File Not Open";
+            throw new Error("File Not Open");
         }
     }
 

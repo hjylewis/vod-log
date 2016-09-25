@@ -193,7 +193,7 @@ function createMatchData (accountID, match, matchDetails) {
         participant;
 
     if (!matchDetails.participantIdentities) {
-        throw "MissingParticipantIdentitiesException";
+        throw new Error("MissingParticipantIdentitiesException");
     }
 
     matchDetails.participantIdentities.some(function (id) {
@@ -371,6 +371,7 @@ crawlForNewMatches().then(function () {
 }).catch(function (error) {
     logger.error("failed");
     logger.dateAndTime();
+    logger.error(error);
     logger.error(error.stack);
 }).then(function () {
     dbConn.close();
