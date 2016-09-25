@@ -90,7 +90,7 @@ class Logger {
     }
 
     dateAndTime () {
-        console.log(this.data + ' ' + this.time);
+        console.log(this.date + ' ' + this.time);
     }
 
     close () {
