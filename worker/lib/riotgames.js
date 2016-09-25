@@ -50,17 +50,23 @@ class ApiState {
                 } catch (e) {
                     throw new Error(body);
                 }
-                if (body.status && body.status.status_code === 429) {
-                    var retrySeconds = response.headers['retry-after'] ? parseInt(response.headers['retry-after']) : 0;
-                    self.pushRequest(params); // re-add
-                    if (!self.suspended) {
-                        self._suspend(retrySeconds);
-                        setTimeout(function () {
-                            self._unsuspend();
-                            self._flushBuffer();
-                        }, retrySeconds * 1000);
+                if (body.status) {
+                    if (body.status.status_code === 429) {
+                        var retrySeconds = response.headers['retry-after'] ? parseInt(response.headers['retry-after']) : 0;
+                        self.pushRequest(params); // re-add
+                        if (!self.suspended) {
+                            self._suspend(retrySeconds);
+                            setTimeout(function () {
+                                self._unsuspend();
+                                self._flushBuffer();
+                            }, retrySeconds * 1000);
+                        }
+                        return;
+                    } else if (body.status.status_code === 404) {
+                        logger.error("Missing: " + JSON.stringify(options));
+                        callback(null, null, null);
+                        return ;
                     }
-                    return;
                 }
             }
             callback(error, response, body);
@@ -168,7 +174,7 @@ var makeStaticRequest = function (params) {
             }
         });
     });
-}
+};
 
 // Get given account's matches
 var getMatches = function (account, query) {

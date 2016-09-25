@@ -303,6 +303,10 @@ function saveMatch(params) {
         bootcamp: account.bootcamp || null
     };
     return riotGames.getMatch(account.region, match.matchId).then((matchDetails) => {
+        if (!matchDetails) {
+            //if get a 404, skip
+            return Promise.reject("Missing details");
+        }
         params.matchStore = matchStore;
         params.matchDetails = matchDetails;
         matchStore.twitch.end_timestamp_s = Math.round(matchDetails.matchDuration + (parseInt(timestamp) / 1000)); //seconds
@@ -315,6 +319,7 @@ function saveMatch(params) {
         });
     }).then(function (params) {
         // Add channel Logo
+
         return dbConn.getChannel(channelID).then(function (channel) {
             params.matchStore.channelLogo = channel.logo || null;
             return params;
@@ -324,6 +329,12 @@ function saveMatch(params) {
         return dbConn.addMatch(params.matchStore).then( () => params);
     }).then(function (params) {
         return updateLastMatchTime(params.account, params.match.timestamp + 1000);
+    }).catch(function (reason) {
+        if (reason === "Missing details") {
+            return;
+        } else {
+            throw new Error(reason);
+        }
     });
 }
 
@@ -371,7 +382,6 @@ crawlForNewMatches().then(function () {
 }).catch(function (error) {
     logger.error("failed");
     logger.dateAndTime();
-    logger.error(error);
     logger.error(error.stack);
 }).then(function () {
     dbConn.close();
