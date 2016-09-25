@@ -305,6 +305,7 @@ function saveMatch(params) {
     return riotGames.getMatch(account.region, match.matchId).then((matchDetails) => {
         if (!matchDetails) {
             //if get a 404, skip
+            console.error(matchStore);
             return Promise.reject("Missing details");
         }
         params.matchStore = matchStore;
