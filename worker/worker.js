@@ -328,14 +328,15 @@ function saveMatch(params) {
     }).then(function (params) {
         logger.debug(`Saving ${params.channelID} match ${params.matchStore.id}`);
         return dbConn.addMatch(params.matchStore).then( () => params);
-    }).then(function (params) {
-        return updateLastMatchTime(params.account, params.match.timestamp + 1000);
     }).catch(function (reason) {
         if (reason === "Missing details") {
-            return;
+            return Promise.resolve(params);
         } else {
             throw new Error(reason);
         }
+    }).then(function (params) {
+        //Update regardless of missing details
+        return updateLastMatchTime(params.account, params.match.timestamp + 1000);
     });
 }
 
