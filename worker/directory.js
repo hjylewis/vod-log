@@ -62,7 +62,7 @@ var directory = {
         displayName: "Doublelift",
         accounts: [
             {name: "Doublelift", region: "NA"},
-            {name: "TSM Zero and Ten", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "TSM Chino", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "TSM_Bjergsen": {
