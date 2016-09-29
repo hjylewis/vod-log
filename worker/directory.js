@@ -75,7 +75,7 @@ var directory = {
     "TSM_Svenskeren": {
         displayName: "Svenskeren",
         accounts: [
-            {name: "BLOCK IT", region: "NA"},
+            {name: "PNTHR", region: "NA"},
             {name: "NA JG 1", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
