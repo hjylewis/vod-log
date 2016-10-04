@@ -120,6 +120,19 @@ var getAccount = function (accountID) {
     });
 };
 
+var getAccounts = function () {
+    var accountRef = ref.child("accounts");
+
+    return new Promise(function (resolve, reject) {
+        accountRef.once("value", function(snapshot) {
+            resolve(snapshot.val());
+        }, function (error) {
+            logger.error("Accounts get failed: " + error.code);
+            reject(error);
+        });
+    });
+};
+
 var updateAccount = function (accountID, update) {
     var accountRef = ref.child("accounts/" + accountID);
     return new Promise(function (resolve, rejcect) {
@@ -296,6 +309,7 @@ module.exports = {
 
     addAccount: addAccount,
     getAccount: getAccount,
+    getAccounts: getAccounts,
     updateAccount: updateAccount,
 
     addMatch: addMatch,

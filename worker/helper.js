@@ -32,6 +32,12 @@ global.clearMatches = function () {
     return dbConn.clearMatches();
 };
 
+global.renameAccounts = function (args) {
+    dbConn.getAccounts().then(function(accounts) {
+        console.log(accounts);
+    });
+};
+
 global.addAccount = function (args) {
     var force = args.f || args.force;
 
