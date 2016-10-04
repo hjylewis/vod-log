@@ -33,8 +33,19 @@ global.clearMatches = function () {
 };
 
 global.renameAccounts = function (args) {
-    dbConn.getAccounts().then(function(accounts) {
-        console.log(accounts);
+    return dbConn.getAccounts().then(function(accounts) {
+        return Promise.map(Object.keys(accounts), function (accountID) {
+            return RiotGames.getAccount(accounts[accountID].region, accountID).then(function (riotGamesAccount) {
+                return riotGamesAccount[accountID];
+            });
+        }).then(function (riotGamesAccounts) {
+            return Promise.map(riotGamesAccounts, function (riotGamesAccount) {
+                if (riotGamesAccount.name !== accounts[riotGamesAccount.id].name) {
+                    console.log(accounts[riotGamesAccount.id].name + " -> " + riotGamesAccount.name);
+                    return dbConn.updateAccount(riotGamesAccount.id, {name: riotGamesAccount.name});
+                }
+            });
+        });
     });
 };
 

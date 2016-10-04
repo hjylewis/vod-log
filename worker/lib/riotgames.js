@@ -207,6 +207,16 @@ var getAccountByName = function (region, name) {
     return makeRequest(params);
 };
 
+// Get account by name
+var getAccount = function (region, id) {
+    var params = {
+        region: region,
+        version: "v1.4",
+        path: "summoner/" + id,
+    };
+    return makeRequest(params);
+};
+
 // Get champion
 var getChampion = function (championID) {
     var params = {
@@ -259,6 +269,7 @@ module.exports = {
     getMatches: getMatches,
     getMatch: getMatch,
     getAccountByName: getAccountByName,
+    getAccount: getAccount,
     getChampion: getChampion,
     getChampionImage: getChampionImage,
     getSummonerSpell: getSummonerSpell,
