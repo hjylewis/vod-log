@@ -1,5 +1,7 @@
 "use strict";
 
+var fs = require('fs');
+var path = require('path');
 var dbConn = require('./lib/database');
 var Twitch = require('./lib/twitch');
 var RiotGames = require('./lib/riotgames');
@@ -33,6 +35,10 @@ global.clearMatches = function () {
 };
 
 global.renameAccounts = function (args) {
+    var dirty = false;
+    var directoryFileName = path.join(__dirname, 'directory.js');
+    var directoryString = fs.readFileSync(directoryFileName, 'utf8');
+
     return dbConn.getAccounts().then(function(accounts) {
         return Promise.map(Object.keys(accounts), function (accountID) {
             return RiotGames.getAccount(accounts[accountID].region, accountID).then(function (riotGamesAccount) {
@@ -40,12 +46,20 @@ global.renameAccounts = function (args) {
             });
         }).then(function (riotGamesAccounts) {
             return Promise.map(riotGamesAccounts, function (riotGamesAccount) {
-                if (riotGamesAccount.name !== accounts[riotGamesAccount.id].name) {
-                    console.log(accounts[riotGamesAccount.id].name + " -> " + riotGamesAccount.name);
-                    return dbConn.updateAccount(riotGamesAccount.id, {name: riotGamesAccount.name});
+                var oldName = accounts[riotGamesAccount.id].name;
+                var newName = riotGamesAccount.name;
+                if (newName !== oldName) {
+                    dirty = true;
+                    console.log(oldName + " -> " + newName);
+                    directoryString = directoryString.replace(oldName, newName);
+                    return dbConn.updateAccount(riotGamesAccount.id, {name: newName});
                 }
             });
         });
+    }).then(function () {
+        if (dirty) {
+            fs.writeFileSync(directoryFileName, directoryString, 'utf8');
+        }
     });
 };
 
