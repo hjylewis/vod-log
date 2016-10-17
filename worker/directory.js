@@ -63,6 +63,7 @@ var directory = {
         accounts: [
             {name: "Doublelift", region: "NA"},
             {name: "TSM Chino", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "Renserguden", region: "NA"}
         ]
     },
     "TSM_Bjergsen": {
@@ -75,7 +76,7 @@ var directory = {
     "TSM_Svenskeren": {
         displayName: "Svenskeren",
         accounts: [
-            {name: "PNTHR", region: "NA"},
+            {name: "JG KlNG", region: "NA"},
             {name: "NA JG 1", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
@@ -133,7 +134,7 @@ var directory = {
         displayName: "Stixxay",
         accounts: [
             {name: "Stixxay", region: "NA"},
-            {name: "CLG 스나이퍼", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "CLG%20%EC%8A%A4%EB%82%98%EC%9D%B4%ED%8D%BC", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
 
@@ -176,14 +177,14 @@ var directory = {
     "trick_lol": {
         displayName: "Trick",
         accounts: [
-            {name: "%EC%84%B8%EC%B2%B4%EC%A0%95%EC%9D%84%20%ED%96%A5%ED%95%98%EC%97%AC", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "Vacation Life", region: "KR", bootcamp: "worlds_korea_2016"},
             {name: "MakeEuGreatAgain", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "mithylol": {
         displayName: "Mithy",
         accounts: [
-            {name: "G2%EB%AF%B8%ED%8B%B0%EA%B9%80%EC%B9%98%EA%B0%93", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "americano00odle", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "zvanillan": {
@@ -196,14 +197,14 @@ var directory = {
     "perrkz": {
         displayName: "Perkz",
         accounts: [
-            {name: "cro wonderboy", region: "EUW"},
-            {name: "G2%EA%B9%80%EC%B9%98%EB%84%88%EB%AC%B4%EC%A2%8B%EC%95%84", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "egirlslayer", region: "EUW"},
+            {name: "american000dle", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "expect74": {
         displayName: "Expect",
         accounts: [
-            {name: "%EC%88%A8%EC%89%AC%EC%96%B4%EC%84%9C%EC%A3%84%EC%86%A1%EC%9A%94", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "ang gimozzzi", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
 
@@ -286,7 +287,7 @@ var directory = {
     "trashylol": {
         displayName: "Trashy",
         accounts: [
-            {name: "danishro", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "SPY Skrald", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     }
 

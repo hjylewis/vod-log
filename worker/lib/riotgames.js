@@ -45,10 +45,19 @@ class ApiState {
         var self = this;
         request(options, function (error, response, body) {
             if (!error) {
+                if (!body) {
+                    logger.error("Blank body: " + JSON.stringify(options) + "\nMight be due to a weird unicode characters.");
+                    callback(null, null, null);
+                    return;
+                }
+
                 try {
                     body = JSON.parse(body);
                 } catch (e) {
-                    throw new Error(body);
+                    console.log(response);
+                    console.log("da body: " + body);
+                    return;
+                    // throw new Error(body);
                 }
                 if (body.status) {
                     if (body.status.status_code === 429) {
