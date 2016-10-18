@@ -169,6 +169,14 @@ var directory = {
         ]
     },
 
+    //IMT
+    "pobelter": {
+        displayName: "Pobelter",
+        accounts: [
+            {name: "Pobelter", region: "NA"}
+        ]
+    },
+
     /**********************************
      *************EULCS****************
      **********************************/
