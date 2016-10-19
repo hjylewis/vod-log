@@ -173,7 +173,8 @@ var directory = {
     "pobelter": {
         displayName: "Pobelter",
         accounts: [
-            {name: "Pobelter", region: "NA"}
+            {name: "Pobelter", region: "NA"},
+            {name: "776", region: "NA"}
         ]
     },
 
