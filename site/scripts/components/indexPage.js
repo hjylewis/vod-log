@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 import channels from '../database/channels';
 
-var IndexPage = React.createClass({
+var ActionButton = React.createClass({
     getInitialState: function () {
         return {
             channel: null
@@ -20,6 +20,19 @@ var IndexPage = React.createClass({
     },
     render: function () {
         return (
+            <span>
+                {this.state.channel ?
+                    <Link className="korean-bootcamp-btn" to={"/league/channel/" + this.state.channel.name}>Check out {this.state.channel.displayName}'s VODs</Link> :
+                    ""
+                }
+            </span>
+        );
+    }
+});
+
+var IndexPage = React.createClass({
+    render: function () {
+        return (
             <div>
                 <div className="hero">
                     <div className="hero-content">
@@ -27,16 +40,12 @@ var IndexPage = React.createClass({
                         <div className="subtitle">
                             <h3>Tired of watching streamers in queue and not in game?</h3>
                             <h3>Watch the VODs worth watching</h3>
-                            {this.state.channel ?
-                                <Link className="korean-bootcamp-btn" to={"/league/channel/" + this.state.channel.name}>Check out {this.state.channel.displayName}'s VODs</Link> :
-                                ""
-                            }
-
+                            <ActionButton />
                         </div>
                     </div>
                 </div>
                 <div className="main">
-                    {this.state.channel ? <IndexGameLog /> : ""}
+                    <IndexGameLog />
                 </div>
             </div>
         );
