@@ -150,10 +150,13 @@ function createPlayerData (participant) {
     return riotGames.getChampion(participant.championId).then(function (champion) {
         participant.champion = {
             name: champion.name,
-            title: champion.title,
-            image: riotGames.getChampionImage(champion.image.full)
+            title: champion.title
         };
-        return participant;
+
+        return riotGames.getChampionImage(champion.image.full).then(function (image) {
+            participant.champion.image = image;
+            return participant;
+        });
     }).then(function (participant) {
         return Promise.all([
             riotGames.getSummonerSpell(participant.spell1Id),
@@ -171,19 +174,25 @@ function createPlayerData (participant) {
             return keystones.indexOf(mastery.masteryId) !== -1;
         });
         participant.keystone = {
-            id: keystone,
-            image: riotGames.getMasteryImage(keystone)
+            id: keystone
         };
-        return participant;
+
+        return riotGames.getMasteryImage(keystone).then(function (image) {
+            participant.keystone.image = image;
+            return participant;
+        });
     }).then(function (participant) {
-        var items = [];
+        var itemsPromises = [];
         for (var i = 0; i < 7; i++) {
             if (participant.stats["item" + i] !== 0) {
-                items.push(riotGames.getItemImage(participant.stats["item" + i]));
+                itemsPromises.push(riotGames.getItemImage(participant.stats["item" + i]));
             }
         }
-        participant.stats.items = items;
-        return participant;
+
+        return Promise.all(itemsPromises).then(function (items) {
+            participant.stats.items = items;
+            return participant;
+        });
     });
 }
 
@@ -332,7 +341,7 @@ function saveMatch(params) {
         if (reason === "Missing details") {
             return Promise.resolve(params);
         } else {
-            throw new Error(reason);
+            throw reason;
         }
     }).then(function (params) {
         //Update regardless of missing details

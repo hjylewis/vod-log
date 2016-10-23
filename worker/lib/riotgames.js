@@ -145,6 +145,8 @@ var constructStaticURL = function(params) {
     return url;
 };
 
+
+
 // Make Riot Games api request
 var makeRequest = function(params) {
     var options = {
@@ -184,6 +186,12 @@ var makeStaticRequest = function (params) {
         });
     });
 };
+
+var realmPromise = makeStaticRequest({
+    region: "na",
+    version: "v1.2",
+    path: "realm"
+});
 
 // Get given account's matches
 var getMatches = function (account, query) {
@@ -252,8 +260,9 @@ var getSummonerSpell = function (id) {
 
 
 var getChampionImage = function (path) {
-    // TODO fetch data dragon version https://developer.riotgames.com/api/methods#!/1055/3632
-    return `//ddragon.leagueoflegends.com/cdn/6.16.2/img/champion/${path}`;
+    return realmPromise.then(function (realm) {
+        return `//ddragon.leagueoflegends.com/cdn/${realm.dd}/img/champion/${path}`;
+    });
 };
 
 var getKeystoneMasteries = function () {
@@ -262,16 +271,19 @@ var getKeystoneMasteries = function () {
 };
 
 var getMasteryImage = function (id) {
-    // TODO fetch data dragon version https://developer.riotgames.com/api/methods#!/1055/3632
-    return `//ddragon.leagueoflegends.com/cdn/6.16.2/img/mastery/${id}.png`;
+    return realmPromise.then(function (realm) {
+        return `//ddragon.leagueoflegends.com/cdn/${realm.dd}/img/mastery/${id}.png`;
+    });
 };
 
 var getItemImage = function (id) {
-    // TODO fetch data dragon version https://developer.riotgames.com/api/methods#!/1055/3632
     if (id === 0) {
-        return null;
+        return Promise.resolve(null);
     }
-    return `//ddragon.leagueoflegends.com/cdn/6.16.2/img/item/${id}.png`;
+
+    return realmPromise.then(function (realm) {
+        return `//ddragon.leagueoflegends.com/cdn/${realm.dd}/img/item/${id}.png`;
+    });
 };
 
 module.exports = {
