@@ -177,6 +177,12 @@ var directory = {
             {name: "776", region: "NA"}
         ]
     },
+    "imt_wildturtle": {
+        displayName: "WildTurtle",
+        accounts: [
+            {name: "WildTurtle", region: "NA"},
+        ]
+    },
 
     /**********************************
      *************EULCS****************
