@@ -164,7 +164,7 @@ var directory = {
     "lod": {
         displayName: "LOD",
         accounts: [
-            {name: "lod2", region: "NA"},
+            {name: "PAPERBOYY", region: "NA"},
             {name: "EnVy LOD", region: "NA"},
         ]
     },
@@ -181,6 +181,12 @@ var directory = {
         displayName: "WildTurtle",
         accounts: [
             {name: "WildTurtle", region: "NA"},
+        ]
+    },
+    "imt_huni": {
+        displayName: "Huni",
+        accounts: [
+            {name: "%EC%98%A4%EB%8A%98%ED%9C%B4%EA%B0%80%EC%9D%B8%EB%93%AF", region: "KR"},
         ]
     },
 
