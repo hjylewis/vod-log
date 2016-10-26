@@ -5,6 +5,8 @@ var directory = {
         accounts: [
             {name: "C9 Sneaky", region: "NA"},
             {name: "C9 SneakyOppa", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "C9 Gun", region: "NA"},
+            {name: "C9 StealthBomber", region: "NA"},
         ]
     },
     "meteos": {
@@ -32,7 +34,7 @@ var directory = {
     "Jensen": {
         displayName: "Jensen",
         accounts: [
-            {name: "C9 Jensenn", region: "NA"},
+            {name: "C9 Jensen", region: "NA"},
             {name: "c9 mid", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
@@ -149,6 +151,7 @@ var directory = {
         displayName: "Dardoch",
         accounts: [
             {name: "ghetto oprah", region: "NA"},
+            {name: "fake iove", region: "NA"},
         ]
     },
 
