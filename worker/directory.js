@@ -73,6 +73,7 @@ var directory = {
         accounts: [
             {name: "Soerenbjerg", region: "NA"},
             {name: "TSM%EC%A4%91%EB%8B%A8%EB%B9%84%EC%97%AD%EC%8A%A8", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "qldurtms", region: "NA"},
         ]
     },
     "TSM_Svenskeren": {
