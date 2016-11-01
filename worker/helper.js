@@ -51,7 +51,7 @@ global.renameAccounts = function (args) {
                 if (newName !== oldName) {
                     dirty = true;
                     console.log(oldName + " -> " + newName);
-                    var regex = new RegExp(encodeURIComponent(oldName), 'i');
+                    var regex = new RegExp(encodeURIComponent(oldName), 'gi');
                     directoryString = directoryString.replace(regex, newName);
                     return dbConn.updateAccount(riotGamesAccount.id, {name: newName});
                 }

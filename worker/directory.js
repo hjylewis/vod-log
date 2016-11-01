@@ -22,7 +22,8 @@ var directory = {
         displayName: "Bunnyfufuu",
         accounts: [
             {name: "Lil Bunny FuFuu", region: "NA"},
-            {name: "Laminated Shrimp", region: "NA"}
+            {name: "Laminated Shrimp", region: "NA"},
+            {name: "BunWeeb", region: "NA"}
         ]
     },
     "HaiL9": {
@@ -146,6 +147,7 @@ var directory = {
         displayName: "Froggen",
         accounts: [
             {name: "Anivia Kid", region: "NA"},
+            {name: "Frogsuo", region: "NA"},
         ]
     },
     "LiquidDardoch": {
@@ -239,7 +241,7 @@ var directory = {
         accounts: [
             {name: "lIIIllIIllllI", region: "EUW"},
             {name: "RyuSangWook", region: "KR", bootcamp: "worlds_korea_2016"},
-            {name: "captain of na", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "Captain of EU", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "jankos": {
