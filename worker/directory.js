@@ -248,6 +248,7 @@ var directory = {
         displayName: "Jankos",
         accounts: [
             {name: "H2k Choker", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "H2K Jankos", region: "EUW"},
         ]
     },
     "odoamne": {
@@ -316,8 +317,19 @@ var directory = {
         accounts: [
             {name: "SPY Skrald", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
-    }
+    },
 
+    /********************************
+     *************LCK****************
+     ********************************/
+
+    //ROX
+    "peanutat": {
+        displayName: "Peanut",
+        accounts: [
+            {name: "ROX Peanut", region: "KR"},
+        ]
+    }
 };
 
 module.exports = directory;
