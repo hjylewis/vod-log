@@ -241,7 +241,7 @@ var directory = {
         accounts: [
             {name: "lIIIllIIllllI", region: "EUW"},
             {name: "RyuSangWook", region: "KR", bootcamp: "worlds_korea_2016"},
-            {name: "Captain of EU", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "%EC%95%88%EB%85%95%ED%95%98%EC%8B%AD%EB%8B%88%EA%B9%8C%EC%9C%A0", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "jankos": {
@@ -324,7 +324,7 @@ var directory = {
      ********************************/
 
     //ROX
-    "peanutat": {
+    "lol_peanut": {
         displayName: "Peanut",
         accounts: [
             {name: "ROX Peanut", region: "KR"},
