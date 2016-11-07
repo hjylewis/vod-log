@@ -101,6 +101,7 @@ var directory = {
         displayName: "Biofrost",
         accounts: [
             {name: "Biofrost", region: "NA"},
+            {name: "laugh for me", region: "NA"},
             {name: "rip voljin 2016", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
