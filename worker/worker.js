@@ -248,7 +248,7 @@ function createMatchData (accountID, match, matchDetails) {
             creation: match.timestamp,
             duration: matchDetails.matchDuration,
             region: match.region,
-            queue: match.queue,
+            queue: match.queue || "",
             season: match.season,
             win: match.win,
             matchVersion: matchDetails.matchVersion,
