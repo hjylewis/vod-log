@@ -66,10 +66,8 @@ function connection () {
     connection.getSortedData = function (ref, params) {
         var query = createQuery(ref, params);
         if (params.keys) {
-            console.log("keys");
             return connection.addSortedKeyListener(query);
         } else {
-            console.log("no keys");
             return connection.addSortedListener(query);
         }
     };

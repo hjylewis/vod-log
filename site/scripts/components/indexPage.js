@@ -11,7 +11,6 @@ var ActionButton = React.createClass({
         };
     },
     componentDidMount: function () {
-        console.log("here");
         channels.getAllChannelKeys().then(function (channels_ids) {
             var index = Math.floor(Math.random() * channels_ids.length);
             channels.getChannel(channels_ids[index]).then(function(channel) {

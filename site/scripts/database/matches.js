@@ -49,7 +49,6 @@ function matches () {
                 if (!matches) {
                     return Promise.resolve([]);
                 }
-                console.log(matches);
                 return _joinChannels(matches.reverse());
             });
         }
