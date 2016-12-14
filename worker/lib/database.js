@@ -64,6 +64,20 @@ var getChannel = function (channelID) {
     });
 };
 
+var addChannelKey = function (channelId) {
+    var channelKeyRef = ref.child("channels/keys/" + channelId);
+    return new Promise(function (resolve, reject) {
+        channelKeyRef.set(true, function (error) {
+            if (error) {
+                logger.error("Channel add key (" + channelId + ") failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
+
 var addChannel = function (channel) {
     var channelRef = ref.child("channels/" + channel.name);
 
@@ -76,6 +90,8 @@ var addChannel = function (channel) {
                 resolve();
             }
         });
+    }).then(function () {
+        return addChannelKey(channel.name);
     });
 };
 

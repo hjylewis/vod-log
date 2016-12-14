@@ -11,11 +11,11 @@ var ActionButton = React.createClass({
         };
     },
     componentDidMount: function () {
-        channels.getAllChannels().then(function (channels) {
-            var channels_ids = Object.keys(channels);
+        channels.getAllChannelKeys().then(function (channels_ids) {
             var index = Math.floor(Math.random() * channels_ids.length);
-            var channel = channels[channels_ids[index]];
-            this.setState({channel: channel});
+            channels.getChannel(channels_ids[index]).then(function(channel) {
+                this.setState({channel: channel});
+            }.bind(this));
         }.bind(this));
     },
     render: function () {

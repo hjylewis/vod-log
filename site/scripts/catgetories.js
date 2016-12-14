@@ -4,8 +4,12 @@ import Channels from './database/channels';
 import Bootcamps from './database/bootcamps';
 
 class Catgetories {
-    constructor () {
-        this.promise = Promise.all([
+    initCatgetories () {
+        if (this.catgetories) {
+            return Promise.resolve(this.catgetories);
+        }
+
+        return Promise.all([
             Champions.getAll(),
             Channels.getAllChannels(),
             Bootcamps.getAllBootcamps()
@@ -38,7 +42,7 @@ class Catgetories {
     }
 
     search (search) {
-        return this.promise.then(function (catgetories) {
+        return this.initCatgetories().then(function (catgetories) {
             var options = {
                 caseSensitive: false,
                 shouldSort: true,

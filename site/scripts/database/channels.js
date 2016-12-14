@@ -15,6 +15,13 @@ function channels () {
         return connection.getData(ref);
     };
 
+    channels.getAllChannelKeys = function () {
+        var ref = connection.store + "/channels/keys";
+        return connection.getData(ref).then((keyObject) => {
+            return Object.keys(keyObject);
+        });
+    };
+
     channels.getChannelHead = function (id) {
         return channels.getChannel(id).then(function (channel) {
             return {
