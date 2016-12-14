@@ -26,7 +26,17 @@ function connection () {
         });
     };
 
-    connection.addChildListener = function (query) {
+    connection.addSortedListener = function (query) {
+        return query.once('value').then(function(snapshot) {
+            var result = [];
+            snapshot.forEach(function(child) {
+                result.push(child.val());
+            });
+            return result;
+        });
+    };
+
+    connection.addSortedKeyListener = function (query) {
         return query.once('value').then(function(snapshot) {
             var result = [];
             snapshot.forEach(function(child) {
@@ -36,7 +46,7 @@ function connection () {
         });
     };
 
-    connection.getDataSet = function (ref, params) {
+    var createQuery = function (ref, params) {
         var {limit, orderBy, endAt} = params;
         var query = firebase.database().ref(ref);
 
@@ -50,7 +60,18 @@ function connection () {
             query = query.endAt(endAt);
         }
 
-        return connection.addChildListener(query);
+        return query;
+    }
+
+    connection.getSortedData = function (ref, params) {
+        var query = createQuery(ref, params);
+        if (params.keys) {
+            console.log("keys");
+            return connection.addSortedKeyListener(query);
+        } else {
+            console.log("no keys");
+            return connection.addSortedListener(query);
+        }
     };
 
     connection.getData = function (ref) {

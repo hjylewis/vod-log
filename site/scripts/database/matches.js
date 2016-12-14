@@ -6,20 +6,24 @@ import channels from './channels';
 function matches () {
     var matches = this;
 
+    function _joinChannels (matches) {
+        return Promise.forEach(matches, function (match) {
+            return channels.getChannel(match.channelID).then(function (channel) {
+                match.channel = {
+                    id: match.channelID,
+                    displayName: channel.displayName
+                };
+                delete match.channelID;
+                return match;
+            });
+        });
+    }
+
     function _joinMatches (matchIds) {
         return Promise.forEach(matchIds, function (matchId) {
             return connection.addListener(firebase.database().ref(connection.store + '/matches/' + matchId));
         }).then(function (matches) {
-            return Promise.forEach(matches, function (match) {
-                return channels.getChannel(match.channelID).then(function (channel) {
-                    match.channel = {
-                        id: match.channelID,
-                        displayName: channel.displayName
-                    };
-                    delete match.channelID;
-                    return match;
-                });
-            });
+            return _joinChannels(matches);
         });
     }
 
@@ -37,9 +41,21 @@ function matches () {
             ref = connection.store + '/roles/' + role + '/matches';
         } else if (bootcamp) {
             ref = connection.store + '/bootcamps/' + bootcamp + '/matches';
+        } else {
+            // Normal match query (homepage)
+            // No need for second queries (see alternative below)
+            params.keys = false;
+            return connection.getSortedData(ref, params).then(function (matches) {
+                if (!matches) {
+                    return Promise.resolve([]);
+                }
+                console.log(matches);
+                return _joinChannels(matches.reverse());
+            });
         }
 
-        return connection.getDataSet(ref, params).then(function (matches) {
+        params.keys = true;
+        return connection.getSortedData(ref, params).then(function (matches) {
             if (!matches) {
                 return Promise.resolve([]);
             }
