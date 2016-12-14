@@ -55,7 +55,7 @@ var directory = {
         displayName: "Rush",
         accounts: [
             {name: "Tiltlord", region: "KR"},
-            {name: "C9 Rush", region: "KR"},
+            {name: "Nooy", region: "KR"},
             {name: "pvman", region: "KR"}
         ]
     },
@@ -72,7 +72,7 @@ var directory = {
     "TSM_Bjergsen": {
         displayName: "Bjergsen",
         accounts: [
-            {name: "Soerenbjerg", region: "NA"},
+            {name: "S%C3%B8ren Bjerg", region: "NA"},
             {name: "TSM%EC%A4%91%EB%8B%A8%EB%B9%84%EC%97%AD%EC%8A%A8", region: "KR", bootcamp: "worlds_korea_2016"},
             {name: "qldurtms", region: "NA"},
         ]
@@ -101,7 +101,7 @@ var directory = {
         displayName: "Biofrost",
         accounts: [
             {name: "Biofrost", region: "NA"},
-            {name: "laugh for me", region: "NA"},
+            {name: "L%C3%98ki", region: "NA"},
             {name: "rip voljin 2016", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
@@ -139,7 +139,7 @@ var directory = {
         displayName: "Stixxay",
         accounts: [
             {name: "Stixxay", region: "NA"},
-            {name: "CLG%20%EC%8A%A4%EB%82%98%EC%9D%B4%ED%8D%BC", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "CLG %EC%8A%A4%EB%82%98%EC%9D%B4%ED%8D%BC", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
 
@@ -155,7 +155,7 @@ var directory = {
         displayName: "Dardoch",
         accounts: [
             {name: "ghetto oprah", region: "NA"},
-            {name: "fake iove", region: "NA"},
+            {name: "Dard%C3%B8ch", region: "NA"},
         ]
     },
 
@@ -181,7 +181,7 @@ var directory = {
         displayName: "Pobelter",
         accounts: [
             {name: "Pobelter", region: "NA"},
-            {name: "776", region: "NA"}
+            {name: "Quaal", region: "NA"}
         ]
     },
     "imt_wildturtle": {
@@ -193,7 +193,7 @@ var directory = {
     "imt_huni": {
         displayName: "Huni",
         accounts: [
-            {name: "%EC%98%A4%EB%8A%98%ED%9C%B4%EA%B0%80%EC%9D%B8%EB%93%AF", region: "KR"},
+            {name: "SKT T1 Huni", region: "KR"},
         ]
     },
 
@@ -225,7 +225,7 @@ var directory = {
     "perrkz": {
         displayName: "Perkz",
         accounts: [
-            {name: "egirlslayer", region: "EUW"},
+            {name: "goodplayer98", region: "EUW"},
             {name: "american000dle", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
@@ -242,7 +242,7 @@ var directory = {
         accounts: [
             {name: "lIIIllIIllllI", region: "EUW"},
             {name: "RyuSangWook", region: "KR", bootcamp: "worlds_korea_2016"},
-            {name: "%EC%95%88%EB%85%95%ED%95%98%EC%8B%AD%EB%8B%88%EA%B9%8C%EC%9C%A0", region: "KR", bootcamp: "worlds_korea_2016"},
+            {name: "%EB%B6%81%EC%B4%8C%EB%8F%99%EC%86%90%EB%A7%8C%EB%91%90", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
     "jankos": {
@@ -261,7 +261,7 @@ var directory = {
     "lolvander": {
         displayName: "Vander",
         accounts: [
-            {name: "H2K Vander", region: "EUW"},
+            {name: "KMT V4nder", region: "EUW"},
             {name: "H2WHAT", region: "KR", bootcamp: "worlds_korea_2016"},
         ]
     },
@@ -270,7 +270,7 @@ var directory = {
     "fabiantje": {
         displayName: "Febiven",
         accounts: [
-            {name: "FNC Febiven", region: "EUW"},
+            {name: "HTWOK Febiven", region: "EUW"},
         ]
     },
     "rekkles": {
@@ -328,7 +328,7 @@ var directory = {
     "lol_peanut": {
         displayName: "Peanut",
         accounts: [
-            {name: "ROX Peanut", region: "KR"},
+            {name: "SKT T1 Peanut", region: "KR"},
         ]
     }
 };

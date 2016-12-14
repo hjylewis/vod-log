@@ -34,6 +34,14 @@ global.clearMatches = function () {
     return dbConn.clearMatches();
 };
 
+function convertToURI (string) {
+  let words = string.split(" ").map((word) => {
+    return encodeURIComponent(word);
+  });
+
+  return words.join(" ");
+}
+
 global.renameAccounts = function (args) {
     var dirty = false;
     var directoryFileName = path.join(__dirname, 'directory.js');
@@ -51,8 +59,8 @@ global.renameAccounts = function (args) {
                 if (newName !== oldName) {
                     dirty = true;
                     console.log(oldName + " -> " + newName);
-                    var regex = new RegExp(encodeURIComponent(oldName), 'gi');
-                    directoryString = directoryString.replace(regex, newName);
+                    var regex = new RegExp(convertToURI(oldName), 'gi');
+                    directoryString = directoryString.replace(regex, convertToURI(newName));
                     return dbConn.updateAccount(riotGamesAccount.id, {name: newName});
                 }
             });
