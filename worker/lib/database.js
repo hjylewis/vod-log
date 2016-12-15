@@ -44,7 +44,9 @@ var getChannels = function () {
 
     return new Promise(function(resolve, reject) {
         channelsRef.once("value", function(snapshot) {
-            resolve(snapshot.val());
+            var channels = snapshot.val();
+            delete channels.keys;
+            resolve(channels);
         }, function (error) {
             logger.error("Channels get failed: " + error.code);
             reject(error);
