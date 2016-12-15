@@ -8,7 +8,8 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var shared = {
     entry: {
-        bundle: ['whatwg-fetch', './site/index.js']
+        bundle: ['whatwg-fetch', './site/index.js'],
+        routes: ['whatwg-fetch', './site/routes/index.js']
     },
 
     output: {
@@ -23,9 +24,6 @@ var shared = {
             verbose: true,
             dry: false,
             exclude: ['favicon.ico', 'riot.txt', 'twitch.svg']
-        }),
-        new HtmlWebpackPlugin({
-            template: './site/index.ejs'
         })
     ],
 
@@ -54,7 +52,7 @@ var shared = {
 
 var config;
 switch(process.env.npm_lifecycle_event) {
-  case 'production':
+case 'production':
     config = merge(shared, {
         plugins: [
             new ExtractTextPlugin("styles.css"),
@@ -79,7 +77,7 @@ switch(process.env.npm_lifecycle_event) {
         devtool: false,
     });
     break;
-  default:
+default:
     config = merge(shared, {
         module: {
             loaders: [
