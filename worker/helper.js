@@ -157,6 +157,50 @@ global.addChannel = function (args) {
     });
 };
 
+global.changeChannel = function (args) {
+    var old_name = args.o || args.old;
+    if (!old_name) {
+        console.log("Missing -no");
+        return;
+    }
+
+    var new_name = args.n || args.new;
+    if (!new_name) {
+        console.log("Missing -n");
+        return;
+    }
+
+    return Promise.all([
+        dbConn.getChannel(new_name),
+        dbConn.getChannel(old_name),
+        Twitch.api({url: 'channels/' + new_name})
+    ]).then(function (results) {
+        var exists = results[0];
+        var old_channel = results[1];
+        var twitch_data = results[2];
+
+        if (exists) {
+            return;
+        }
+
+        old_channel.id = twitch_data._id;
+        old_channel.name = new_name;
+        old_channel.logo = twitch_data.logo;
+        old_channel.url = twitch_data.url;
+
+
+        return Promise.map(Object.keys(old_channel.matches), (matchid) => {
+            old_channel.matches[matchid].channel = new_name;
+
+            return dbConn.getMatch(matchid).then((match) => {
+                match.channelID = new_name;
+                return dbConn.changeMatch(match, {channel: new_name});
+            });
+        }).then(() => dbConn.addChannel(old_channel))
+          .then(() => dbConn.removeChannel(old_name));
+    });
+};
+
 global.directory = function (args) {
     var force = args.f || args.force;
 

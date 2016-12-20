@@ -35,6 +35,7 @@ var api = function (params) {
             error = error || JSON.parse(body).error;
             if (error) {
                 logger.error("Twitch api call failed: " + error);
+                logger.error(options);
                 reject(error);
             } else {
                 resolve(JSON.parse(body));

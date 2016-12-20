@@ -6,7 +6,7 @@ import Footer from './footer';
 export default React.createClass({
     render: function() {
         return (
-            <DocumentTitle title='vodlog | League of Legends'>
+            <DocumentTitle title='vodlog'>
                 <div>
                     <Header />
                     <div className="page">

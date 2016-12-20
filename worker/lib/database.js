@@ -78,7 +78,21 @@ var addChannelKey = function (channelId) {
             }
         });
     });
-}
+};
+
+var removeChannelKey = function (channelId) {
+    var channelKeyRef = ref.child("channels/keys/" + channelId);
+    return new Promise(function (resolve, reject) {
+        channelKeyRef.set(null, function (error) {
+            if (error) {
+                logger.error("Channel add key (" + channelId + ") failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    });
+};
 
 var addChannel = function (channel) {
     var channelRef = ref.child("channels/" + channel.name);
@@ -94,6 +108,23 @@ var addChannel = function (channel) {
         });
     }).then(function () {
         return addChannelKey(channel.name);
+    });
+};
+
+var removeChannel = function (channel_name) {
+    var channelRef = ref.child("channels/" + channel_name);
+
+    return new Promise(function (resolve, reject) {
+        channelRef.set(null, function (error) {
+            if (error) {
+                logger.error("Channel add failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }).then(function () {
+        return removeChannelKey(channel_name);
     });
 };
 
@@ -239,6 +270,87 @@ var addMatch = function (match) {
     return Promise.all(promises);
 };
 
+var getMatch = function (id) {
+    var matchRef = ref.child("matches/" + id);
+
+    return new Promise(function (resolve, reject) {
+        matchRef.once("value", function(snapshot) {
+            resolve(snapshot.val());
+        }, function (error) {
+            logger.error("Match get failed: " + error.code);
+            reject(error);
+        });
+    });
+};
+
+var changeMatch = function (match, update) {
+    var promises = [];
+
+    var matchRef = ref.child("matches/" + match.id);
+    promises.push(new Promise(function (resolve, reject) {
+        matchRef.set(match, function (error) {
+            if (error) {
+                logger.error("Change Match failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
+    var channelRef = ref.child("channels/" + match.channelID + "/matches/" + match.id);
+    promises.push(new Promise(function (resolve, reject) {
+        channelRef.update(update, function (error) {
+            if (error) {
+                logger.error("Change Match (to channel) failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
+    var championRef = ref.child("champions/" + match.match_data.player_data.championId + "/matches/" + match.id);
+    promises.push(new Promise(function (resolve, reject) {
+        championRef.update(update, function (error) {
+            if (error) {
+                logger.error("Change Match (to channel) failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
+    var roleRef = ref.child("roles/" + match.match_data.player_data.role + "/matches/" + match.id);
+    promises.push(new Promise(function (resolve, reject) {
+        roleRef.update(update, function (error) {
+            if (error) {
+                logger.error("Change Match (to channel) failed: " + error.code);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    }));
+
+    if (match.bootcamp) {
+        var bootcampRef = ref.child("bootcamps/" + match.bootcamp + "/matches/" + match.id);
+        promises.push(new Promise(function (resolve, reject) {
+            bootcampRef.update(update, function (error) {
+                if (error) {
+                    logger.error("Change Match (to bootcamp) failed: " + error.code);
+                    reject(error);
+                } else {
+                    resolve();
+                }
+            });
+        }));
+    }
+
+    return Promise.all(promises);
+};
+
 var clearMatches = function () {
     var promises = [];
     var matchesRef = ref.child("matches/");
@@ -323,6 +435,7 @@ module.exports = {
     getChannels: getChannels,
     getChannel: getChannel,
     addChannel: addChannel,
+    removeChannel: removeChannel,
     updateChannel: updateChannel,
 
     addAccount: addAccount,
@@ -331,6 +444,8 @@ module.exports = {
     updateAccount: updateAccount,
 
     addMatch: addMatch,
+    getMatch: getMatch,
+    changeMatch: changeMatch,
     clearMatches: clearMatches,
 
     close: close
