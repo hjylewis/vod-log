@@ -160,7 +160,7 @@ global.addChannel = function (args) {
 global.changeChannel = function (args) {
     var old_name = args.o || args.old;
     if (!old_name) {
-        console.log("Missing -no");
+        console.log("Missing -o");
         return;
     }
 
@@ -195,6 +195,11 @@ global.changeChannel = function (args) {
             return dbConn.getMatch(matchid).then((match) => {
                 match.channelID = new_name;
                 return dbConn.changeMatch(match, {channel: new_name});
+            });
+        }).then(() => {
+            // CAUTION: THIS IS UNTESTED!
+            return Promise.map(Object.keys(old_channel.accounts), (accountID) => {
+                return dbConn.updateAccount(accountID, {channelID: new_name});
             });
         }).then(() => dbConn.addChannel(old_channel))
           .then(() => dbConn.removeChannel(old_name));
