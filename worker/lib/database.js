@@ -58,7 +58,12 @@ var getChannel = function (channelID) {
     var channelRef = ref.child("channels/" + channelID);
     return new Promise(function (resolve, reject) {
         channelRef.once("value", function(snapshot) {
-            resolve(snapshot.val());
+            if (snapshot.val()) {
+                resolve(snapshot.val());
+            } else {
+                logger.error("Channel not found in database: " + channelID);
+                reject(new Error("Channel not found in database: " + channelID));
+            }
         }, function (error) {
             logger.error("Channel get failed: " + error.code);
             reject(error);
